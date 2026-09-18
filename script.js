@@ -1,5 +1,5 @@
-const button = document.getElementById("helloButton");
+const mainTitle = document.getElementById("mainTitle");
 
-button.addEventListener("click", function () {
-    alert("Hello World");
+mainTitle.addEventListener("click", function () {
+    alert("Willkommen auf meinem Portfolio!");
 });
