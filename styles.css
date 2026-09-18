@@ -1,39 +1,10 @@
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #0a0a0a;
-    color: white;
-}
-
-.hero {
-    min-height: 100vh;
-
-    display: flex;
-    flex-direction: column;
-
-    justify-content: center;
-    align-items: center;
-
-    text-align: center;
-    padding: 20px;
-}
-
-.hero h1 {
-    font-size: 4rem;
-    margin-bottom: 10px;
-    cursor: pointer;
-}
-
-.hero p {
-    font-size: 1.2rem;
-    max-width: 600px;
-    line-height: 1.6;
+html {
+    scroll-behavior: smooth;
 }
 
 button {
     margin-top: 20px;
     padding: 12px 24px;
-
     font-size: 16px;
 
     border: none;
@@ -46,33 +17,4 @@ button {
 
 button:hover {
     transform: scale(1.1);
-}
-.cta {
-    margin-top: 25px;
-    padding: 12px 24px;
-
-    background-color: white;
-    color: black;
-
-    text-decoration: none;
-    border-radius: 25px;
-
-    transition: 0.3s;
-}
-
-.cta:hover {
-    transform: scale(1.1);
-}
-
-.about {
-    min-height: 100vh;
-
-    display: flex;
-    flex-direction: column;
-
-    justify-content: center;
-    align-items: center;
-
-    text-align: center;
-    padding: 20px;
 }
