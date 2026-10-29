@@ -4,37 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jonas Bader | Daten, Geodaten &amp; Web</title>
     <meta name="description"
         content="Portfolio von Jonas Bader, Student Digital Business & AI an der BFH in Bern: Projekte zu Datenanalyse, Geodaten und Web-Apps.">
 
-    <!-- Vorschau, wenn der Link geteilt wird -->
-    <meta property="og:title" content="Jonas Bader | Daten, Geodaten & Web">
-    <meta property="og:description" content="Projekte zu Datenanalyse, Geodaten und Web-Apps.">
-    <meta property="og:image" content="https://jonasbader7.github.io/Portfoliopage/img/jonas-bader.jpg">
-
-    <!-- Schriften: Space Grotesk für Titel, Inter für Fliesstext -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap"
-        rel="stylesheet">
+    <title>Jonas Bader | Portfolio</title>
 
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
-
-    <!-- Strukturierte Daten: helfen Suchmaschinen (SEO/GEO), die Seite einer Person zuzuordnen -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Person",
-        "name": "Jonas Bader",
-        "url": "https://jonasbader7.github.io/Portfoliopage/",
-        "jobTitle": "Student BSc Digital Business & AI",
-        "affiliation": { "@type": "CollegeOrUniversity", "name": "Berner Fachhochschule BFH" },
-        "sameAs": ["https://github.com/Jonasbader7"]
-    }
-    </script>
 </head>
 
 <body>
@@ -43,250 +19,349 @@
 
     <!-- ===== Kopfzeile mit Navigation ===== -->
     <header class="site-header">
-        <div class="header-inner">
-            <a href="#start" class="logo">Jonas Bader</a>
+        <a href="#top" class="logo">JB</a>
 
-            <!-- Auf dem Handy klappt dieser Knopf die Navigation auf und zu (script.js) -->
-            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="hauptnav">
-                <span class="nav-toggle-bar" aria-hidden="true"></span>
-                <span class="visually-hidden">Menü öffnen</span>
-            </button>
+        <!-- Nur auf dem Handy sichtbar: klappt die Navigation auf und zu (script.js) -->
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="hauptnav">
+            <span class="nav-toggle-bar" aria-hidden="true"></span>
+            <span class="visually-hidden">Menü öffnen</span>
+        </button>
 
-            <nav id="hauptnav" class="main-nav" aria-label="Hauptnavigation">
-                <ul class="nav-list">
-                    <li><a href="#projekte">Projekte</a></li>
-                    <li><a href="#ueber-mich">Über mich</a></li>
-                    <li><a href="#kontakt">Kontakt</a></li>
-                </ul>
-            </nav>
-
-            <!-- Wechselt zwischen hellem und dunklem Farbschema (script.js) -->
-            <button class="theme-toggle" type="button" aria-label="Dunkles Farbschema einschalten">
-                <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
-                </svg>
-                <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true">
-                    <circle cx="12" cy="12" r="4.5" />
-                    <path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" />
-                </svg>
-            </button>
-        </div>
+        <nav id="hauptnav" class="main-nav" aria-label="Hauptnavigation">
+            <ul class="nav-list">
+                <li><a href="#profile">Über mich</a></li>
+                <li><a href="#projects">Projekte</a></li>
+                <li><a href="#contact">Kontakt</a></li>
+            </ul>
+        </nav>
     </header>
 
 
-    <main id="main">
+    <!-- ===== Einstieg ===== -->
+    <section id="top" class="hero">
+        <img class="hero-foto" src="img/jonas-bader.jpg" alt="Porträt von Jonas Bader" width="720" height="720">
 
-        <!-- ===== Einstieg: Layout mit grid-template-areas ===== -->
-        <section id="start" class="hero" aria-labelledby="hero-titel">
-            <div class="hero-text">
-                <h1 id="hero-titel">Jonas Bader</h1>
-                <p class="lead">
-                    Ich studiere Digital Business &amp; AI an der BFH in Bern
-                    und baue Lösungen, bei denen Daten ein konkretes Problem lösen.
-                </p>
-            </div>
+        <h1>Jonas Bader</h1>
 
-            <img class="hero-foto" src="img/jonas-bader.jpg" alt="Porträt von Jonas Bader" width="720" height="720">
-        </section>
+        <p class="hero-role">Student Digital Business &amp; AI · Bern</p>
 
+        <p class="hero-intro">
+            Ich baue Lösungen, bei denen Daten ein echtes Problem lösen:
+            von der Datenanalyse über Geodaten bis zur fertigen Web-App.
+        </p>
 
-        <!-- ===== Projekte: Liste, Details erst beim Klick (script.js) ===== -->
-        <section id="projekte" class="section" aria-labelledby="projekte-titel">
-            <h2 id="projekte-titel" class="section-titel">Projekte</h2>
-
-            <ul class="projekt-liste">
-
-                <li>
-                    <article class="projekt">
-                        <h3 class="projekt-titel">
-                            <button type="button" class="projekt-kopf" aria-expanded="false" aria-controls="details-bors">
-                                <span class="projekt-name">BORS Bern</span>
-                                <span class="projekt-kurz">Routing für Blaulichtfahrzeuge</span>
-                                <span class="projekt-icon" aria-hidden="true"></span>
-                            </button>
-                        </h3>
-
-                        <div class="projekt-details" id="details-bors" hidden>
-                            <img src="img/bors-netz.svg" alt="Schematisches Strassennetz mit unterschiedlichen Routen pro Fahrzeugklasse"
-                                width="640" height="420" loading="lazy">
-                            <div class="projekt-text">
-                                <p>
-                                    Welche Strasse ist für welches Fahrzeug physisch passierbar? BORS prüft für
-                                    Notarzt, Rettungswagen und Feuerwehr, ob Breite, Höhe und Gewicht reichen,
-                                    und berechnet darauf die Route, für Bern und zehn Nachbargemeinden.
-                                    Die Strassenbreiten werden aus der amtlichen Vermessung gemessen.
-                                </p>
-                                <p class="projekt-rolle"><strong>Mein Teil:</strong> die gesamte technische Umsetzung,
-                                    von der Datenaufbereitung und Breitenmessung über den Router bis zur Web-App.</p>
-                                <ul class="tags" aria-label="Technologien">
-                                    <li>Python</li>
-                                    <li>QGIS</li>
-                                    <li>SQLite</li>
-                                    <li>JavaScript</li>
-                                </ul>
-                                <a href="https://jonasbader7.github.io/BORS/" class="pfeil-link">Web-App öffnen</a>
-                            </div>
-                        </div>
-                    </article>
-                </li>
-
-                <li>
-                    <article class="projekt">
-                        <h3 class="projekt-titel">
-                            <button type="button" class="projekt-kopf" aria-expanded="false" aria-controls="details-splitmate">
-                                <span class="projekt-name">SplitMate</span>
-                                <span class="projekt-kurz">WG-Kosten fair aufteilen</span>
-                                <span class="projekt-icon" aria-hidden="true"></span>
-                            </button>
-                        </h3>
-
-                        <div class="projekt-details" id="details-splitmate" hidden>
-                            <img src="img/splitmate-app.jpg" alt="Startseite von SplitMate mit Formularen zum Erstellen und Beitreten einer Gruppe"
-                                width="760" height="730" loading="lazy">
-                            <div class="projekt-text">
-                                <p>
-                                    Teamprojekt im Modul Software Engineering: Gruppen bilden, Ausgaben erfassen,
-                                    und die App rechnet aus, wer wem wie viel schuldet.
-                                </p>
-                                <p class="projekt-rolle"><strong>Mein Teil:</strong> Schuldenberechnung im Backend und Frontend-Setup.</p>
-                                <ul class="tags" aria-label="Technologien">
-                                    <li>Vue 3</li>
-                                    <li>Strapi 5</li>
-                                    <li>SQLite</li>
-                                    <li>GitLab CI/CD</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </article>
-                </li>
-
-                <li>
-                    <article class="projekt">
-                        <h3 class="projekt-titel">
-                            <button type="button" class="projekt-kopf" aria-expanded="false" aria-controls="details-r">
-                                <span class="projekt-name">Lebenserwartung</span>
-                                <span class="projekt-kurz">Datenanalyse in R</span>
-                                <span class="projekt-icon" aria-hidden="true"></span>
-                            </button>
-                        </h3>
-
-                        <div class="projekt-details" id="details-r" hidden>
-                            <img src="img/r-analyse-interaktion.png"
-                                alt="Streudiagramm: Lebenserwartung sinkt mit steigendem Raucheranteil, in einkommensstarken Regionen steiler"
-                                width="1400" height="900" loading="lazy">
-                            <div class="projekt-text">
-                                <p>
-                                    Regressionsmodelle zu Lebenserwartung, Raucheranteil und Einkommen in 100 US-Regionen.
-                                    Ergebnis: Rauchen senkt die Lebenserwartung, in einkommensstärkeren Regionen ist
-                                    der Effekt stärker.
-                                </p>
-                                <p class="projekt-rolle"><strong>Mein Teil:</strong> der gesamte Analyseteil dieses Gruppenprojekts.</p>
-                                <ul class="tags" aria-label="Methoden">
-                                    <li>R</li>
-                                    <li>Regression</li>
-                                    <li>Interaktionseffekte</li>
-                                    <li>Residuendiagnostik</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </article>
-                </li>
-
-                <li>
-                    <article class="projekt">
-                        <h3 class="projekt-titel">
-                            <button type="button" class="projekt-kopf" aria-expanded="false" aria-controls="details-unia">
-                                <span class="projekt-name">Unia AI Assistant</span>
-                                <span class="projekt-kurz">Studienkonzept</span>
-                                <span class="projekt-icon" aria-hidden="true"></span>
-                            </button>
-                        </h3>
-
-                        <div class="projekt-details projekt-details-schmal" id="details-unia" hidden>
-                            <div class="projekt-text">
-                                <p>
-                                    Konzept für einen KI-Assistenten, der Unterlagen für die Arbeitslosenkasse erkennt,
-                                    auf Vollständigkeit prüft und weiterleitet.
-                                </p>
-                                <p class="projekt-rolle"><strong>Mein Teil:</strong> IT-Architektur und Digitalstrategie.</p>
-                                <ul class="tags" aria-label="Themen">
-                                    <li>Architektur</li>
-                                    <li>Cloud &amp; APIs</li>
-                                    <li>KPIs</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </article>
-                </li>
-
-            </ul>
-        </section>
+        <a href="#projects" class="cta">Projekte ansehen</a>
+    </section>
 
 
-        <!-- ===== Über mich: kurz, mit dem Sport als Halbsatz-Geschichte ===== -->
-        <section id="ueber-mich" class="section ueber-mich" aria-labelledby="ueber-titel">
-            <h2 id="ueber-titel" class="section-titel">Über mich</h2>
+    <!-- ===== Seitenlayout: Grid mit Seitenleiste und Hauptinhalt ===== -->
+    <div class="layout">
 
-            <div class="ueber-text">
+        <aside class="sidebar" aria-label="Kurzprofil">
+            <section>
+                <h2>Kompetenzen</h2>
+                <ul class="tag-list">
+                    <li>Python</li>
+                    <li>R</li>
+                    <li>SQL</li>
+                    <li>QGIS</li>
+                    <li>JavaScript</li>
+                    <li>HTML / CSS</li>
+                    <li>Git</li>
+                    <li>Excel</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Sprachen</h2>
+                <p>Deutsch, Englisch, Französisch</p>
+            </section>
+
+            <section>
+                <h2>Ausserhalb des Studiums</h2>
+                <p>Triathlon, Unihockey, Klettern, Musik</p>
+            </section>
+
+            <!-- Wird per fetch() von der GitHub-API gefüllt (script.js) -->
+            <section>
+                <h2>Zuletzt auf GitHub</h2>
+                <ul class="plain-list" id="repo-liste">
+                    <li class="muted">wird geladen …</li>
+                </ul>
+            </section>
+        </aside>
+
+
+        <main id="main">
+
+            <section id="profile">
+                <h2>Über mich</h2>
+
                 <p>
-                    Zahlen haben mich schon immer interessiert. Über die Bank und eine Passerelle mit viel
-                    Physik bin ich bei der Datenanalyse gelandet: Mathematik, die man im Alltag sieht.
+                    Ich studiere Digital Business &amp; AI an der Berner Fachhochschule, mit Schwerpunkt
+                    Datenanalyse. Mich interessiert, wie Daten und Software im Alltag echte Probleme lösen.
                 </p>
                 <p>
-                    Daneben trainiere ich für Triathlon bis zur Ironman-Distanz, am liebsten draussen.
-                    Und wenn noch Zeit bleibt: Unihockey, Klettern, Musik.
+                    Zahlen begleiten mich schon lange: zuerst in der Bank, dann in einer Passerelle und
+                    im Physikstudium. Heute interessiert mich vor allem die Anwendung, also Mathematik,
+                    die man auf einer Karte oder in einer App sieht.
                 </p>
-            </div>
-        </section>
+                <p>
+                    Ausgleich finde ich im Ausdauersport: Ich trainiere für Triathlon bis zur
+                    Ironman-Distanz, am liebsten draussen in der Natur.
+                </p>
+            </section>
 
 
-        <!-- ===== Kontakt ===== -->
-        <section id="kontakt" class="section kontakt" aria-labelledby="kontakt-titel">
-            <!-- aside: Zusatzinfos neben dem Formular -->
-            <aside class="kontakt-info">
-                <h2 id="kontakt-titel" class="section-titel">Kontakt</h2>
-                <p>Für Praktika, Projekte oder Fragen.</p>
-                <a href="https://github.com/Jonasbader7" class="pfeil-link">GitHub</a>
+            <section id="projects">
+                <h2>Projekte</h2>
 
-                <!-- Live von der GitHub-API geladen (script.js) -->
-                <p class="repo-zeile" id="repo-zeile"></p>
-            </aside>
+                <ul class="project-list">
 
-            <!-- novalidate: die Prüfung macht unser JavaScript, damit die Meldungen einheitlich aussehen -->
-            <form id="kontaktformular" class="formular" novalidate>
-                <div class="feld">
-                    <label for="name">Name</label>
-                    <input type="text" id="name" name="name" autocomplete="name" required minlength="2"
-                        aria-describedby="name-fehler">
-                    <p class="fehler" id="name-fehler" aria-live="polite"></p>
-                </div>
+                    <!-- Hauptprojekt: über beide Spalten -->
+                    <li class="project-card project-card-featured">
+                        <article>
+                            <figure class="project-image">
+                                <img src="img/bors-app.jpg"
+                                    alt="BORS-Web-App: Karte von Bern, Strassen grün, gelb oder rot eingefärbt je nach Befahrbarkeit"
+                                    width="800" height="500" loading="lazy">
+                            </figure>
 
-                <div class="feld">
-                    <label for="email">E-Mail</label>
-                    <input type="email" id="email" name="email" autocomplete="email" required
-                        aria-describedby="email-fehler">
-                    <p class="fehler" id="email-fehler" aria-live="polite"></p>
-                </div>
+                            <p class="project-meta">Hauptprojekt · Modul BCS</p>
+                            <h3>BORS Bern</h3>
+                            <p>
+                                Einsatzrouting für Blaulichtfahrzeuge: Welche Strasse ist für welches Fahrzeug physisch
+                                passierbar? BORS prüft für Notarzt, Rettungswagen und zwei Feuerwehrfahrzeuge, ob Breite,
+                                Höhe und Gewicht reichen, und berechnet darauf die Route, in Bern und zehn Nachbargemeinden.
+                            </p>
+                            <p class="project-role"><strong>Mein Teil:</strong> die gesamte technische Umsetzung,
+                                von der Datenaufbereitung und Breitenmessung über den Router bis zur Web-App.</p>
 
-                <div class="feld">
-                    <label for="nachricht">Nachricht</label>
-                    <textarea id="nachricht" name="nachricht" rows="5" required minlength="20" maxlength="1000"
-                        aria-describedby="nachricht-fehler"></textarea>
-                    <p class="fehler" id="nachricht-fehler" aria-live="polite"></p>
-                </div>
+                            <ul class="tag-list">
+                                <li>Python</li>
+                                <li>QGIS</li>
+                                <li>SQLite</li>
+                                <li>JavaScript</li>
+                                <li>Geodaten</li>
+                            </ul>
 
-                <button type="submit" class="button">Senden</button>
+                            <!-- Zusatzinfos: per Knopf auf- und zuklappen (script.js) -->
+                            <div class="project-details" id="details-bors" hidden>
+                                <div class="details-grid">
+                                    <figure>
+                                        <img src="img/bors-route.jpg"
+                                            alt="Beispielroute zur Felsenaubrücke: grosse Feuerwehr fährt einen Umweg von 6,8 km"
+                                            width="800" height="500" loading="lazy">
+                                        <figcaption>Beispiel Felsenaubrücke: Notarzt und Rettungswagen fahren direkt,
+                                            die grosse Feuerwehr braucht 6,8 km Umweg.</figcaption>
+                                    </figure>
+                                    <figure>
+                                        <img src="img/bors-netz.jpg"
+                                            alt="Gesamtes BORS-Strassennetz, eingefärbt nach Zustand für das grosse Feuerwehrfahrzeug"
+                                            width="1760" height="1100" loading="lazy">
+                                        <figcaption>Das ganze Netz für die grosse Feuerwehr:
+                                            grün validiert, gelb unvalidiert, rot gesperrt.</figcaption>
+                                    </figure>
+                                </div>
 
-                <p class="formular-status" id="formular-status" role="status" hidden></p>
-            </form>
-        </section>
+                                <h4>So funktioniert es</h4>
+                                <ul>
+                                    <li>Das Strassennetz stammt aus OpenStreetMap, inklusive Einbahnen sowie Höhen- und Gewichtslimiten.</li>
+                                    <li>Die Fahrbahnbreite wird aus der amtlichen Vermessung mit Querprofilen gemessen,
+                                        abzüglich Parkfelder, Mauern und Pfeiler.</li>
+                                    <li>Jede Strasse erhält pro Fahrzeug einen von drei Zuständen: validiert, unvalidiert oder gesperrt.</li>
+                                    <li>Geroutet wird zuerst nur über validierte Strassen. Gibt es so keinen Weg,
+                                        zeigt BORS eine gekennzeichnete Ausweichroute.</li>
+                                    <li>Die Web-App rechnet im Browser genau gleich wie der Router in QGIS:
+                                        325 von 325 Testrouten sind identisch.</li>
+                                </ul>
 
-    </main>
+                                <!-- Die Live-App wird erst auf Klick geladen, weil sie gross ist (script.js) -->
+                                <div class="live-preview" id="bors-live">
+                                    <button type="button" class="button-secondary" id="bors-live-button">Live-Vorschau hier laden</button>
+                                </div>
+                            </div>
+
+                            <div class="card-actions">
+                                <button type="button" class="details-toggle" aria-expanded="false" aria-controls="details-bors">Mehr erfahren</button>
+                                <a href="https://jonasbader7.github.io/BORS/">Zur Web-App</a>
+                            </div>
+                        </article>
+                    </li>
+
+                    <li class="project-card">
+                        <article>
+                            <figure class="project-image">
+                                <img src="img/splitmate-schulden-anonym.png"
+                                    alt="SplitMate-Schuldenübersicht: Total 20 CHF, zwei Personen zahlen je 10 CHF an eine dritte"
+                                    width="728" height="425" loading="lazy">
+                            </figure>
+
+                            <p class="project-meta">Teamprojekt · Software Engineering</p>
+                            <h3>SplitMate</h3>
+                            <p>
+                                Web-App, mit der eine WG ihre Kosten fair aufteilt: Gruppe erstellen, Ausgaben erfassen,
+                                und die App zeigt, wer wem wie viel schuldet.
+                            </p>
+                            <p class="project-role"><strong>Mein Teil:</strong> Schuldenberechnung im Backend und Frontend-Setup.</p>
+
+                            <ul class="tag-list">
+                                <li>Vue 3</li>
+                                <li>Strapi 5</li>
+                                <li>SQLite</li>
+                                <li>GitLab CI/CD</li>
+                            </ul>
+
+                            <div class="project-details" id="details-splitmate" hidden>
+                                <figure>
+                                    <img src="img/splitmate-app.jpg"
+                                        alt="SplitMate-Startseite mit Formularen zum Erstellen und Beitreten einer Gruppe"
+                                        width="760" height="730" loading="lazy">
+                                    <figcaption>Startseite: Gruppe erstellen oder mit Code beitreten.</figcaption>
+                                </figure>
+                                <h4>Die Schuldenberechnung</h4>
+                                <ol>
+                                    <li>Pro Person zusammenzählen, was sie bezahlt hat.</li>
+                                    <li>Gesamtbetrag gleichmässig verteilen: Saldo = bezahlt − Anteil.</li>
+                                    <li>Schuldner und Gläubiger der Reihe nach ausgleichen, bis alle Salden null sind.</li>
+                                </ol>
+                            </div>
+
+                            <div class="card-actions">
+                                <button type="button" class="details-toggle" aria-expanded="false" aria-controls="details-splitmate">Mehr erfahren</button>
+                            </div>
+                        </article>
+                    </li>
+
+                    <li class="project-card">
+                        <article>
+                            <figure class="project-image">
+                                <img src="img/r-analyse-interaktion.png"
+                                    alt="Streudiagramm: Lebenserwartung sinkt mit steigendem Raucheranteil, in einkommensstarken Regionen steiler"
+                                    width="1400" height="900" loading="lazy">
+                            </figure>
+
+                            <p class="project-meta">Gruppenprojekt · Datenmanagement &amp; Datenanalyse</p>
+                            <h3>Datenanalyse Lebenserwartung (R)</h3>
+                            <p>
+                                Regressionsmodelle zum Zusammenhang von Lebenserwartung, Raucheranteil und Einkommen
+                                in 100 US-Regionen.
+                            </p>
+                            <p class="project-role"><strong>Mein Teil:</strong> der gesamte Analyseteil.</p>
+
+                            <ul class="tag-list">
+                                <li>R</li>
+                                <li>Regression</li>
+                                <li>Interaktionseffekte</li>
+                            </ul>
+
+                            <div class="project-details" id="details-r" hidden>
+                                <h4>Ergebnis</h4>
+                                <p>
+                                    Rauchen senkt die Lebenserwartung, und in einkommensstärkeren Regionen ist dieser
+                                    Effekt stärker (Interaktion Raucheranteil × Einkommen). Die Modelle habe ich mit
+                                    einer Residuendiagnostik geprüft.
+                                </p>
+                            </div>
+
+                            <div class="card-actions">
+                                <button type="button" class="details-toggle" aria-expanded="false" aria-controls="details-r">Mehr erfahren</button>
+                            </div>
+                        </article>
+                    </li>
+
+                    <li class="project-card">
+                        <article>
+                            <p class="project-meta">Studienkonzept</p>
+                            <h3>Unia AI Assistant</h3>
+                            <p>
+                                Konzept für einen KI-Assistenten, der Unterlagen für die Arbeitslosenkasse erkennt,
+                                auf Vollständigkeit prüft und weiterleitet.
+                            </p>
+                            <p class="project-role"><strong>Mein Teil:</strong> IT-Architektur (Cloud, APIs, Sicherheit)
+                                und Digitalstrategie (KPIs, Roadmap).</p>
+                            <ul class="tag-list">
+                                <li>Architektur</li>
+                                <li>Digitalstrategie</li>
+                            </ul>
+                        </article>
+                    </li>
+
+                    <li class="project-card">
+                        <article>
+                            <p class="project-meta">Requirements Engineering</p>
+                            <h3>2sports</h3>
+                            <p>
+                                Anforderungen an eine App, mit der man spontan Sportpartner:innen in der Nähe findet.
+                            </p>
+                            <p class="project-role"><strong>Mein Teil:</strong> Variantenübersicht, Detailanforderungen
+                                und Stakeholderliste.</p>
+                            <ul class="tag-list">
+                                <li>Requirements</li>
+                                <li>Stakeholder</li>
+                            </ul>
+                        </article>
+                    </li>
+
+                    <li class="project-card">
+                        <article>
+                            <p class="project-meta">Servicekonzept</p>
+                            <h3>TrainCast</h3>
+                            <p>Servicekonzept, das Trainings automatisch in freie Kalenderlücken und trockenes Wetter plant.</p>
+                            <ul class="tag-list">
+                                <li>Service Design</li>
+                                <li>Wetterdaten</li>
+                            </ul>
+                        </article>
+                    </li>
+
+                </ul>
+            </section>
+
+
+            <section id="contact">
+                <h2>Kontakt</h2>
+
+                <p>
+                    Am einfachsten erreichst du mich über
+                    <a href="https://github.com/Jonasbader7">GitHub</a> oder über dieses Formular.
+                </p>
+
+                <!-- novalidate: die Prüfung macht unser JavaScript, damit die Meldungen einheitlich aussehen -->
+                <form id="kontaktformular" class="contact-form" novalidate>
+                    <div class="field">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" autocomplete="name" required
+                            aria-describedby="name-fehler">
+                        <p class="field-error" id="name-fehler" aria-live="polite"></p>
+                    </div>
+
+                    <div class="field">
+                        <label for="email">E-Mail</label>
+                        <input type="email" id="email" name="email" autocomplete="email" required
+                            aria-describedby="email-fehler">
+                        <p class="field-error" id="email-fehler" aria-live="polite"></p>
+                    </div>
+
+                    <div class="field field-wide">
+                        <label for="nachricht">Nachricht</label>
+                        <textarea id="nachricht" name="nachricht" rows="5" required
+                            aria-describedby="nachricht-fehler"></textarea>
+                        <p class="field-error" id="nachricht-fehler" aria-live="polite"></p>
+                    </div>
+
+                    <button type="submit" class="cta">Nachricht senden</button>
+                    <p class="form-status" id="formular-status" role="status" hidden></p>
+                </form>
+            </section>
+
+        </main>
+
+    </div>
 
 
     <footer class="site-footer">
-        <p>&copy; <span id="jahr"></span> Jonas Bader</p>
-        <a href="https://github.com/Jonasbader7/Portfoliopage">Code dieser Seite</a>
+        <p>&copy; <span id="year"></span> Jonas Bader · <a href="https://github.com/Jonasbader7/Portfoliopage">Code auf GitHub</a></p>
     </footer>
 
 

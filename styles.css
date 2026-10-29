@@ -1,105 +1,50 @@
 /* =========================================================
    Portfolio Jonas Bader – Stylesheet
-   Aufbau:
-   1. Variablen (Farben, Schriften, Abstände)
-   2. Grundlagen
-   3. Bausteine (Abschnitte, Links, Tags, Button)
-   4. Kopfzeile und Navigation
-   5. Hero
-   6. Projekte (Liste zum Aufklappen)
-   7. Über mich
-   8. Kontakt und Formular
-   9. Fusszeile
-   10. Media Queries (Tablet, Desktop)
-   Mobile First: Die Grundregeln gelten fürs Handy,
-   grössere Bildschirme bekommen in Teil 10 Ergänzungen.
+   Mobile First: Grundregeln fürs Handy, grössere Bildschirme
+   bekommen am Schluss Ergänzungen per Media Query.
    ========================================================= */
 
-
-/* ---------- 1. Variablen ---------- */
+/* Grundwerte für Farben und Abstände */
 :root {
-    /* Zurückhaltend: viel Papier, dunkle Tinte, ein einziger Akzent */
-    --farbe-bg: #F7F6F2;
-    --farbe-flaeche: #FFFFFF;
-    --farbe-text: #1B2430;
-    --farbe-text-leise: #5F6672;
-    --farbe-linie: #E2DED5;
-    --farbe-akzent: #B5401A;
-    --farbe-fehler: #B42318;
-
-    --schrift-titel: "Space Grotesk", system-ui, sans-serif;
-    --schrift-text: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
-
-    --abstand: 1.25rem;
-    --abstand-gross: 4.5rem;
-    --radius: 10px;
-    --max-breite: 960px;
+    --color-bg: #f7f8fa;
+    --color-text: #1f2933;
+    --color-muted: #52606d;
+    --color-accent: #2563eb;
+    --color-accent-dark: #1d4ed8;
+    --color-card: #ffffff;
+    --color-line: #e4e7eb;
+    --color-error: #b42318;
+    --space: 1rem;
+    --radius: 12px;
+    --shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    --max-width: 1040px;
 }
 
-/* Dunkles Farbschema: script.js setzt data-theme="dark" auf <html> */
-[data-theme="dark"] {
-    --farbe-bg: #13171D;
-    --farbe-flaeche: #1B2028;
-    --farbe-text: #E8E6E1;
-    --farbe-text-leise: #9BA3AE;
-    --farbe-linie: #2A313B;
-    --farbe-akzent: #F0906E;
-    --farbe-fehler: #FF8A80;
-}
-
-
-/* ---------- 2. Grundlagen ---------- */
-*,
-*::before,
-*::after {
+* {
     box-sizing: border-box;
 }
 
 html {
     scroll-behavior: smooth;
-    /* Platz für die fixierte Kopfzeile beim Springen zu einem Anker */
-    scroll-padding-top: 4.5rem;
 }
 
 body {
     margin: 0;
-    font-family: var(--schrift-text);
-    font-size: 1.0625rem;
-    line-height: 1.65;
-    color: var(--farbe-text);
-    background: var(--farbe-bg);
-}
-
-h1,
-h2,
-h3 {
-    font-family: var(--schrift-titel);
-    font-weight: 500;
-    line-height: 1.15;
-    margin: 0;
-}
-
-p {
-    margin: 0 0 1em;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    line-height: 1.6;
+    color: var(--color-text);
+    background: var(--color-bg);
 }
 
 a {
-    color: inherit;
-    text-decoration-color: var(--farbe-linie);
-    text-underline-offset: 0.25em;
-    transition: color 0.2s, text-decoration-color 0.2s;
-}
-
-a:hover {
-    color: var(--farbe-akzent);
-    text-decoration-color: currentColor;
+    color: var(--color-accent);
 }
 
 /* Flexible Bilder: nie breiter als ihr Container */
 img {
+    display: block;
     max-width: 100%;
     height: auto;
-    display: block;
 }
 
 /* Elemente mit dem Attribut hidden immer ausblenden */
@@ -117,155 +62,63 @@ img {
     white-space: nowrap;
 }
 
-/* Sprunglink für Tastatur-Nutzer, erscheint erst beim Fokus */
+/* Link für Tastatur-Nutzer, erscheint erst beim Fokus */
 .skip-link {
     position: absolute;
     left: -999px;
-    top: 0.5rem;
-    z-index: 100;
-    padding: 0.5rem 1rem;
-    background: var(--farbe-text);
-    color: var(--farbe-bg);
 }
 
 .skip-link:focus {
-    left: 0.5rem;
+    left: var(--space);
+    top: var(--space);
+    z-index: 100;
+    padding: 0.5rem 1rem;
+    background: var(--color-card);
 }
 
-/* Deutlicher Fokusrahmen für die Bedienung mit der Tastatur */
 :focus-visible {
-    outline: 2px solid var(--farbe-akzent);
-    outline-offset: 3px;
+    outline: 3px solid var(--color-accent);
+    outline-offset: 2px;
 }
 
 
-/* ---------- 3. Bausteine ---------- */
-.section {
-    max-width: var(--max-breite);
-    margin: 0 auto;
-    padding: var(--abstand-gross) var(--abstand) 0;
-}
-
-/* Kleine, ruhige Abschnittstitel */
-.section-titel {
-    margin-bottom: 1.5rem;
-    font-size: 0.85rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--farbe-text-leise);
-}
-
-/* Link mit Pfeil, der sich beim Hover etwas bewegt */
-.pfeil-link {
-    font-weight: 500;
-    text-decoration: none;
-}
-
-.pfeil-link::after {
-    content: " →";
-    display: inline-block;
-    transition: transform 0.2s;
-}
-
-.pfeil-link:hover::after {
-    transform: translateX(4px);
-}
-
-.tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.25rem 1rem;
-    list-style: none;
-    margin: 0 0 1.25rem;
-    padding: 0;
-    font-size: 0.85rem;
-    color: var(--farbe-text-leise);
-}
-
-.button {
-    padding: 0.7rem 1.5rem;
-    border: 0;
-    border-radius: var(--radius);
-    background: var(--farbe-text);
-    color: var(--farbe-bg);
-    font: 500 1rem var(--schrift-text);
-    cursor: pointer;
-    transition: opacity 0.2s;
-}
-
-.button:hover {
-    opacity: 0.85;
-}
-
-
-/* ---------- 4. Kopfzeile und Navigation ---------- */
+/* ---------- Header und Navigation ---------- */
 .site-header {
     position: sticky;
     top: 0;
     z-index: 50;
-    background: var(--farbe-bg);
-    border-bottom: 1px solid var(--farbe-linie);
-}
-
-/* Flexbox: Name links, Knöpfe rechts */
-.header-inner {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 0.5rem;
-    max-width: var(--max-breite);
-    margin: 0 auto;
-    padding: 0.75rem var(--abstand);
+    padding: var(--space) calc(var(--space) * 1.5);
+    background: var(--color-card);
+    border-bottom: 1px solid var(--color-line);
 }
 
 .logo {
-    margin-right: auto; /* schiebt alles andere nach rechts */
-    font-family: var(--schrift-titel);
     font-weight: 700;
     text-decoration: none;
+    color: var(--color-text);
 }
 
-/* Icon-Knöpfe für Menü und Farbschema */
-.nav-toggle,
-.theme-toggle {
+/* Hamburger-Knopf: ein Strich plus ::before und ::after */
+.nav-toggle {
     display: grid;
     place-items: center;
     width: 2.5rem;
     height: 2.5rem;
     border: 0;
-    border-radius: 50%;
     background: none;
-    color: var(--farbe-text);
     cursor: pointer;
 }
 
-.theme-toggle svg {
-    width: 1.15rem;
-    height: 1.15rem;
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 2;
-    stroke-linecap: round;
-}
-
-/* Im hellen Schema den Mond zeigen, im dunklen die Sonne */
-.icon-sun,
-[data-theme="dark"] .icon-moon {
-    display: none;
-}
-
-[data-theme="dark"] .icon-sun {
-    display: block;
-}
-
-/* Hamburger-Icon: ein Strich plus ::before und ::after */
 .nav-toggle-bar,
 .nav-toggle-bar::before,
 .nav-toggle-bar::after {
     display: block;
-    width: 1.1rem;
+    width: 1.25rem;
     height: 2px;
-    background: currentColor;
+    background: var(--color-text);
     transition: transform 0.25s;
 }
 
@@ -301,15 +154,16 @@ img {
     transform: translateY(-6px) rotate(-45deg);
 }
 
-/* Handy: Navigation ist zuerst zu und klappt unter der Kopfzeile auf */
+/* Handy: Navigation zuerst zu, klappt unter dem Header auf */
 .main-nav {
     display: none;
     position: absolute;
     top: 100%;
     left: 0;
     right: 0;
-    background: var(--farbe-bg);
-    border-bottom: 1px solid var(--farbe-linie);
+    background: var(--color-card);
+    border-bottom: 1px solid var(--color-line);
+    box-shadow: var(--shadow);
 }
 
 .main-nav.is-open {
@@ -317,285 +171,268 @@ img {
 }
 
 .nav-list {
-    list-style: none;
+    display: flex;
+    flex-direction: column;
     margin: 0;
-    padding: 0.5rem var(--abstand) 1rem;
+    padding: 0.5rem calc(var(--space) * 1.5);
+    list-style: none;
 }
 
 .nav-list a {
     display: block;
     padding: 0.6rem 0;
     text-decoration: none;
+    color: var(--color-muted);
+}
+
+.nav-list a:hover {
+    color: var(--color-accent);
 }
 
 
-/* ---------- 5. Hero (CSS Grid mit grid-template-areas) ---------- */
+/* ---------- Hero ---------- */
 .hero {
-    display: grid;
-    /* Handy: grosses Bild, Porträt, Text untereinander */
-    grid-template-areas:
-        "bild"
-        "foto"
-        "text";
-    gap: 1.5rem;
-    max-width: var(--max-breite);
-    margin: 0 auto;
-    padding: 1.25rem var(--abstand) 0;
-}
-
-/* Titelbild: fester Bildausschnitt, object-fit schneidet den Rest ab */
-.hero-bild {
-    grid-area: bild;
-    width: 100%;
-    aspect-ratio: 4 / 3;
-    object-fit: cover;
-    /* Bildausschnitt so wählen, dass Person und See sichtbar bleiben */
-    object-position: 42% 50%;
-    border-radius: var(--radius);
-}
-
-/* Porträt rückt auf dem Handy etwas ins Titelbild hinein */
-.hero .hero-foto {
-    margin-top: -4.5rem;
-    margin-left: 1rem;
-    border: 4px solid var(--farbe-bg);
-}
-
-.hero-text {
-    grid-area: text;
+    padding: calc(var(--space) * 3) calc(var(--space) * 1.5);
+    text-align: center;
 }
 
 .hero-foto {
-    grid-area: foto;
-    width: 6.5rem;
+    width: 8rem;
+    margin: 0 auto var(--space);
     aspect-ratio: 1;
     object-fit: cover;
     border-radius: 50%;
+    border: 4px solid var(--color-card);
+    box-shadow: var(--shadow);
 }
 
-h1 {
-    margin-bottom: 1rem;
-    font-size: clamp(2.5rem, 8vw, 4rem);
-    letter-spacing: -0.02em;
+.hero h1 {
+    font-size: 2.2rem;
+    margin: 0 0 0.25rem;
 }
 
-.lead {
-    max-width: 34rem;
-    margin: 0;
-    font-size: 1.2rem;
-    color: var(--farbe-text-leise);
+.hero-role {
+    margin-top: 0;
+    color: var(--color-muted);
+    font-weight: 600;
 }
 
-
-/* ---------- 6. Projekte (Liste zum Aufklappen) ---------- */
-.projekt-liste {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    border-top: 1px solid var(--farbe-linie);
-}
-
-.projekt-liste > li {
-    border-bottom: 1px solid var(--farbe-linie);
-}
-
-.projekt-titel {
-    font-size: inherit;
-}
-
-/* Die ganze Zeile ist ein Knopf. Flexbox: Name, Kurzbeschreibung, Icon */
-.projekt-kopf {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 0.25rem 1rem;
-    width: 100%;
-    padding: 1.25rem 2.5rem 1.25rem 0;
-    position: relative;
-    border: 0;
-    background: none;
-    color: inherit;
-    text-align: left;
-    font: inherit;
-    cursor: pointer;
-}
-
-.projekt-name {
-    font-family: var(--schrift-titel);
-    font-size: 1.4rem;
-    font-weight: 500;
-    transition: color 0.2s;
-}
-
-.projekt-kurz {
-    color: var(--farbe-text-leise);
-}
-
-.projekt-kopf:hover .projekt-name {
-    color: var(--farbe-akzent);
-}
-
-/* Plus-Zeichen aus zwei Strichen; beim Öffnen dreht es sich zu einem X */
-.projekt-icon {
-    position: absolute;
-    right: 0.25rem;
-    top: 50%;
-    width: 1rem;
-    height: 1rem;
-    margin-top: -0.5rem;
-    transition: transform 0.3s;
-}
-
-.projekt-icon::before,
-.projekt-icon::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 50%;
-    width: 100%;
-    height: 1.5px;
-    background: currentColor;
-}
-
-.projekt-icon::after {
-    transform: rotate(90deg);
-}
-
-.projekt-kopf[aria-expanded="true"] .projekt-icon {
-    transform: rotate(45deg);
-}
-
-/* Details: Grid mit benannten Bereichen, auf dem Handy untereinander */
-.projekt-details {
-    display: grid;
-    grid-template-areas:
-        "bild"
-        "text";
-    gap: 1.5rem;
-    padding-bottom: 2rem;
-    animation: einblenden 0.35s ease-out;
-}
-
-.projekt-details > img,
-.projekt-bild,
-.split-demo {
-    grid-area: bild;
-}
-
-.projekt-details img {
-    border: 1px solid var(--farbe-linie);
-    border-radius: var(--radius);
-}
-
-.projekt-bild {
-    margin: 0;
-}
-
-/* Bildlegende mit farbigen Strichen wie in der BORS-App */
-.projekt-bild figcaption {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.25rem 1rem;
-    margin-top: 0.6rem;
-    font-size: 0.85rem;
-    color: var(--farbe-text-leise);
-}
-
-.legende::before {
-    content: "";
-    display: inline-block;
-    width: 1rem;
-    height: 3px;
-    margin-right: 0.4rem;
-    vertical-align: middle;
-    background: var(--legende-farbe);
-}
-
-.legende-ok { --legende-farbe: #2b8a3e; }
-.legende-warn { --legende-farbe: #d99a00; }
-.legende-bad { --legende-farbe: #d6336c; }
-
-.projekt-link {
-    font-size: 0.95rem;
-    color: var(--farbe-text-leise);
-}
-
-/* Berechnungsschritte von SplitMate */
-.schritte {
-    margin: 0 0 1em;
-    padding-left: 1.25rem;
-    font-size: 0.95rem;
-}
-
-.schritte li {
-    margin-bottom: 0.4rem;
-}
-
-/* SplitMate-Demo: ruhige Fläche mit drei Eingabefeldern */
-.split-demo {
-    align-self: start;
-    padding: 1.25rem;
-    background: var(--farbe-flaeche);
-    border: 1px solid var(--farbe-linie);
-    border-radius: var(--radius);
-}
-
-.split-demo-titel {
-    font-weight: 500;
-}
-
-/* Grid: drei gleich breite Felder nebeneinander */
-.split-felder {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.75rem;
-    margin-bottom: 1rem;
-}
-
-.split-felder label {
-    font-size: 0.85rem;
-    color: var(--farbe-text-leise);
-}
-
-.split-felder input {
-    width: 100%;
-    margin-top: 0.25rem;
-    padding: 0.5rem 0.6rem;
-    border: 1px solid var(--farbe-linie);
-    border-radius: 8px;
-    background: var(--farbe-bg);
-    color: var(--farbe-text);
-    font: inherit;
-}
-
-.split-ergebnis {
-    display: block;
-    padding-top: 1rem;
-    border-top: 1px solid var(--farbe-linie);
-    font-size: 0.95rem;
-}
-
-.split-ergebnis ul {
-    list-style: none;
-    margin: 0.5rem 0 0;
-    padding: 0;
-}
-
-.split-ergebnis li {
-    padding: 0.2rem 0;
-}
-
-.split-ergebnis strong {
-    color: var(--farbe-akzent);
-}
-
-.projekt-text {
-    grid-area: text;
+.hero-intro {
     max-width: 36rem;
+    margin: 0 auto;
 }
 
-.projekt-rolle {
+.cta {
+    display: inline-block;
+    margin-top: var(--space);
+    padding: 12px 24px;
+    border: 0;
+    border-radius: 25px;
+    background: var(--color-accent);
+    color: #ffffff;
+    font: inherit;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.3s, background-color 0.3s;
+}
+
+.cta:hover {
+    transform: scale(1.05);
+    background: var(--color-accent-dark);
+}
+
+
+/* ---------- Seitenlayout mit Grid ---------- */
+/* Handy: Hauptinhalt zuerst, Seitenleiste darunter */
+.layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+        "main"
+        "sidebar";
+    gap: calc(var(--space) * 2);
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 var(--space);
+}
+
+.sidebar {
+    grid-area: sidebar;
+    align-self: start;
+    padding: calc(var(--space) * 1.5);
+    background: var(--color-card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.sidebar h2 {
+    font-size: 1rem;
+    margin: 0 0 0.5rem;
+}
+
+.sidebar p {
+    margin: 0;
+}
+
+.sidebar section + section {
+    margin-top: calc(var(--space) * 1.5);
+}
+
+main {
+    grid-area: main;
+    min-width: 0; /* verhindert, dass breite Inhalte das Grid sprengen */
+}
+
+main > section {
+    padding-bottom: calc(var(--space) * 2.5);
+}
+
+main h2 {
+    margin-top: 0;
+    padding-bottom: 0.25rem;
+    border-bottom: 2px solid var(--color-accent);
+}
+
+/* Listen */
+.tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.tag-list li {
+    padding: 2px 10px;
+    border-radius: 999px;
+    background: var(--color-bg);
+    font-size: 0.9rem;
+}
+
+.plain-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.plain-list li + li {
+    margin-top: 0.35rem;
+}
+
+.muted,
+.plain-list span {
+    color: var(--color-muted);
+    font-size: 0.9rem;
+}
+
+
+/* ---------- Projektkarten ---------- */
+.project-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: calc(var(--space) * 1.5);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.project-card {
+    padding: calc(var(--space) * 1.5);
+    background: var(--color-card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    transition: box-shadow 0.3s, transform 0.3s;
+}
+
+.project-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Inhalt der Karte untereinander, Knöpfe ganz unten */
+.project-card article {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.project-card h3 {
+    margin: 0 0 0.5rem;
+}
+
+.project-card h4 {
+    margin: 1.25rem 0 0.5rem;
+}
+
+.project-image {
+    margin: calc(var(--space) * -1.5) calc(var(--space) * -1.5) var(--space);
+    overflow: hidden;
+    border-radius: var(--radius) var(--radius) 0 0;
+    background: var(--color-bg);
+}
+
+/* Alle Vorschaubilder gleich hoch, Ausschnitt oben */
+.project-image img {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    object-position: top;
+}
+
+.project-meta {
+    margin: 0 0 0.25rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-accent);
+}
+
+.project-role {
+    padding-left: 0.75rem;
+    border-left: 3px solid var(--color-accent);
     font-size: 0.95rem;
+}
+
+.project-card .tag-list {
+    margin-bottom: var(--space);
+}
+
+/* Aufklappbare Details */
+.project-details {
+    padding-top: var(--space);
+    border-top: 1px solid var(--color-line);
+    animation: einblenden 0.3s ease-out;
+}
+
+.project-details figure {
+    margin: 0 0 var(--space);
+}
+
+.project-details img {
+    border: 1px solid var(--color-line);
+    border-radius: 8px;
+}
+
+.project-details figcaption {
+    margin-top: 0.35rem;
+    font-size: 0.85rem;
+    color: var(--color-muted);
+}
+
+.project-details ul,
+.project-details ol {
+    padding-left: 1.25rem;
+}
+
+.project-details li + li {
+    margin-top: 0.3rem;
+}
+
+/* Zwei Bilder nebeneinander (ab Tablet), siehe Media Query */
+.details-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space);
 }
 
 @keyframes einblenden {
@@ -610,118 +447,115 @@ h1 {
     }
 }
 
-
-/* ---------- 7. Über mich ---------- */
-.ueber-text {
-    max-width: 36rem;
+/* Knopfzeile unten in der Karte */
+.card-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space);
+    margin-top: auto;
+    padding-top: var(--space);
 }
 
-/* Motto: leise, aber mit eigener Schrift */
-.motto {
-    margin: 2rem 0 0;
-    padding-left: 1rem;
-    border-left: 2px solid var(--farbe-akzent);
-    font-family: var(--schrift-titel);
-    font-size: 1.25rem;
-}
-
-.motto p {
-    margin: 0;
-}
-
-
-/* ---------- 8. Kontakt und Formular ---------- */
-.kontakt {
-    display: grid;
-    grid-template-areas:
-        "info"
-        "formular";
-    gap: 2rem;
-}
-
-.kontakt-info {
-    grid-area: info;
-}
-
-.repo-zeile {
-    margin-top: 1rem;
-    font-size: 0.9rem;
-    color: var(--farbe-text-leise);
-}
-
-.formular {
-    grid-area: formular;
-}
-
-.feld {
-    margin-bottom: 0.75rem;
-}
-
-.feld label {
-    display: block;
-    margin-bottom: 0.3rem;
-    font-size: 0.9rem;
-    font-weight: 500;
-}
-
-.feld input,
-.feld textarea {
-    width: 100%;
-    padding: 0.65rem 0.8rem;
-    border: 1px solid var(--farbe-linie);
-    border-radius: var(--radius);
-    background: var(--farbe-flaeche);
-    color: var(--farbe-text);
+.details-toggle,
+.button-secondary {
+    padding: 0.45rem 1rem;
+    border: 1px solid var(--color-accent);
+    border-radius: 25px;
+    background: none;
+    color: var(--color-accent);
     font: inherit;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
 }
 
-.feld textarea {
+.details-toggle:hover,
+.button-secondary:hover {
+    background: var(--color-accent);
+    color: #ffffff;
+}
+
+/* Live-Vorschau der BORS-App */
+.live-preview {
+    margin-top: var(--space);
+}
+
+.live-preview iframe {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    border: 1px solid var(--color-line);
+    border-radius: 8px;
+}
+
+
+/* ---------- Kontaktformular ---------- */
+.contact-form {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0 var(--space);
+    padding: calc(var(--space) * 1.5);
+    background: var(--color-card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.field label {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.field input,
+.field textarea {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    border: 1px solid var(--color-line);
+    border-radius: 8px;
+    font: inherit;
+    color: inherit;
+    background: var(--color-bg);
+}
+
+.field textarea {
     resize: vertical;
 }
 
 /* Rote Umrandung, wenn script.js ein Feld als fehlerhaft markiert */
-.feld .ist-fehlerhaft {
-    border-color: var(--farbe-fehler);
+.field .is-invalid {
+    border-color: var(--color-error);
 }
 
-.fehler {
+.field-error {
     min-height: 1.3em;
-    margin: 0.2rem 0 0;
+    margin: 0.2rem 0 0.5rem;
     font-size: 0.85rem;
-    color: var(--farbe-fehler);
+    color: var(--color-error);
 }
 
-.formular-status {
-    margin: 1rem 0 0;
-    color: var(--farbe-text-leise);
+.contact-form .cta {
+    justify-self: start;
+    margin-top: 0;
+}
+
+.form-status {
+    margin: var(--space) 0 0;
+    color: var(--color-muted);
 }
 
 
-/* ---------- 9. Fusszeile ---------- */
+/* ---------- Footer ---------- */
 .site-footer {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 0.5rem 2rem;
-    max-width: var(--max-breite);
-    margin: var(--abstand-gross) auto 0;
-    padding: 1.5rem var(--abstand);
-    border-top: 1px solid var(--farbe-linie);
-    font-size: 0.9rem;
-    color: var(--farbe-text-leise);
-}
-
-.site-footer p {
-    margin: 0;
+    padding: calc(var(--space) * 2);
+    text-align: center;
+    color: var(--color-muted);
 }
 
 
 /* Wer weniger Bewegung eingestellt hat, bekommt keine Animationen */
 @media (prefers-reduced-motion: reduce) {
-    html {
-        scroll-behavior: auto;
-    }
-
     *,
     *::before,
     *::after {
@@ -731,61 +565,43 @@ h1 {
 }
 
 
-/* ---------- 10. Media Queries ---------- */
-
-/* Tablet ab 768px */
+/* ---------- Tablet ab 768px ---------- */
 @media (min-width: 48em) {
-    :root {
-        --abstand: 2rem;
-        --abstand-gross: 6rem;
-    }
-
-    /* Hero: Bild über die ganze Breite, darunter Text links und Porträt rechts */
     .hero {
-        grid-template-columns: 1fr auto;
-        grid-template-areas:
-            "bild bild"
-            "text foto";
-        align-items: start;
-        column-gap: 2rem;
-        padding-top: 2rem;
+        padding: calc(var(--space) * 4) calc(var(--space) * 2);
     }
 
-    .hero-bild {
-        aspect-ratio: 21 / 9;
+    .hero h1 {
+        font-size: 2.6rem;
     }
 
-    .hero .hero-foto {
-        width: 9rem;
-        margin: -5.5rem 2rem 0 0;
+    .project-list {
+        grid-template-columns: repeat(2, 1fr);
     }
 
-    /* Projektdetails: Bild links, Text rechts */
-    .projekt-details {
+    /* Hauptprojekt über beide Spalten */
+    .project-card-featured {
+        grid-column: 1 / -1;
+    }
+
+    .details-grid {
         grid-template-columns: 1fr 1fr;
-        grid-template-areas: "bild text";
     }
 
-    /* Ohne Bild oder mit breiter Karte: alles untereinander */
-    .projekt-details-breit {
-        grid-template-columns: 1fr;
-        grid-template-areas:
-            "bild"
-            "text";
+    /* Formular: Name und E-Mail nebeneinander, Nachricht über die ganze Breite */
+    .contact-form {
+        grid-template-columns: 1fr 1fr;
     }
 
-    .projekt-details-schmal {
-        grid-template-columns: 1fr;
-        grid-template-areas: "text";
-    }
-
-    .kontakt {
-        grid-template-columns: 1fr 1.4fr;
-        grid-template-areas: "info formular";
+    .field-wide,
+    .contact-form .cta,
+    .form-status {
+        grid-column: 1 / -1;
     }
 }
 
-/* Desktop ab 1024px */
+
+/* ---------- Desktop ab 1024px ---------- */
 @media (min-width: 64em) {
 
     /* Navigation dauerhaft sichtbar, Menü-Knopf ausblenden */
@@ -797,29 +613,54 @@ h1 {
         display: block;
         position: static;
         border: 0;
-        margin-right: 1rem;
+        box-shadow: none;
+        background: none;
     }
 
     .nav-list {
-        display: flex;
-        gap: 2rem;
+        flex-direction: row;
+        gap: calc(var(--space) * 1.5);
         padding: 0;
     }
 
     .nav-list a {
         padding: 0;
-        font-size: 0.95rem;
     }
 
-    /* Projekte und Über mich: Titel links in schmaler Spalte, Inhalt rechts */
-    #projekte,
-    .ueber-mich {
+    /* Seitenleiste links, Hauptinhalt rechts */
+    .layout {
+        grid-template-columns: 1fr 3fr;
+        grid-template-areas: "sidebar main";
+        padding: 0 calc(var(--space) * 2);
+    }
+
+    .sidebar {
+        position: sticky;
+        top: 5rem;
+    }
+
+    /* Hauptprojekt: Bild links, Text rechts */
+    .project-card-featured article {
         display: grid;
-        grid-template-columns: 12rem 1fr;
+        grid-template-columns: 1.1fr 1fr;
+        column-gap: calc(var(--space) * 1.5);
+        align-content: start;
     }
 
-    .kontakt {
-        grid-template-columns: 12rem 1fr;
-        gap: 0;
+    .project-card-featured .project-image {
+        grid-row: 1 / span 6;
+        align-self: start; /* Bild nur so hoch wie nötig, nicht so hoch wie der Text */
+        margin: 0;
+        border-radius: 8px;
+        border: 1px solid var(--color-line);
+    }
+
+    .project-card-featured .project-image img {
+        aspect-ratio: 8 / 5;
+    }
+
+    .project-card-featured .project-details,
+    .project-card-featured .card-actions {
+        grid-column: 1 / -1;
     }
 }
