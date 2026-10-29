@@ -73,20 +73,91 @@ a {
     color: var(--color-accent);
 }
 
-/* Inhaltsbereiche */
-main section {
-    max-width: var(--max-width);
-    margin: 0 auto;
-    padding: calc(var(--space) * 3) calc(var(--space) * 2);
-}
-
+/* Hero */
 .hero {
+    padding: calc(var(--space) * 4) calc(var(--space) * 2);
     text-align: center;
 }
 
 .hero h1 {
     font-size: 2.5rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.25rem;
+}
+
+.hero-role {
+    margin-top: 0;
+    color: var(--color-muted);
+    font-weight: 600;
+}
+
+/* Seitenlayout mit Grid: Seitenleiste links, Hauptinhalt rechts */
+.layout {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    grid-template-areas: "sidebar main";
+    gap: calc(var(--space) * 2);
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 calc(var(--space) * 2);
+}
+
+.sidebar {
+    grid-area: sidebar;
+    align-self: start;
+    padding: calc(var(--space) * 1.5);
+    background: var(--color-card);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.sidebar h2 {
+    font-size: 1rem;
+    margin: 0 0 0.5rem;
+}
+
+.sidebar section + section {
+    margin-top: calc(var(--space) * 1.5);
+}
+
+main {
+    grid-area: main;
+}
+
+main section {
+    padding-bottom: calc(var(--space) * 2.5);
+}
+
+main h2 {
+    margin-top: 0;
+    padding-bottom: 0.25rem;
+    border-bottom: 2px solid var(--color-accent);
+}
+
+/* Listen in der Seitenleiste */
+.tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.tag-list li {
+    padding: 2px 10px;
+    border-radius: 999px;
+    background: var(--color-bg);
+    font-size: 0.9rem;
+}
+
+.plain-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.plain-list span {
+    color: var(--color-muted);
 }
 
 .cta {
@@ -107,7 +178,7 @@ main section {
 /* Projektkarten */
 .project-list {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: calc(var(--space) * 1.5);
     margin: 0;
     padding: 0;
