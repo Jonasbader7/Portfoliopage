@@ -78,19 +78,11 @@
 
         <!-- ===== Einstieg: Layout mit grid-template-areas ===== -->
         <section id="start" class="hero" aria-labelledby="hero-titel">
-            <!-- srcset: der Browser lädt je nach Bildschirmbreite das kleine oder das grosse Bild -->
-            <img class="hero-bild" src="img/see-neopren-1600.jpg"
-                srcset="img/see-neopren-800.jpg 800w, img/see-neopren-1600.jpg 1600w"
-                sizes="(min-width: 64em) 960px, 100vw"
-                alt="Jonas zieht am Ufer eines Sees seinen Neoprenanzug an, im Hintergrund Herbstwald"
-                width="1600" height="886">
-
             <div class="hero-text">
                 <h1 id="hero-titel">Jonas Bader</h1>
                 <p class="lead">
-                    Ich liebe Daten, Mathematik und komplexe Probleme, am meisten dann,
-                    wenn die Lösung Menschen und der Natur etwas Gutes tut.
-                    Ich studiere Digital Business &amp; AI an der BFH in Bern.
+                    Ich studiere Digital Business &amp; AI an der BFH in Bern
+                    und baue Lösungen, bei denen Daten ein konkretes Problem lösen.
                 </p>
             </div>
 
@@ -114,29 +106,15 @@
                             </button>
                         </h3>
 
-                        <div class="projekt-details projekt-details-breit" id="details-bors" hidden>
-                            <figure class="projekt-bild">
-                                <img src="img/bors-netz.jpg"
-                                    alt="Karte des BORS-Strassennetzes von Bern und Umgebung, Strassen grün, gelb oder rot eingefärbt"
-                                    width="1760" height="1100" loading="lazy">
-                                <!-- Legende: gleiche Farben wie in der BORS-Web-App -->
-                                <figcaption>
-                                    Strassennetz für das grosse Feuerwehrfahrzeug:
-                                    <span class="legende legende-ok">validiert</span>
-                                    <span class="legende legende-warn">unvalidiert</span>
-                                    <span class="legende legende-bad">gesperrt</span>
-                                </figcaption>
-                            </figure>
+                        <div class="projekt-details" id="details-bors" hidden>
+                            <img src="img/bors-netz.svg" alt="Schematisches Strassennetz mit unterschiedlichen Routen pro Fahrzeugklasse"
+                                width="640" height="420" loading="lazy">
                             <div class="projekt-text">
                                 <p>
                                     Welche Strasse ist für welches Fahrzeug physisch passierbar? BORS prüft für
-                                    Notarzt, Rettungswagen und zwei Feuerwehrfahrzeuge, ob Breite, Höhe und Gewicht reichen,
-                                    in Bern und zehn Nachbargemeinden. Die Breiten stammen aus der amtlichen Vermessung.
-                                </p>
-                                <p>
-                                    Jede Strasse erhält pro Fahrzeug einen von drei Zuständen. Geroutet wird zuerst nur
-                                    über validierte Strassen; gibt es so keinen Weg, zeigt BORS eine gekennzeichnete
-                                    Ausweichroute.
+                                    Notarzt, Rettungswagen und Feuerwehr, ob Breite, Höhe und Gewicht reichen,
+                                    und berechnet darauf die Route, für Bern und zehn Nachbargemeinden.
+                                    Die Strassenbreiten werden aus der amtlichen Vermessung gemessen.
                                 </p>
                                 <p class="projekt-rolle"><strong>Mein Teil:</strong> die gesamte technische Umsetzung,
                                     von der Datenaufbereitung und Breitenmessung über den Router bis zur Web-App.</p>
@@ -146,9 +124,7 @@
                                     <li>SQLite</li>
                                     <li>JavaScript</li>
                                 </ul>
-                                <p class="projekt-link">
-                                    Live: <a href="https://jonasbader7.github.io/BORS/" class="pfeil-link">jonasbader7.github.io/BORS</a>
-                                </p>
+                                <a href="https://jonasbader7.github.io/BORS/" class="pfeil-link">Web-App öffnen</a>
                             </div>
                         </div>
                     </article>
@@ -165,28 +141,13 @@
                         </h3>
 
                         <div class="projekt-details" id="details-splitmate" hidden>
-                            <!-- Mini-Demo: dieselbe Logik wie im SplitMate-Backend, hier in JavaScript (script.js) -->
-                            <form class="split-demo" id="split-demo" aria-labelledby="split-demo-titel">
-                                <p class="split-demo-titel" id="split-demo-titel">Probier es aus: Wer hat diesen Monat wie viel bezahlt?</p>
-                                <div class="split-felder">
-                                    <label>Anna <input type="number" name="Anna" value="90" min="0" step="1" inputmode="decimal"></label>
-                                    <label>Marco <input type="number" name="Marco" value="30" min="0" step="1" inputmode="decimal"></label>
-                                    <label>Lea <input type="number" name="Lea" value="0" min="0" step="1" inputmode="decimal"></label>
-                                </div>
-                                <output class="split-ergebnis" id="split-ergebnis" aria-live="polite"></output>
-                            </form>
-
+                            <img src="img/splitmate-app.jpg" alt="Startseite von SplitMate mit Formularen zum Erstellen und Beitreten einer Gruppe"
+                                width="760" height="730" loading="lazy">
                             <div class="projekt-text">
                                 <p>
-                                    Teamprojekt im Modul Software Engineering: Eine WG erfasst ihre Ausgaben,
+                                    Teamprojekt im Modul Software Engineering: Gruppen bilden, Ausgaben erfassen,
                                     und die App rechnet aus, wer wem wie viel schuldet.
                                 </p>
-                                <ol class="schritte">
-                                    <li>Pro Person zusammenzählen, was sie bezahlt hat.</li>
-                                    <li>Gesamtbetrag gleichmässig verteilen: Saldo = bezahlt − Anteil.</li>
-                                    <li>Negative Salden (Schuldner) mit positiven (Gläubiger) paarweise ausgleichen,
-                                        bis alle bei null sind. So braucht es höchstens eine Zahlung weniger als Personen.</li>
-                                </ol>
                                 <p class="projekt-rolle"><strong>Mein Teil:</strong> Schuldenberechnung im Backend und Frontend-Setup.</p>
                                 <ul class="tags" aria-label="Technologien">
                                     <li>Vue 3</li>
@@ -268,19 +229,13 @@
 
             <div class="ueber-text">
                 <p>
-                    Meine Geschichte ist eine Geschichte über Zahlen. Nach der Banklehre wollte ich verstehen,
-                    was hinter ihnen steckt: zuerst die Passerelle, dann drei Semester Physik mit Nebenfach Astronomie.
-                    Faszinierend, aber mir fehlte die Anwendung. Heute studiere ich Digital Business &amp; AI mit
-                    Schwerpunkt Datenanalyse, also dort, wo Mathematik konkret wird.
+                    Zahlen haben mich schon immer interessiert. Über die Bank und eine Passerelle mit viel
+                    Physik bin ich bei der Datenanalyse gelandet: Mathematik, die man im Alltag sieht.
                 </p>
                 <p>
-                    Sportlich war ich schon immer. Seit einer Bänderverletzung hat mich der Triathlon richtig gepackt.
-                    Sonst findet man mich beim Unihockey, beim Klettern, am Klavier, mit Freunden
-                    und so oft wie möglich draussen in der Natur.
+                    Daneben trainiere ich für Triathlon bis zur Ironman-Distanz, am liebsten draussen.
+                    Und wenn noch Zeit bleibt: Unihockey, Klettern, Musik.
                 </p>
-                <blockquote class="motto">
-                    <p>Your only limit is your mind.</p>
-                </blockquote>
             </div>
         </section>
 
