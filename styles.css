@@ -1,20 +1,133 @@
+/* Grundwerte für Farben und Abstände */
+:root {
+    --color-bg: #f7f8fa;
+    --color-text: #1f2933;
+    --color-muted: #52606d;
+    --color-accent: #2563eb;
+    --color-card: #ffffff;
+    --space: 1rem;
+    --max-width: 960px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
 html {
     scroll-behavior: smooth;
 }
 
-button {
-    margin-top: 20px;
-    padding: 12px 24px;
-    font-size: 16px;
-
-    border: none;
-    border-radius: 25px;
-
-    cursor: pointer;
-
-    transition: 0.3s;
+body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    line-height: 1.6;
+    color: var(--color-text);
+    background: var(--color-bg);
 }
 
-button:hover {
-    transform: scale(1.1);
+a {
+    color: var(--color-accent);
+}
+
+/* Link für Tastatur-Nutzer, erscheint erst beim Fokus */
+.skip-link {
+    position: absolute;
+    left: -999px;
+}
+
+.skip-link:focus {
+    left: var(--space);
+    top: var(--space);
+}
+
+/* Header und Navigation */
+.site-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space) calc(var(--space) * 2);
+    background: var(--color-card);
+    border-bottom: 1px solid #e4e7eb;
+}
+
+.logo {
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--color-text);
+}
+
+.nav-list {
+    display: flex;
+    gap: calc(var(--space) * 1.5);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.nav-list a {
+    text-decoration: none;
+    color: var(--color-muted);
+}
+
+.nav-list a:hover {
+    color: var(--color-accent);
+}
+
+/* Inhaltsbereiche */
+main section {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: calc(var(--space) * 3) calc(var(--space) * 2);
+}
+
+.hero {
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.cta {
+    display: inline-block;
+    margin-top: var(--space);
+    padding: 12px 24px;
+    border-radius: 25px;
+    background: var(--color-accent);
+    color: #ffffff;
+    text-decoration: none;
+    transition: transform 0.3s;
+}
+
+.cta:hover {
+    transform: scale(1.05);
+}
+
+/* Projektkarten */
+.project-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: calc(var(--space) * 1.5);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.project-card {
+    padding: calc(var(--space) * 1.5);
+    background: var(--color-card);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.project-card h3 {
+    margin-top: 0;
+}
+
+/* Footer */
+.site-footer {
+    padding: calc(var(--space) * 2);
+    text-align: center;
+    color: var(--color-muted);
 }
