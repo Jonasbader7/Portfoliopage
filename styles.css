@@ -1,204 +1,825 @@
-/* Grundwerte für Farben und Abstände */
+/* =========================================================
+   Portfolio Jonas Bader – Stylesheet
+   Aufbau:
+   1. Variablen (Farben, Schriften, Abstände)
+   2. Grundlagen
+   3. Bausteine (Abschnitte, Links, Tags, Button)
+   4. Kopfzeile und Navigation
+   5. Hero
+   6. Projekte (Liste zum Aufklappen)
+   7. Über mich
+   8. Kontakt und Formular
+   9. Fusszeile
+   10. Media Queries (Tablet, Desktop)
+   Mobile First: Die Grundregeln gelten fürs Handy,
+   grössere Bildschirme bekommen in Teil 10 Ergänzungen.
+   ========================================================= */
+
+
+/* ---------- 1. Variablen ---------- */
 :root {
-    --color-bg: #f7f8fa;
-    --color-text: #1f2933;
-    --color-muted: #52606d;
-    --color-accent: #2563eb;
-    --color-card: #ffffff;
-    --space: 1rem;
-    --max-width: 960px;
+    /* Zurückhaltend: viel Papier, dunkle Tinte, ein einziger Akzent */
+    --farbe-bg: #F7F6F2;
+    --farbe-flaeche: #FFFFFF;
+    --farbe-text: #1B2430;
+    --farbe-text-leise: #5F6672;
+    --farbe-linie: #E2DED5;
+    --farbe-akzent: #B5401A;
+    --farbe-fehler: #B42318;
+
+    --schrift-titel: "Space Grotesk", system-ui, sans-serif;
+    --schrift-text: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+    --abstand: 1.25rem;
+    --abstand-gross: 4.5rem;
+    --radius: 10px;
+    --max-breite: 960px;
 }
 
-* {
+/* Dunkles Farbschema: script.js setzt data-theme="dark" auf <html> */
+[data-theme="dark"] {
+    --farbe-bg: #13171D;
+    --farbe-flaeche: #1B2028;
+    --farbe-text: #E8E6E1;
+    --farbe-text-leise: #9BA3AE;
+    --farbe-linie: #2A313B;
+    --farbe-akzent: #F0906E;
+    --farbe-fehler: #FF8A80;
+}
+
+
+/* ---------- 2. Grundlagen ---------- */
+*,
+*::before,
+*::after {
     box-sizing: border-box;
 }
 
 html {
     scroll-behavior: smooth;
+    /* Platz für die fixierte Kopfzeile beim Springen zu einem Anker */
+    scroll-padding-top: 4.5rem;
 }
 
 body {
     margin: 0;
-    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-    line-height: 1.6;
-    color: var(--color-text);
-    background: var(--color-bg);
+    font-family: var(--schrift-text);
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    color: var(--farbe-text);
+    background: var(--farbe-bg);
+}
+
+h1,
+h2,
+h3 {
+    font-family: var(--schrift-titel);
+    font-weight: 500;
+    line-height: 1.15;
+    margin: 0;
+}
+
+p {
+    margin: 0 0 1em;
 }
 
 a {
-    color: var(--color-accent);
+    color: inherit;
+    text-decoration-color: var(--farbe-linie);
+    text-underline-offset: 0.25em;
+    transition: color 0.2s, text-decoration-color 0.2s;
 }
 
-/* Link für Tastatur-Nutzer, erscheint erst beim Fokus */
+a:hover {
+    color: var(--farbe-akzent);
+    text-decoration-color: currentColor;
+}
+
+/* Flexible Bilder: nie breiter als ihr Container */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Elemente mit dem Attribut hidden immer ausblenden */
+[hidden] {
+    display: none !important;
+}
+
+/* Sichtbar für Screenreader, unsichtbar auf dem Bildschirm */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+/* Sprunglink für Tastatur-Nutzer, erscheint erst beim Fokus */
 .skip-link {
     position: absolute;
     left: -999px;
+    top: 0.5rem;
+    z-index: 100;
+    padding: 0.5rem 1rem;
+    background: var(--farbe-text);
+    color: var(--farbe-bg);
 }
 
 .skip-link:focus {
-    left: var(--space);
-    top: var(--space);
+    left: 0.5rem;
 }
 
-/* Header und Navigation */
-.site-header {
+/* Deutlicher Fokusrahmen für die Bedienung mit der Tastatur */
+:focus-visible {
+    outline: 2px solid var(--farbe-akzent);
+    outline-offset: 3px;
+}
+
+
+/* ---------- 3. Bausteine ---------- */
+.section {
+    max-width: var(--max-breite);
+    margin: 0 auto;
+    padding: var(--abstand-gross) var(--abstand) 0;
+}
+
+/* Kleine, ruhige Abschnittstitel */
+.section-titel {
+    margin-bottom: 1.5rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--farbe-text-leise);
+}
+
+/* Link mit Pfeil, der sich beim Hover etwas bewegt */
+.pfeil-link {
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.pfeil-link::after {
+    content: " →";
+    display: inline-block;
+    transition: transform 0.2s;
+}
+
+.pfeil-link:hover::after {
+    transform: translateX(4px);
+}
+
+.tags {
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+    list-style: none;
+    margin: 0 0 1.25rem;
+    padding: 0;
+    font-size: 0.85rem;
+    color: var(--farbe-text-leise);
+}
+
+.button {
+    padding: 0.7rem 1.5rem;
+    border: 0;
+    border-radius: var(--radius);
+    background: var(--farbe-text);
+    color: var(--farbe-bg);
+    font: 500 1rem var(--schrift-text);
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.button:hover {
+    opacity: 0.85;
+}
+
+
+/* ---------- 4. Kopfzeile und Navigation ---------- */
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--farbe-bg);
+    border-bottom: 1px solid var(--farbe-linie);
+}
+
+/* Flexbox: Name links, Knöpfe rechts */
+.header-inner {
+    display: flex;
     align-items: center;
-    padding: var(--space) calc(var(--space) * 2);
-    background: var(--color-card);
-    border-bottom: 1px solid #e4e7eb;
+    gap: 0.5rem;
+    max-width: var(--max-breite);
+    margin: 0 auto;
+    padding: 0.75rem var(--abstand);
 }
 
 .logo {
+    margin-right: auto; /* schiebt alles andere nach rechts */
+    font-family: var(--schrift-titel);
     font-weight: 700;
     text-decoration: none;
-    color: var(--color-text);
+}
+
+/* Icon-Knöpfe für Menü und Farbschema */
+.nav-toggle,
+.theme-toggle {
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 0;
+    border-radius: 50%;
+    background: none;
+    color: var(--farbe-text);
+    cursor: pointer;
+}
+
+.theme-toggle svg {
+    width: 1.15rem;
+    height: 1.15rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+}
+
+/* Im hellen Schema den Mond zeigen, im dunklen die Sonne */
+.icon-sun,
+[data-theme="dark"] .icon-moon {
+    display: none;
+}
+
+[data-theme="dark"] .icon-sun {
+    display: block;
+}
+
+/* Hamburger-Icon: ein Strich plus ::before und ::after */
+.nav-toggle-bar,
+.nav-toggle-bar::before,
+.nav-toggle-bar::after {
+    display: block;
+    width: 1.1rem;
+    height: 2px;
+    background: currentColor;
+    transition: transform 0.25s;
+}
+
+.nav-toggle-bar {
+    position: relative;
+}
+
+.nav-toggle-bar::before,
+.nav-toggle-bar::after {
+    content: "";
+    position: absolute;
+    left: 0;
+}
+
+.nav-toggle-bar::before {
+    top: -6px;
+}
+
+.nav-toggle-bar::after {
+    top: 6px;
+}
+
+/* Offenes Menü: aus den Strichen wird ein X */
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar {
+    background: transparent;
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar::before {
+    transform: translateY(6px) rotate(45deg);
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar::after {
+    transform: translateY(-6px) rotate(-45deg);
+}
+
+/* Handy: Navigation ist zuerst zu und klappt unter der Kopfzeile auf */
+.main-nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--farbe-bg);
+    border-bottom: 1px solid var(--farbe-linie);
+}
+
+.main-nav.is-open {
+    display: block;
 }
 
 .nav-list {
-    display: flex;
-    gap: calc(var(--space) * 1.5);
-    margin: 0;
-    padding: 0;
     list-style: none;
+    margin: 0;
+    padding: 0.5rem var(--abstand) 1rem;
 }
 
 .nav-list a {
+    display: block;
+    padding: 0.6rem 0;
     text-decoration: none;
-    color: var(--color-muted);
 }
 
-.nav-list a:hover {
-    color: var(--color-accent);
-}
 
-/* Hero */
+/* ---------- 5. Hero (CSS Grid mit grid-template-areas) ---------- */
 .hero {
-    padding: calc(var(--space) * 4) calc(var(--space) * 2);
-    text-align: center;
-}
-
-.hero h1 {
-    font-size: 2.5rem;
-    margin-bottom: 0.25rem;
-}
-
-.hero-role {
-    margin-top: 0;
-    color: var(--color-muted);
-    font-weight: 600;
-}
-
-/* Seitenlayout mit Grid: Seitenleiste links, Hauptinhalt rechts */
-.layout {
     display: grid;
-    grid-template-columns: 1fr 3fr;
-    grid-template-areas: "sidebar main";
-    gap: calc(var(--space) * 2);
-    max-width: var(--max-width);
+    /* Handy: grosses Bild, Porträt, Text untereinander */
+    grid-template-areas:
+        "bild"
+        "foto"
+        "text";
+    gap: 1.5rem;
+    max-width: var(--max-breite);
     margin: 0 auto;
-    padding: 0 calc(var(--space) * 2);
+    padding: 1.25rem var(--abstand) 0;
 }
 
-.sidebar {
-    grid-area: sidebar;
-    align-self: start;
-    padding: calc(var(--space) * 1.5);
-    background: var(--color-card);
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+/* Titelbild: fester Bildausschnitt, object-fit schneidet den Rest ab */
+.hero-bild {
+    grid-area: bild;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    /* Bildausschnitt so wählen, dass Person und See sichtbar bleiben */
+    object-position: 42% 50%;
+    border-radius: var(--radius);
 }
 
-.sidebar h2 {
-    font-size: 1rem;
-    margin: 0 0 0.5rem;
+/* Porträt rückt auf dem Handy etwas ins Titelbild hinein */
+.hero .hero-foto {
+    margin-top: -4.5rem;
+    margin-left: 1rem;
+    border: 4px solid var(--farbe-bg);
 }
 
-.sidebar section + section {
-    margin-top: calc(var(--space) * 1.5);
+.hero-text {
+    grid-area: text;
 }
 
-main {
-    grid-area: main;
+.hero-foto {
+    grid-area: foto;
+    width: 6.5rem;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 50%;
 }
 
-main section {
-    padding-bottom: calc(var(--space) * 2.5);
+h1 {
+    margin-bottom: 1rem;
+    font-size: clamp(2.5rem, 8vw, 4rem);
+    letter-spacing: -0.02em;
 }
 
-main h2 {
-    margin-top: 0;
-    padding-bottom: 0.25rem;
-    border-bottom: 2px solid var(--color-accent);
+.lead {
+    max-width: 34rem;
+    margin: 0;
+    font-size: 1.2rem;
+    color: var(--farbe-text-leise);
 }
 
-/* Listen in der Seitenleiste */
-.tag-list {
+
+/* ---------- 6. Projekte (Liste zum Aufklappen) ---------- */
+.projekt-liste {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--farbe-linie);
+}
+
+.projekt-liste > li {
+    border-bottom: 1px solid var(--farbe-linie);
+}
+
+.projekt-titel {
+    font-size: inherit;
+}
+
+/* Die ganze Zeile ist ein Knopf. Flexbox: Name, Kurzbeschreibung, Icon */
+.projekt-kopf {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.4rem;
-    margin: 0;
-    padding: 0;
-    list-style: none;
+    align-items: baseline;
+    gap: 0.25rem 1rem;
+    width: 100%;
+    padding: 1.25rem 2.5rem 1.25rem 0;
+    position: relative;
+    border: 0;
+    background: none;
+    color: inherit;
+    text-align: left;
+    font: inherit;
+    cursor: pointer;
 }
 
-.tag-list li {
-    padding: 2px 10px;
-    border-radius: 999px;
-    background: var(--color-bg);
-    font-size: 0.9rem;
+.projekt-name {
+    font-family: var(--schrift-titel);
+    font-size: 1.4rem;
+    font-weight: 500;
+    transition: color 0.2s;
 }
 
-.plain-list {
-    margin: 0;
-    padding: 0;
-    list-style: none;
+.projekt-kurz {
+    color: var(--farbe-text-leise);
 }
 
-.plain-list span {
-    color: var(--color-muted);
+.projekt-kopf:hover .projekt-name {
+    color: var(--farbe-akzent);
 }
 
-.cta {
-    display: inline-block;
-    margin-top: var(--space);
-    padding: 12px 24px;
-    border-radius: 25px;
-    background: var(--color-accent);
-    color: #ffffff;
-    text-decoration: none;
+/* Plus-Zeichen aus zwei Strichen; beim Öffnen dreht es sich zu einem X */
+.projekt-icon {
+    position: absolute;
+    right: 0.25rem;
+    top: 50%;
+    width: 1rem;
+    height: 1rem;
+    margin-top: -0.5rem;
     transition: transform 0.3s;
 }
 
-.cta:hover {
-    transform: scale(1.05);
+.projekt-icon::before,
+.projekt-icon::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 1.5px;
+    background: currentColor;
 }
 
-/* Projektkarten */
-.project-list {
+.projekt-icon::after {
+    transform: rotate(90deg);
+}
+
+.projekt-kopf[aria-expanded="true"] .projekt-icon {
+    transform: rotate(45deg);
+}
+
+/* Details: Grid mit benannten Bereichen, auf dem Handy untereinander */
+.projekt-details {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: calc(var(--space) * 1.5);
+    grid-template-areas:
+        "bild"
+        "text";
+    gap: 1.5rem;
+    padding-bottom: 2rem;
+    animation: einblenden 0.35s ease-out;
+}
+
+.projekt-details > img,
+.projekt-bild,
+.split-demo {
+    grid-area: bild;
+}
+
+.projekt-details img {
+    border: 1px solid var(--farbe-linie);
+    border-radius: var(--radius);
+}
+
+.projekt-bild {
     margin: 0;
-    padding: 0;
+}
+
+/* Bildlegende mit farbigen Strichen wie in der BORS-App */
+.projekt-bild figcaption {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+    margin-top: 0.6rem;
+    font-size: 0.85rem;
+    color: var(--farbe-text-leise);
+}
+
+.legende::before {
+    content: "";
+    display: inline-block;
+    width: 1rem;
+    height: 3px;
+    margin-right: 0.4rem;
+    vertical-align: middle;
+    background: var(--legende-farbe);
+}
+
+.legende-ok { --legende-farbe: #2b8a3e; }
+.legende-warn { --legende-farbe: #d99a00; }
+.legende-bad { --legende-farbe: #d6336c; }
+
+.projekt-link {
+    font-size: 0.95rem;
+    color: var(--farbe-text-leise);
+}
+
+/* Berechnungsschritte von SplitMate */
+.schritte {
+    margin: 0 0 1em;
+    padding-left: 1.25rem;
+    font-size: 0.95rem;
+}
+
+.schritte li {
+    margin-bottom: 0.4rem;
+}
+
+/* SplitMate-Demo: ruhige Fläche mit drei Eingabefeldern */
+.split-demo {
+    align-self: start;
+    padding: 1.25rem;
+    background: var(--farbe-flaeche);
+    border: 1px solid var(--farbe-linie);
+    border-radius: var(--radius);
+}
+
+.split-demo-titel {
+    font-weight: 500;
+}
+
+/* Grid: drei gleich breite Felder nebeneinander */
+.split-felder {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.split-felder label {
+    font-size: 0.85rem;
+    color: var(--farbe-text-leise);
+}
+
+.split-felder input {
+    width: 100%;
+    margin-top: 0.25rem;
+    padding: 0.5rem 0.6rem;
+    border: 1px solid var(--farbe-linie);
+    border-radius: 8px;
+    background: var(--farbe-bg);
+    color: var(--farbe-text);
+    font: inherit;
+}
+
+.split-ergebnis {
+    display: block;
+    padding-top: 1rem;
+    border-top: 1px solid var(--farbe-linie);
+    font-size: 0.95rem;
+}
+
+.split-ergebnis ul {
     list-style: none;
+    margin: 0.5rem 0 0;
+    padding: 0;
 }
 
-.project-card {
-    padding: calc(var(--space) * 1.5);
-    background: var(--color-card);
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+.split-ergebnis li {
+    padding: 0.2rem 0;
 }
 
-.project-card h3 {
-    margin-top: 0;
+.split-ergebnis strong {
+    color: var(--farbe-akzent);
 }
 
-/* Footer */
+.projekt-text {
+    grid-area: text;
+    max-width: 36rem;
+}
+
+.projekt-rolle {
+    font-size: 0.95rem;
+}
+
+@keyframes einblenden {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+
+/* ---------- 7. Über mich ---------- */
+.ueber-text {
+    max-width: 36rem;
+}
+
+/* Motto: leise, aber mit eigener Schrift */
+.motto {
+    margin: 2rem 0 0;
+    padding-left: 1rem;
+    border-left: 2px solid var(--farbe-akzent);
+    font-family: var(--schrift-titel);
+    font-size: 1.25rem;
+}
+
+.motto p {
+    margin: 0;
+}
+
+
+/* ---------- 8. Kontakt und Formular ---------- */
+.kontakt {
+    display: grid;
+    grid-template-areas:
+        "info"
+        "formular";
+    gap: 2rem;
+}
+
+.kontakt-info {
+    grid-area: info;
+}
+
+.repo-zeile {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: var(--farbe-text-leise);
+}
+
+.formular {
+    grid-area: formular;
+}
+
+.feld {
+    margin-bottom: 0.75rem;
+}
+
+.feld label {
+    display: block;
+    margin-bottom: 0.3rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.feld input,
+.feld textarea {
+    width: 100%;
+    padding: 0.65rem 0.8rem;
+    border: 1px solid var(--farbe-linie);
+    border-radius: var(--radius);
+    background: var(--farbe-flaeche);
+    color: var(--farbe-text);
+    font: inherit;
+}
+
+.feld textarea {
+    resize: vertical;
+}
+
+/* Rote Umrandung, wenn script.js ein Feld als fehlerhaft markiert */
+.feld .ist-fehlerhaft {
+    border-color: var(--farbe-fehler);
+}
+
+.fehler {
+    min-height: 1.3em;
+    margin: 0.2rem 0 0;
+    font-size: 0.85rem;
+    color: var(--farbe-fehler);
+}
+
+.formular-status {
+    margin: 1rem 0 0;
+    color: var(--farbe-text-leise);
+}
+
+
+/* ---------- 9. Fusszeile ---------- */
 .site-footer {
-    padding: calc(var(--space) * 2);
-    text-align: center;
-    color: var(--color-muted);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem 2rem;
+    max-width: var(--max-breite);
+    margin: var(--abstand-gross) auto 0;
+    padding: 1.5rem var(--abstand);
+    border-top: 1px solid var(--farbe-linie);
+    font-size: 0.9rem;
+    color: var(--farbe-text-leise);
+}
+
+.site-footer p {
+    margin: 0;
+}
+
+
+/* Wer weniger Bewegung eingestellt hat, bekommt keine Animationen */
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+
+/* ---------- 10. Media Queries ---------- */
+
+/* Tablet ab 768px */
+@media (min-width: 48em) {
+    :root {
+        --abstand: 2rem;
+        --abstand-gross: 6rem;
+    }
+
+    /* Hero: Bild über die ganze Breite, darunter Text links und Porträt rechts */
+    .hero {
+        grid-template-columns: 1fr auto;
+        grid-template-areas:
+            "bild bild"
+            "text foto";
+        align-items: start;
+        column-gap: 2rem;
+        padding-top: 2rem;
+    }
+
+    .hero-bild {
+        aspect-ratio: 21 / 9;
+    }
+
+    .hero .hero-foto {
+        width: 9rem;
+        margin: -5.5rem 2rem 0 0;
+    }
+
+    /* Projektdetails: Bild links, Text rechts */
+    .projekt-details {
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas: "bild text";
+    }
+
+    /* Ohne Bild oder mit breiter Karte: alles untereinander */
+    .projekt-details-breit {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "bild"
+            "text";
+    }
+
+    .projekt-details-schmal {
+        grid-template-columns: 1fr;
+        grid-template-areas: "text";
+    }
+
+    .kontakt {
+        grid-template-columns: 1fr 1.4fr;
+        grid-template-areas: "info formular";
+    }
+}
+
+/* Desktop ab 1024px */
+@media (min-width: 64em) {
+
+    /* Navigation dauerhaft sichtbar, Menü-Knopf ausblenden */
+    .nav-toggle {
+        display: none;
+    }
+
+    .main-nav {
+        display: block;
+        position: static;
+        border: 0;
+        margin-right: 1rem;
+    }
+
+    .nav-list {
+        display: flex;
+        gap: 2rem;
+        padding: 0;
+    }
+
+    .nav-list a {
+        padding: 0;
+        font-size: 0.95rem;
+    }
+
+    /* Projekte und Über mich: Titel links in schmaler Spalte, Inhalt rechts */
+    #projekte,
+    .ueber-mich {
+        display: grid;
+        grid-template-columns: 12rem 1fr;
+    }
+
+    .kontakt {
+        grid-template-columns: 12rem 1fr;
+        gap: 0;
+    }
 }
