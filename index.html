@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Portfolio von Jonas Bader, Student Wirtschaftsinformatik / Digital Business & AI an der BFH.">
+    <meta name="description" content="Portfolio und Lebenslauf von Jonas Bader, Student Digital Business & AI an der BFH.">
 
     <title>Jonas Bader | Portfolio</title>
 
@@ -20,7 +20,7 @@
 
         <nav aria-label="Hauptnavigation">
             <ul class="nav-list">
-                <li><a href="#about">Über mich</a></li>
+                <li><a href="#profile">Über mich</a></li>
                 <li><a href="#projects">Projekte</a></li>
                 <li><a href="#contact">Kontakt</a></li>
             </ul>
@@ -28,71 +28,114 @@
     </header>
 
 
-    <main id="main">
+    <section id="top" class="hero">
+        <h1 id="mainTitle">Jonas Bader</h1>
 
-        <section id="top" class="hero">
-            <h1 id="mainTitle">Jonas Bader</h1>
+        <p class="hero-role">Student Digital Business &amp; AI · Bern</p>
 
-            <p>
-                Willkommen auf meiner persönlichen Portfolio-Seite.
-                Hier zeige ich meine Projekte, Fähigkeiten und Erfahrungen.
-            </p>
+        <p>
+            Willkommen auf meiner persönlichen Portfolio-Seite.
+            Hier zeige ich meine Projekte, Fähigkeiten und Erfahrungen.
+        </p>
 
-            <a href="#about" class="cta">Mehr über mich</a>
-        </section>
-
-
-        <section id="about" class="about">
-            <h2>Über mich</h2>
-
-            <p>
-                Ich studiere Wirtschaftsinformatik / Digital Business &amp; AI (Teilzeit)
-                an der Berner Fachhochschule. Mich interessiert, wie Daten und Software
-                im Alltag echte Probleme lösen.
-            </p>
-        </section>
+        <a href="#profile" class="cta">Mehr über mich</a>
+    </section>
 
 
-        <section id="projects" class="projects">
-            <h2>Projekte</h2>
+    <div class="layout">
 
-            <ul class="project-list">
-                <li class="project-card">
-                    <article>
-                        <h3>BORS Bern</h3>
-                        <p>Einsatzrouting für Blaulichtfahrzeuge: welche Strassen für welches Fahrzeug passierbar sind.</p>
-                        <a href="https://jonasbader7.github.io/BORS/">Zur Web-App</a>
-                    </article>
-                </li>
+        <aside class="sidebar" aria-label="Kurzprofil">
+            <section>
+                <h2>Kompetenzen</h2>
+                <ul class="tag-list">
+                    <li>Python</li>
+                    <li>R</li>
+                    <li>SQL</li>
+                    <li>Excel</li>
+                    <li>Git</li>
+                    <li>QGIS</li>
+                    <li>HTML / CSS / JS</li>
+                </ul>
+            </section>
 
-                <li class="project-card">
-                    <article>
-                        <h3>TrainCast</h3>
-                        <p>Servicekonzept, das Trainings automatisch in freie Kalenderlücken und trockenes Wetter plant.</p>
-                    </article>
-                </li>
+            <section>
+                <h2>Sprachen</h2>
+                <ul class="plain-list">
+                    <li>Deutsch <span>Muttersprache</span></li>
+                    <li>Englisch <span>C1</span></li>
+                    <li>Französisch <span>B2</span></li>
+                </ul>
+            </section>
 
-                <li class="project-card">
-                    <article>
-                        <h3>Diese Portfolio-Seite</h3>
-                        <p>Entsteht im Modul Web Engineering mit HTML, CSS und JavaScript.</p>
-                        <a href="https://github.com/Jonasbader7/Portfoliopage">Code auf GitHub</a>
-                    </article>
-                </li>
-            </ul>
-        </section>
+            <section>
+                <h2>Hobbys</h2>
+                <p>Unihockey, Klettern, Triathlon, Musik</p>
+            </section>
+        </aside>
 
 
-        <section id="contact" class="contact">
-            <h2>Kontakt</h2>
+        <main id="main">
 
-            <p>
-                Am einfachsten erreichst du mich über
-                <a href="https://github.com/Jonasbader7">GitHub</a>.
-            </p>
-        </section>
+            <section id="profile">
+                <h2>Über mich</h2>
 
-    </main>
+                <p>
+                    Ich studiere Digital Business &amp; AI an der Berner Fachhochschule.
+                    Mich interessiert, wie Daten und Software im Alltag echte Probleme lösen,
+                    von der Datenanalyse bis zur fertigen Web-App.
+                </p>
+            </section>
+
+
+            <section id="projects">
+                <h2>Projekte</h2>
+
+                <ul class="project-list">
+                    <li class="project-card">
+                        <article>
+                            <h3>BORS Bern</h3>
+                            <p>Einsatzrouting für Blaulichtfahrzeuge: welche Strassen für welches Fahrzeug passierbar sind. Strassennetz in QGIS und Python aufbereitet, Routing als Web-App.</p>
+                            <a href="https://jonasbader7.github.io/BORS/">Zur Web-App</a>
+                        </article>
+                    </li>
+
+                    <li class="project-card">
+                        <article>
+                            <h3>Datenanalyse Lebenserwartung (R)</h3>
+                            <p>Modul Datenmanagement &amp; Datenanalyse: Im Gruppenprojekt habe ich den Analyseteil übernommen. Regressionsmodelle in R zum Zusammenhang von Lebenserwartung, Raucheranteil und Einkommen in US-Regionen.</p>
+                        </article>
+                    </li>
+
+                    <li class="project-card">
+                        <article>
+                            <h3>TrainCast</h3>
+                            <p>Servicekonzept, das Trainings automatisch in freie Kalenderlücken und trockenes Wetter plant.</p>
+                        </article>
+                    </li>
+
+                    <li class="project-card">
+                        <article>
+                            <h3>Diese Portfolio-Seite</h3>
+                            <p>Entsteht im Modul Web Engineering mit HTML, CSS und JavaScript.</p>
+                            <a href="https://github.com/Jonasbader7/Portfoliopage">Code auf GitHub</a>
+                        </article>
+                    </li>
+                </ul>
+            </section>
+
+
+            <section id="contact">
+                <h2>Kontakt</h2>
+
+                <p>
+                    Am einfachsten erreichst du mich über
+                    <a href="https://github.com/Jonasbader7">GitHub</a>.
+                </p>
+            </section>
+
+        </main>
+
+    </div>
 
 
     <footer class="site-footer">
