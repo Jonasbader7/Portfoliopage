@@ -76,22 +76,32 @@ async function ladeRepos() {
         liste.innerHTML = "";
 
         // Nur eigene Repos (keine Forks), die neusten drei
-        repos
+        const neuste = repos
             .filter(function (repo) { return !repo.fork; })
-            .slice(0, 3)
-            .forEach(function (repo) {
-                const li = document.createElement("li");
-                const link = document.createElement("a");
-                link.href = repo.html_url;
-                // textContent statt innerHTML: Text von aussen wird nie als HTML ausgeführt
-                link.textContent = repo.name;
+            .slice(0, 3);
 
-                const datum = document.createElement("span");
-                datum.textContent = " · " + new Date(repo.pushed_at).toLocaleDateString("de-CH");
+        // Leerzustand: keine öffentlichen Repos gefunden
+        if (neuste.length === 0) {
+            const li = document.createElement("li");
+            li.className = "muted";
+            li.textContent = "Noch keine öffentlichen Projekte.";
+            liste.append(li);
+            return;
+        }
 
-                li.append(link, datum);
-                liste.append(li);
-            });
+        neuste.forEach(function (repo) {
+            const li = document.createElement("li");
+            const link = document.createElement("a");
+            link.href = repo.html_url;
+            // textContent statt innerHTML: Text von aussen wird nie als HTML ausgeführt
+            link.textContent = repo.name;
+
+            const datum = document.createElement("span");
+            datum.textContent = " · " + new Date(repo.pushed_at).toLocaleDateString("de-CH");
+
+            li.append(link, datum);
+            liste.append(li);
+        });
     } catch (fehler) {
         // z. B. offline oder API-Limit erreicht
         liste.innerHTML = "";

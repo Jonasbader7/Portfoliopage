@@ -217,9 +217,85 @@ img {
     font-weight: 600;
 }
 
+/* Kernbotschaft: grösser und kräftiger als der übrige Text */
+.hero-claim {
+    max-width: 30rem;
+    margin: 1rem auto;
+    font-size: 1.35rem;
+    font-weight: 700;
+    line-height: 1.35;
+}
+
 .hero-intro {
     max-width: 36rem;
     margin: 0 auto;
+}
+
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0 var(--space);
+}
+
+/* Zwei Klassen = höhere Spezifität, damit diese Regeln die von .cta überschreiben */
+.cta.cta-secondary {
+    padding: 10px 22px;
+    background: none;
+    border: 2px solid var(--color-accent);
+    color: var(--color-accent);
+}
+
+.cta.cta-secondary:hover {
+    background: var(--color-accent);
+    color: #ffffff;
+}
+
+
+/* ---------- Kernkompetenzen (Flexbox) ---------- */
+.strengths {
+    max-width: var(--max-width);
+    margin: 0 auto calc(var(--space) * 2.5);
+    padding: 0 var(--space);
+}
+
+.strength-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.strength {
+    flex: 1;
+    padding: calc(var(--space) * 1.25);
+    background: var(--color-card);
+    border-top: 3px solid var(--color-accent);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.strength h3 {
+    margin: 0 0 0.35rem;
+    font-size: 1.05rem;
+}
+
+.strength p {
+    margin: 0;
+}
+
+.strength-proof {
+    margin-top: 0.6rem !important;
+    font-size: 0.85rem;
+    color: var(--color-muted);
+}
+
+/* Einleitender Satz im Über-mich-Text */
+.lead {
+    font-size: 1.15rem;
+    font-weight: 600;
 }
 
 .cta {
@@ -408,6 +484,11 @@ main h2 {
     margin: 0 0 var(--space);
 }
 
+/* Einzelnes Bild in den Details nicht über die ganze Kartenbreite ziehen */
+.project-details > figure {
+    max-width: 30rem;
+}
+
 .project-details img {
     border: 1px solid var(--color-line);
     border-radius: 8px;
@@ -424,8 +505,52 @@ main h2 {
     padding-left: 1.25rem;
 }
 
+/* Code-Begriffe im Fliesstext */
+code {
+    padding: 0 0.3rem;
+    border-radius: 4px;
+    background: var(--color-bg);
+    font-size: 0.9em;
+}
+
 .project-details li + li {
     margin-top: 0.3rem;
+}
+
+/* BORS in fünf Schritten: Nummern per CSS-Zähler statt von Hand */
+.project-details .case-steps {
+    counter-reset: schritt;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.case-steps > li {
+    counter-increment: schritt;
+    position: relative;
+    padding-left: 3rem;
+}
+
+.case-steps > li + li {
+    margin-top: var(--space);
+}
+
+/* Die Nummer erscheint als «01», «02» … links neben jedem Schritt */
+.case-steps > li::before {
+    content: counter(schritt, decimal-leading-zero);
+    position: absolute;
+    left: 0;
+    top: 0.1rem;
+    font-weight: 700;
+    color: var(--color-accent);
+}
+
+.case-steps h4 {
+    margin: 0 0 0.25rem;
+}
+
+.case-steps p {
+    margin: 0 0 0.5rem;
 }
 
 /* Zwei Bilder nebeneinander (ab Tablet), siehe Media Query */
@@ -579,13 +704,21 @@ main h2 {
         grid-template-columns: repeat(2, 1fr);
     }
 
-    /* Hauptprojekt über beide Spalten */
-    .project-card-featured {
+    /* Hauptprojekt über beide Spalten. Eine aufgeklappte Karte ebenfalls,
+       damit die Nachbarkarte nicht leer in die Länge gezogen wird.
+       :has() trifft die Karte, die offene Details enthält. */
+    .project-card-featured,
+    .project-card:has(.project-details:not([hidden])) {
         grid-column: 1 / -1;
     }
 
     .details-grid {
         grid-template-columns: 1fr 1fr;
+    }
+
+    /* Kernkompetenzen nebeneinander */
+    .strength-list {
+        flex-direction: row;
     }
 
     /* Formular: Name und E-Mail nebeneinander, Nachricht über die ganze Breite */
