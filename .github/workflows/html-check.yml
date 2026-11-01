@@ -1,0 +1,25 @@
+# Prüft bei jedem Push, ob index.html valides HTML ist (W3C-Validator "vnu").
+name: HTML-Prüfung
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code holen
+        uses: actions/checkout@v4
+
+      - name: Python einrichten
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # html5validator nutzt den offiziellen W3C-Validator; Java ist auf dem Runner vorinstalliert
+      - name: Validator installieren
+        run: pip install html5validator==0.4.2
+
+      - name: index.html prüfen
+        run: html5validator --files index.html
