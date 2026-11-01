@@ -217,15 +217,6 @@ img {
     font-weight: 600;
 }
 
-/* Kernbotschaft: grösser und kräftiger als der übrige Text */
-.hero-claim {
-    max-width: 30rem;
-    margin: 1rem auto;
-    font-size: 1.35rem;
-    font-weight: 700;
-    line-height: 1.35;
-}
-
 .hero-intro {
     max-width: 36rem;
     margin: 0 auto;
@@ -251,46 +242,6 @@ img {
     color: #ffffff;
 }
 
-
-/* ---------- Kernkompetenzen (Flexbox) ---------- */
-.strengths {
-    max-width: var(--max-width);
-    margin: 0 auto calc(var(--space) * 2.5);
-    padding: 0 var(--space);
-}
-
-.strength-list {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space);
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-
-.strength {
-    flex: 1;
-    padding: calc(var(--space) * 1.25);
-    background: var(--color-card);
-    border-top: 3px solid var(--color-accent);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-}
-
-.strength h3 {
-    margin: 0 0 0.35rem;
-    font-size: 1.05rem;
-}
-
-.strength p {
-    margin: 0;
-}
-
-.strength-proof {
-    margin-top: 0.6rem !important;
-    font-size: 0.85rem;
-    color: var(--color-muted);
-}
 
 /* Einleitender Satz im Über-mich-Text */
 .lead {
@@ -714,11 +665,6 @@ code {
 
     .details-grid {
         grid-template-columns: 1fr 1fr;
-    }
-
-    /* Kernkompetenzen nebeneinander */
-    .strength-list {
-        flex-direction: row;
     }
 
     /* Formular: Name und E-Mail nebeneinander, Nachricht über die ganze Breite */
