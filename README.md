@@ -10,7 +10,8 @@ Persönliche Portfolio-Seite, entstanden im Modul Web Engineering (EWEB) an der 
 |-------|--------|
 | `index.html` | Struktur und Inhalt: Header, Hero, Kernkompetenzen, Seitenleiste (`aside`), Über mich, Projekte, Kontakt, Footer |
 | `styles.css` | Gestaltung: CSS-Variablen, Flexbox, Grid mit `grid-template-areas`, Media Queries (Mobile First) |
-| `script.js` | Verhalten: Menü, Projektdetails aufklappen, BORS-Live-Vorschau, GitHub-API, Formularprüfung |
+| `script.js` | Verhalten: Sprachwechsel, Menü, Projektdetails aufklappen, BORS-Live-Vorschau, GitHub-API, Formular |
+| `lang/en.json`, `lang/fr.json` | Übersetzungen ins Englische und Französische (Deutsch steht direkt im HTML) |
 | `img/` | Bilder (Porträt, Projekt-Screenshots, Favicon) |
 
 ## Technologieentscheidungen
@@ -20,7 +21,9 @@ Persönliche Portfolio-Seite, entstanden im Modul Web Engineering (EWEB) an der 
 - **Details auf Klick.** Die Projektkarten zeigen zuerst nur das Wichtigste. Mehr Tiefe gibt es mit «Mehr erfahren», damit die Seite ruhig bleibt.
 - **BORS-Vorschau erst auf Klick.** Die eingebettete BORS-App ist gross und wird deshalb erst geladen, wenn jemand sie öffnen will.
 - **Daten per `fetch()`.** Die Seitenleiste lädt die neusten öffentlichen Repositories über die GitHub-API. Lade-, Leer- und Fehlerzustand werden angezeigt.
-- **Sicherheit.** Text aus der GitHub-API wird mit `textContent` eingefügt, nie mit `innerHTML`.
+- **Drei Sprachen.** Elemente mit `data-i18n` erhalten beim Sprachwechsel den Text aus `lang/*.json`, die per `fetch()` geladen wird. Die gewählte Sprache wird im Browser gespeichert.
+- **Kontaktformular über Web3Forms.** Eine statische Seite kann keine E-Mails verschicken. Das Formular sendet die Eingaben deshalb per `fetch()` an Web3Forms, das sie per E-Mail weiterleitet. Der Zugangsschlüssel darf öffentlich sein, die Mailadresse steht nicht im Code.
+- **Sicherheit.** Text aus der GitHub-API wird mit `textContent` eingefügt, nie mit `innerHTML`. Ein unsichtbares Honeypot-Feld hält einfache Spam-Bots ab.
 
 ## Deployment
 
@@ -40,5 +43,5 @@ Danach http://localhost:8000 im Browser öffnen.
 
 ## Bekannte Grenzen
 
-- Das Kontaktformular prüft die Eingaben, verschickt aber keine E-Mails.
+- Web3Forms erlaubt in der Gratisversion 250 Nachrichten pro Monat.
 - Die GitHub-API erlaubt ohne Anmeldung nur eine begrenzte Zahl Abfragen pro Stunde. Ist das Limit erreicht, zeigt die Seitenleiste einen Hinweis statt der Liste.

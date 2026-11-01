@@ -95,10 +95,49 @@ img {
     border-bottom: 1px solid var(--color-line);
 }
 
+.site-header {
+    gap: 0.75rem;
+}
+
 .logo {
+    margin-right: auto; /* schiebt Sprachumschalter und Menü nach rechts */
     font-weight: 700;
     text-decoration: none;
     color: var(--color-text);
+}
+
+/* Sprachumschalter: drei kleine Knöpfe nebeneinander (Flexbox) */
+.lang-switch {
+    display: flex;
+    border: 1px solid var(--color-line);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.lang-switch button {
+    padding: 0.3rem 0.6rem;
+    border: 0;
+    background: none;
+    color: var(--color-muted);
+    font: inherit;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.lang-switch button:hover {
+    color: var(--color-accent);
+}
+
+/* Aktive Sprache: am Attribut aria-pressed erkennbar */
+.lang-switch button[aria-pressed="true"] {
+    background: var(--color-accent);
+    color: #ffffff;
+}
+
+/* Handy: Menüknopf ganz rechts, Sprachumschalter davor */
+.nav-toggle {
+    order: 3;
 }
 
 /* Hamburger-Knopf: ein Strich plus ::before und ::after */
@@ -616,9 +655,30 @@ code {
     margin-top: 0;
 }
 
+.form-note {
+    margin: 0 0 var(--space);
+    font-size: 0.85rem;
+    color: var(--color-muted);
+}
+
 .form-status {
     margin: var(--space) 0 0;
     color: var(--color-muted);
+}
+
+.form-status.is-error {
+    color: var(--color-error);
+}
+
+.contact-form .cta:disabled {
+    opacity: 0.6;
+    cursor: wait;
+    transform: none;
+}
+
+/* Honeypot gegen Spam: unsichtbar und nicht anklickbar */
+.honeypot {
+    display: none;
 }
 
 
@@ -673,6 +733,7 @@ code {
     }
 
     .field-wide,
+    .form-note,
     .contact-form .cta,
     .form-status {
         grid-column: 1 / -1;

@@ -1,15 +1,138 @@
 /* =========================================================
    Portfolio Jonas Bader – JavaScript
-   1. Mobile Navigation (Menü auf-/zuklappen)
-   2. Projektdetails auf-/zuklappen
-   3. BORS-Live-Vorschau erst auf Klick laden
-   4. Neuste GitHub-Repositories laden (fetch)
-   5. Kontaktformular prüfen
-   6. Jahr im Footer
+   1. Mehrsprachigkeit (Deutsch, Englisch, Französisch)
+   2. Mobile Navigation (Menü auf-/zuklappen)
+   3. Projektdetails auf-/zuklappen
+   4. BORS-Live-Vorschau erst auf Klick laden
+   5. Neuste GitHub-Repositories laden (fetch)
+   6. Kontaktformular prüfen und über Web3Forms senden
+   7. Jahr im Footer
    ========================================================= */
 
 
-/* ---------- 1. Mobile Navigation ---------- */
+/* ---------- 1. Mehrsprachigkeit ---------- */
+
+// Texte, die nur im JavaScript vorkommen (Deutsch). Englisch und Französisch stehen in lang/*.json.
+const texteDe = {
+    "menu.open": "Menü öffnen",
+    "menu.close": "Menü schliessen",
+    "toggle.more": "Mehr erfahren",
+    "toggle.less": "Weniger anzeigen",
+    "bors.liveTitle": "BORS-Web-App, Live-Vorschau",
+    "form.sending": "Wird gesendet …",
+    "form.success": "Danke! Deine Nachricht ist angekommen. Ich melde mich bald.",
+    "form.fail": "Die Nachricht konnte leider nicht gesendet werden. Versuch es später nochmals oder schreib mir über GitHub.",
+    "err.name": "Bitte gib deinen Namen ein.",
+    "err.email": "Bitte gib eine gültige E-Mail-Adresse ein.",
+    "err.message": "Bitte schreib mindestens 20 Zeichen (aktuell {n}).",
+    "repo.empty": "Noch keine öffentlichen Projekte.",
+    "repo.error": "Gerade nicht erreichbar."
+};
+
+// Für die Datumsanzeige: welches Sprachformat gehört zu welcher Sprache
+const sprachformat = { de: "de-CH", en: "en-GB", fr: "fr-CH" };
+
+let aktuelleSprache = "de";
+let aktuelleTexte = texteDe;
+const geladeneSprachen = {}; // einmal geladene JSON-Dateien merken, damit sie nicht erneut geladen werden
+
+// Die deutschen Originaltexte aus dem HTML sichern, damit man zurück auf Deutsch wechseln kann
+const originaleDe = {
+    text: new Map(),
+    alt: new Map(),
+    aria: new Map()
+};
+document.querySelectorAll("[data-i18n]").forEach(function (el) {
+    originaleDe.text.set(el, el.innerHTML);
+});
+document.querySelectorAll("[data-i18n-alt]").forEach(function (el) {
+    originaleDe.alt.set(el, el.alt);
+});
+document.querySelectorAll("[data-i18n-aria]").forEach(function (el) {
+    originaleDe.aria.set(el, el.getAttribute("aria-label"));
+});
+
+// Einen Text in der aktuellen Sprache holen; fehlt er, gilt der deutsche
+function t(schluessel) {
+    return aktuelleTexte[schluessel] || texteDe[schluessel] || schluessel;
+}
+
+async function setzeSprache(sprache) {
+    if (sprache === "de") {
+        aktuelleTexte = texteDe;
+        originaleDe.text.forEach(function (html, el) { el.innerHTML = html; });
+        originaleDe.alt.forEach(function (alt, el) { el.alt = alt; });
+        originaleDe.aria.forEach(function (aria, el) { el.setAttribute("aria-label", aria); });
+    } else {
+        try {
+            if (!geladeneSprachen[sprache]) {
+                const antwort = await fetch("lang/" + sprache + ".json");
+                if (!antwort.ok) {
+                    throw new Error("HTTP " + antwort.status);
+                }
+                geladeneSprachen[sprache] = await antwort.json();
+            }
+        } catch (fehler) {
+            return; // Übersetzung nicht ladbar: Seite bleibt in der bisherigen Sprache
+        }
+        aktuelleTexte = geladeneSprachen[sprache];
+
+        // innerHTML ist hier unbedenklich: die Texte stammen aus unseren eigenen Dateien, nicht von aussen
+        document.querySelectorAll("[data-i18n]").forEach(function (el) {
+            const text = aktuelleTexte[el.dataset.i18n];
+            if (text) el.innerHTML = text;
+        });
+        document.querySelectorAll("[data-i18n-alt]").forEach(function (el) {
+            const text = aktuelleTexte[el.dataset.i18nAlt];
+            if (text) el.alt = text;
+        });
+        document.querySelectorAll("[data-i18n-aria]").forEach(function (el) {
+            const text = aktuelleTexte[el.dataset.i18nAria];
+            if (text) el.setAttribute("aria-label", text);
+        });
+    }
+
+    aktuelleSprache = sprache;
+    document.documentElement.lang = sprachformat[sprache];
+
+    // Aktiven Knopf markieren
+    document.querySelectorAll(".lang-switch button").forEach(function (knopf) {
+        knopf.setAttribute("aria-pressed", knopf.dataset.lang === sprache);
+    });
+
+    // Wahl merken. try/catch, weil manche Browser localStorage blockieren.
+    try {
+        localStorage.setItem("sprache", sprache);
+    } catch (fehler) {
+        // nicht gespeichert, Seite funktioniert trotzdem
+    }
+
+    // Texte, die JavaScript selbst setzt, ebenfalls neu schreiben
+    aktualisiereToggleTexte();
+    setzeMenu(nav.classList.contains("is-open"));
+    zeigeRepos();
+}
+
+document.querySelectorAll(".lang-switch button").forEach(function (knopf) {
+    knopf.addEventListener("click", function () {
+        setzeSprache(knopf.dataset.lang);
+    });
+});
+
+// Startsprache: gespeicherte Wahl, sonst die Sprache des Browsers, sonst Deutsch
+function startSprache() {
+    try {
+        const gespeichert = localStorage.getItem("sprache");
+        if (gespeichert) return gespeichert;
+    } catch (fehler) {
+        // ignorieren
+    }
+    const browser = navigator.language.slice(0, 2);
+    return ["en", "fr"].includes(browser) ? browser : "de";
+}
+
+
+/* ---------- 2. Mobile Navigation ---------- */
 const navButton = document.querySelector(".nav-toggle");
 const nav = document.querySelector("#hauptnav");
 
@@ -17,7 +140,7 @@ function setzeMenu(offen) {
     nav.classList.toggle("is-open", offen);
     // aria-expanded sagt Screenreadern, ob das Menü offen ist; das CSS macht daraus das X
     navButton.setAttribute("aria-expanded", offen);
-    navButton.querySelector(".visually-hidden").textContent = offen ? "Menü schliessen" : "Menü öffnen";
+    document.querySelector("#nav-toggle-text").textContent = offen ? t("menu.close") : t("menu.open");
 }
 
 navButton.addEventListener("click", function () {
@@ -33,8 +156,18 @@ nav.querySelectorAll("a").forEach(function (link) {
 });
 
 
-/* ---------- 2. Projektdetails auf-/zuklappen ---------- */
-document.querySelectorAll(".details-toggle").forEach(function (knopf) {
+/* ---------- 3. Projektdetails auf-/zuklappen ---------- */
+const detailKnoepfe = document.querySelectorAll(".details-toggle");
+
+// Knopftext passend zum Zustand und zur Sprache setzen
+function aktualisiereToggleTexte() {
+    detailKnoepfe.forEach(function (knopf) {
+        const offen = knopf.getAttribute("aria-expanded") === "true";
+        knopf.textContent = offen ? t("toggle.less") : t("toggle.more");
+    });
+}
+
+detailKnoepfe.forEach(function (knopf) {
     knopf.addEventListener("click", function () {
         // aria-controls enthält die id des Detailbereichs, der zu diesem Knopf gehört
         const details = document.getElementById(knopf.getAttribute("aria-controls"));
@@ -42,19 +175,19 @@ document.querySelectorAll(".details-toggle").forEach(function (knopf) {
 
         details.hidden = offen;
         knopf.setAttribute("aria-expanded", !offen);
-        knopf.textContent = offen ? "Mehr erfahren" : "Weniger anzeigen";
+        aktualisiereToggleTexte();
     });
 });
 
 
-/* ---------- 3. BORS-Live-Vorschau ---------- */
+/* ---------- 4. BORS-Live-Vorschau ---------- */
 // Die BORS-App ist gross. Sie wird deshalb erst geladen, wenn jemand darauf klickt.
 const liveButton = document.querySelector("#bors-live-button");
 
 liveButton.addEventListener("click", function () {
     const iframe = document.createElement("iframe");
     iframe.src = "https://jonasbader7.github.io/BORS/";
-    iframe.title = "BORS-Web-App, Live-Vorschau";
+    iframe.title = t("bors.liveTitle");
     iframe.loading = "lazy";
 
     // Knopf durch die eingebettete App ersetzen
@@ -62,76 +195,81 @@ liveButton.addEventListener("click", function () {
 });
 
 
-/* ---------- 4. Neuste GitHub-Repositories ---------- */
-async function ladeRepos() {
-    const liste = document.querySelector("#repo-liste");
-    const url = "https://api.github.com/users/Jonasbader7/repos?sort=pushed&per_page=10";
+/* ---------- 5. Neuste GitHub-Repositories ---------- */
+let repos = null;       // geladene Liste, null = noch am Laden
+let repoFehler = false; // true, wenn die API nicht erreichbar war
 
+async function ladeRepos() {
+    const url = "https://api.github.com/users/Jonasbader7/repos?sort=pushed&per_page=10";
     try {
         const antwort = await fetch(url);
         if (!antwort.ok) {
             throw new Error("HTTP " + antwort.status);
         }
-        const repos = await antwort.json();
-        liste.innerHTML = "";
-
+        const alle = await antwort.json();
         // Nur eigene Repos (keine Forks), die neusten drei
-        const neuste = repos
-            .filter(function (repo) { return !repo.fork; })
-            .slice(0, 3);
-
-        // Leerzustand: keine öffentlichen Repos gefunden
-        if (neuste.length === 0) {
-            const li = document.createElement("li");
-            li.className = "muted";
-            li.textContent = "Noch keine öffentlichen Projekte.";
-            liste.append(li);
-            return;
-        }
-
-        neuste.forEach(function (repo) {
-            const li = document.createElement("li");
-            const link = document.createElement("a");
-            link.href = repo.html_url;
-            // textContent statt innerHTML: Text von aussen wird nie als HTML ausgeführt
-            link.textContent = repo.name;
-
-            const datum = document.createElement("span");
-            datum.textContent = " · " + new Date(repo.pushed_at).toLocaleDateString("de-CH");
-
-            li.append(link, datum);
-            liste.append(li);
-        });
+        repos = alle.filter(function (repo) { return !repo.fork; }).slice(0, 3);
     } catch (fehler) {
         // z. B. offline oder API-Limit erreicht
-        liste.innerHTML = "";
-        const li = document.createElement("li");
-        li.className = "muted";
-        li.textContent = "Gerade nicht erreichbar.";
-        liste.append(li);
+        repoFehler = true;
     }
+    zeigeRepos();
 }
 
-ladeRepos();
+// Liste in der aktuellen Sprache anzeigen (wird auch beim Sprachwechsel aufgerufen)
+function zeigeRepos() {
+    const liste = document.querySelector("#repo-liste");
+    if (repos === null && !repoFehler) {
+        return; // lädt noch, Platzhalter bleibt stehen
+    }
+    liste.innerHTML = "";
+
+    if (repoFehler || repos.length === 0) {
+        const li = document.createElement("li");
+        li.className = "muted";
+        li.textContent = repoFehler ? t("repo.error") : t("repo.empty");
+        liste.append(li);
+        return;
+    }
+
+    repos.forEach(function (repo) {
+        const li = document.createElement("li");
+        const link = document.createElement("a");
+        link.href = repo.html_url;
+        // textContent statt innerHTML: Text von aussen wird nie als HTML ausgeführt
+        link.textContent = repo.name;
+
+        const datum = document.createElement("span");
+        datum.textContent = " · " + new Date(repo.pushed_at).toLocaleDateString(sprachformat[aktuelleSprache]);
+
+        li.append(link, datum);
+        liste.append(li);
+    });
+}
 
 
-/* ---------- 5. Kontaktformular ---------- */
+/* ---------- 6. Kontaktformular ---------- */
+// Web3Forms leitet das Formular per E-Mail weiter. Der Zugangsschlüssel darf öffentlich sein:
+// er erlaubt nur, Nachrichten an die hinterlegte Adresse zu schicken.
+const WEB3FORMS_KEY = "28c9c615-a07b-4a9a-b0ea-83af4ea7c8b8";
+
 const formular = document.querySelector("#kontaktformular");
 const statusText = document.querySelector("#formular-status");
-const felder = formular.querySelectorAll("input, textarea");
+const sendenKnopf = formular.querySelector("button[type=submit]");
+const felder = formular.querySelectorAll("input:not(.honeypot), textarea");
 
 // Prüfregeln: pro Feld eine Funktion, die eine Fehlermeldung oder "" zurückgibt
 const regeln = {
     name: function (wert) {
-        return wert.length < 2 ? "Bitte gib deinen Namen ein." : "";
+        return wert.length < 2 ? t("err.name") : "";
     },
     email: function (wert) {
         // einfaches Muster: etwas@etwas.etwas
         const muster = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-        return muster.test(wert) ? "" : "Bitte gib eine gültige E-Mail-Adresse ein.";
+        return muster.test(wert) ? "" : t("err.email");
     },
     nachricht: function (wert) {
-        return wert.length < 20 ? "Bitte schreib mindestens 20 Zeichen (aktuell " + wert.length + ")." : "";
+        return wert.length < 20 ? t("err.message").replace("{n}", wert.length) : "";
     }
 };
 
@@ -157,29 +295,66 @@ felder.forEach(function (feld) {
     });
 });
 
-formular.addEventListener("submit", function (event) {
+function zeigeStatus(text, istFehler) {
+    statusText.textContent = text;
+    statusText.classList.toggle("is-error", istFehler);
+    statusText.hidden = false;
+}
+
+formular.addEventListener("submit", async function (event) {
     event.preventDefault(); // Seite nicht neu laden
 
+    // 1. Alle Felder prüfen, beim ersten Fehler dorthin springen
     let erstesFehlerfeld = null;
     felder.forEach(function (feld) {
         if (!pruefeFeld(feld) && erstesFehlerfeld === null) {
             erstesFehlerfeld = feld;
         }
     });
-
     if (erstesFehlerfeld !== null) {
         statusText.hidden = true;
-        erstesFehlerfeld.focus(); // direkt zum ersten Fehler springen
+        erstesFehlerfeld.focus();
         return;
     }
 
-    // Kein echter Versand: Bestätigung anzeigen und Formular leeren
-    statusText.textContent = "Danke! Alles korrekt ausgefüllt. Diese Seite verschickt noch keine E-Mails, " +
-        "am schnellsten erreichst du mich über GitHub.";
-    statusText.hidden = false;
-    formular.reset();
+    // 2. An Web3Forms senden
+    sendenKnopf.disabled = true;
+    zeigeStatus(t("form.sending"), false);
+
+    try {
+        const antwort = await fetch("https://api.web3forms.com/submit", {
+            method: "POST",
+            headers: { "Content-Type": "application/json", "Accept": "application/json" },
+            body: JSON.stringify({
+                access_key: WEB3FORMS_KEY,
+                subject: "Neue Nachricht über das Portfolio",
+                from_name: "Portfolio Jonas Bader",
+                // formular.elements.name statt formular.name: formular.name wäre das name-Attribut des Formulars
+                name: formular.elements.name.value.trim(),
+                email: formular.elements.email.value.trim(),
+                message: formular.elements.nachricht.value.trim(),
+                botcheck: formular.elements.botcheck.checked
+            })
+        });
+        const resultat = await antwort.json();
+        if (!resultat.success) {
+            throw new Error(resultat.message);
+        }
+
+        zeigeStatus(t("form.success"), false);
+        formular.reset();
+    } catch (fehler) {
+        zeigeStatus(t("form.fail"), true);
+    } finally {
+        sendenKnopf.disabled = false; // Knopf in jedem Fall wieder freigeben
+    }
 });
 
 
-/* ---------- 6. Jahr im Footer ---------- */
+/* ---------- 7. Jahr im Footer ---------- */
 document.querySelector("#year").textContent = new Date().getFullYear();
+
+
+/* ---------- Start ---------- */
+ladeRepos();
+setzeSprache(startSprache());

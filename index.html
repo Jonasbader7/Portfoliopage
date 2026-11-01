@@ -15,7 +15,14 @@
 
 <body>
 
-    <a href="#main" class="skip-link">Zum Inhalt springen</a>
+    <!--
+        Mehrsprachigkeit: Deutsch steht direkt im HTML.
+        Elemente mit data-i18n="schluessel" bekommen beim Sprachwechsel den Text
+        aus lang/en.json oder lang/fr.json (script.js, Teil 1).
+        data-i18n-alt und data-i18n-aria übersetzen alt-Texte und aria-labels.
+    -->
+
+    <a href="#main" class="skip-link" data-i18n="nav.skip">Zum Inhalt springen</a>
 
     <!-- ===== Kopfzeile mit Navigation ===== -->
     <header class="site-header">
@@ -24,36 +31,44 @@
         <!-- Nur auf dem Handy sichtbar: klappt die Navigation auf und zu (script.js) -->
         <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="hauptnav">
             <span class="nav-toggle-bar" aria-hidden="true"></span>
-            <span class="visually-hidden">Menü öffnen</span>
+            <span class="visually-hidden" id="nav-toggle-text">Menü öffnen</span>
         </button>
 
-        <nav id="hauptnav" class="main-nav" aria-label="Hauptnavigation">
+        <nav id="hauptnav" class="main-nav" aria-label="Hauptnavigation" data-i18n-aria="nav.aria">
             <ul class="nav-list">
-                <li><a href="#profile">Über mich</a></li>
-                <li><a href="#projects">Projekte</a></li>
-                <li><a href="#contact">Kontakt</a></li>
+                <li><a href="#profile" data-i18n="nav.about">Über mich</a></li>
+                <li><a href="#projects" data-i18n="nav.projects">Projekte</a></li>
+                <li><a href="#contact" data-i18n="nav.contact">Kontakt</a></li>
             </ul>
         </nav>
+
+        <!-- Sprachumschalter: drei Knöpfe, der aktive ist mit aria-pressed markiert -->
+        <div class="lang-switch" role="group" aria-label="Sprache" data-i18n-aria="lang.aria">
+            <button type="button" data-lang="de" aria-pressed="true" lang="de">DE</button>
+            <button type="button" data-lang="en" aria-pressed="false" lang="en">EN</button>
+            <button type="button" data-lang="fr" aria-pressed="false" lang="fr">FR</button>
+        </div>
     </header>
 
 
     <!-- ===== Einstieg ===== -->
     <section id="top" class="hero">
-        <img class="hero-foto" src="img/jonas-bader.jpg" alt="Porträt von Jonas Bader" width="720" height="720">
+        <img class="hero-foto" src="img/jonas-bader.jpg" alt="Porträt von Jonas Bader" data-i18n-alt="hero.alt"
+            width="720" height="720">
 
         <h1>Jonas Bader</h1>
 
-        <p class="hero-role">Digital Business &amp; AI · Datenanalyse · Bern</p>
+        <p class="hero-role" data-i18n="hero.role">Digital Business &amp; AI · Datenanalyse · Bern</p>
 
-        <p class="hero-intro">
+        <p class="hero-intro" data-i18n="hero.intro">
             Ich beschäftige mich gern mit Daten, Mathematik und kniffligen Fragen.
             Hier zeige ich Projekte, an denen ich gearbeitet habe: was sie tun, wie sie funktionieren
             und was ich dabei herausgefunden habe.
         </p>
 
         <div class="hero-actions">
-            <a href="#projects" class="cta">Projekte entdecken</a>
-            <a href="#contact" class="cta cta-secondary">Kontakt aufnehmen</a>
+            <a href="#projects" class="cta" data-i18n="hero.ctaProjects">Projekte entdecken</a>
+            <a href="#contact" class="cta cta-secondary" data-i18n="hero.ctaContact">Kontakt aufnehmen</a>
         </div>
     </section>
 
@@ -61,9 +76,9 @@
     <!-- ===== Seitenlayout: Grid mit Seitenleiste und Hauptinhalt ===== -->
     <div class="layout">
 
-        <aside class="sidebar" aria-label="Kurzprofil">
+        <aside class="sidebar" aria-label="Kurzprofil" data-i18n-aria="side.aria">
             <section>
-                <h2>Kompetenzen</h2>
+                <h2 data-i18n="side.skills">Kompetenzen</h2>
                 <ul class="tag-list">
                     <li>Python</li>
                     <li>R</li>
@@ -77,20 +92,20 @@
             </section>
 
             <section>
-                <h2>Sprachen</h2>
-                <p>Deutsch, Englisch, Französisch</p>
+                <h2 data-i18n="side.languages">Sprachen</h2>
+                <p data-i18n="side.languagesText">Deutsch, Englisch, Französisch</p>
             </section>
 
             <section>
-                <h2>Ausserhalb des Studiums</h2>
-                <p>Triathlon, Unihockey, Klettern, Musik</p>
+                <h2 data-i18n="side.outside">Ausserhalb des Studiums</h2>
+                <p data-i18n="side.outsideText">Triathlon, Unihockey, Klettern, Musik</p>
             </section>
 
             <!-- Wird per fetch() von der GitHub-API gefüllt (script.js) -->
             <section>
-                <h2>Zuletzt auf GitHub</h2>
+                <h2 data-i18n="side.github">Zuletzt auf GitHub</h2>
                 <ul class="plain-list" id="repo-liste">
-                    <li class="muted">wird geladen …</li>
+                    <li class="muted">…</li>
                 </ul>
             </section>
         </aside>
@@ -99,22 +114,22 @@
         <main id="main">
 
             <section id="profile">
-                <h2>Über mich</h2>
+                <h2 data-i18n="about.title">Über mich</h2>
 
-                <p class="lead">
+                <p class="lead" data-i18n="about.lead">
                     Ich liebe Daten, Mathematik und komplexe Probleme, vor allem dann,
                     wenn die Lösung Menschen und der Natur etwas Gutes tut.
                 </p>
-                <p>
+                <p data-i18n="about.p1">
                     Ich studiere Digital Business &amp; AI an der Berner Fachhochschule, mit Schwerpunkt
                     Datenanalyse. Mich interessiert, wie Daten und Software im Alltag echte Probleme lösen.
                 </p>
-                <p>
+                <p data-i18n="about.p2">
                     Zahlen begleiten mich schon lange: zuerst in der Bank, dann in einer Passerelle und
                     im Physikstudium. Heute interessiert mich vor allem die Anwendung, also Mathematik,
                     die man auf einer Karte oder in einer App sieht.
                 </p>
-                <p>
+                <p data-i18n="about.p3">
                     Ausgleich finde ich im Ausdauersport: Ich trainiere für Triathlon bis zur
                     Ironman-Distanz, am liebsten draussen in der Natur.
                 </p>
@@ -122,7 +137,7 @@
 
 
             <section id="projects">
-                <h2>Projekte</h2>
+                <h2 data-i18n="projects.title">Projekte</h2>
 
                 <ul class="project-list">
 
@@ -130,19 +145,19 @@
                     <li class="project-card project-card-featured">
                         <article>
                             <figure class="project-image">
-                                <img src="img/bors-app.jpg"
+                                <img src="img/bors-app.jpg" data-i18n-alt="bors.alt"
                                     alt="BORS-Web-App: Karte von Bern, Strassen grün, gelb oder rot eingefärbt je nach Befahrbarkeit"
                                     width="800" height="500" loading="lazy">
                             </figure>
 
-                            <p class="project-meta">Hauptprojekt · Modul BCS</p>
+                            <p class="project-meta" data-i18n="bors.meta">Hauptprojekt · Modul BCS</p>
                             <h3>BORS Bern</h3>
-                            <p>
+                            <p data-i18n="bors.text">
                                 Einsatzrouting für Blaulichtfahrzeuge: Welche Strasse ist für welches Fahrzeug physisch
                                 passierbar? BORS prüft für Notarzt, Rettungswagen und zwei Feuerwehrfahrzeuge, ob Breite,
                                 Höhe und Gewicht reichen, und berechnet darauf die Route, in Bern und zehn Nachbargemeinden.
                             </p>
-                            <p class="project-role"><strong>Mein Teil:</strong> die gesamte technische Umsetzung,
+                            <p class="project-role" data-i18n="bors.role"><strong>Mein Teil:</strong> die gesamte technische Umsetzung,
                                 von der Datenaufbereitung und Breitenmessung über den Router bis zur Web-App.</p>
 
                             <ul class="tag-list">
@@ -150,24 +165,24 @@
                                 <li>QGIS</li>
                                 <li>SQLite</li>
                                 <li>JavaScript</li>
-                                <li>Geodaten</li>
+                                <li data-i18n="tag.geodata">Geodaten</li>
                             </ul>
 
                             <!-- Zusatzinfos: per Knopf auf- und zuklappen (script.js) -->
                             <div class="project-details" id="details-bors" hidden>
                                 <div class="details-grid">
                                     <figure>
-                                        <img src="img/bors-route.jpg"
+                                        <img src="img/bors-route.jpg" data-i18n-alt="bors.routeAlt"
                                             alt="Beispielroute zur Felsenaubrücke: grosse Feuerwehr fährt einen Umweg von 6,8 km"
                                             width="800" height="500" loading="lazy">
-                                        <figcaption>Beispiel Felsenaubrücke: Notarzt und Rettungswagen fahren direkt,
-                                            die grosse Feuerwehr braucht 6,8 km Umweg.</figcaption>
+                                        <figcaption data-i18n="bors.routeCap">Beispiel Felsenaubrücke: Notarzt und Rettungswagen
+                                            fahren direkt, die grosse Feuerwehr braucht 6,8 km Umweg.</figcaption>
                                     </figure>
                                     <figure>
-                                        <img src="img/bors-netz.jpg"
+                                        <img src="img/bors-netz.jpg" data-i18n-alt="bors.netAlt"
                                             alt="Gesamtes BORS-Strassennetz, eingefärbt nach Zustand für das grosse Feuerwehrfahrzeug"
                                             width="1760" height="1100" loading="lazy">
-                                        <figcaption>Das ganze Netz für die grosse Feuerwehr:
+                                        <figcaption data-i18n="bors.netCap">Das ganze Netz für die grosse Feuerwehr:
                                             grün validiert, gelb unvalidiert, rot gesperrt.</figcaption>
                                     </figure>
                                 </div>
@@ -175,50 +190,53 @@
                                 <!-- Projektaufbau in fünf Schritten: vom Problem bis zu den Grenzen -->
                                 <ol class="case-steps">
                                     <li>
-                                        <h4>Die Frage</h4>
-                                        <p>Eine gewöhnliche Navigation rechnet mit Autos, nicht mit einem drei Meter breiten
-                                            Feuerwehrfahrzeug. Welche Strassen passen also für welches Fahrzeug?</p>
+                                        <h4 data-i18n="bors.s1h">Die Frage</h4>
+                                        <p data-i18n="bors.s1p">Eine gewöhnliche Navigation rechnet mit Autos, nicht mit einem drei
+                                            Meter breiten Feuerwehrfahrzeug. Welche Strassen passen also für welches Fahrzeug?</p>
                                     </li>
                                     <li>
-                                        <h4>Was es schwierig macht</h4>
-                                        <p>Die befahrbare Breite einer Strasse steht in keiner Datenquelle direkt.
+                                        <h4 data-i18n="bors.s2h">Was es schwierig macht</h4>
+                                        <p data-i18n="bors.s2p">Die befahrbare Breite einer Strasse steht in keiner Datenquelle direkt.
                                             Parkfelder, Mauern und Pfeiler verengen sie, und jede Messung hat eine Toleranz.
                                             Höhen- und Gewichtslimiten aus OpenStreetMap sind nicht vor Ort bestätigt.</p>
                                     </li>
                                     <li>
-                                        <h4>Wie BORS es löst</h4>
-                                        <p>Ich messe die Breite aus der amtlichen Vermessung mit Querprofilen
+                                        <h4 data-i18n="bors.s3h">Wie BORS es löst</h4>
+                                        <p data-i18n="bors.s3p">Ich messe die Breite aus der amtlichen Vermessung mit Querprofilen
                                             und ziehe pro Strassenrand eine Messtoleranz ab. Jede Strasse erhält pro Fahrzeug
                                             einen von drei Zuständen: validiert, unvalidiert oder gesperrt. Geroutet wird
                                             zuerst nur über validierte Strassen.</p>
-                                        <p><strong>Eine Entscheidung dabei:</strong> lieber eine Strasse als «unvalidiert» markieren
-                                            als falsche Sicherheit versprechen. Gibt es keinen validierten Weg, zeigt BORS eine
-                                            Ausweichroute, kennzeichnet sie und rechnet unsichere Abschnitte mit doppelter Zeit.</p>
+                                        <p data-i18n="bors.s3p2"><strong>Eine Entscheidung dabei:</strong> lieber eine Strasse als
+                                            «unvalidiert» markieren als falsche Sicherheit versprechen. Gibt es keinen validierten
+                                            Weg, zeigt BORS eine Ausweichroute, kennzeichnet sie und rechnet unsichere Abschnitte
+                                            mit doppelter Zeit.</p>
                                     </li>
                                     <li>
-                                        <h4>Was geprüft ist und was nicht</h4>
-                                        <p><strong>Geprüft:</strong> Die Web-App rechnet gleich wie der Router in QGIS,
-                                            325 von 325 Testrouten sind identisch.</p>
-                                        <p><strong>Nicht geprüft:</strong> BORS wurde nicht im Einsatz und nicht systematisch
-                                            vor Ort getestet. Es ist ein Prototyp ohne Einsatzfreigabe.</p>
+                                        <h4 data-i18n="bors.s4h">Was geprüft ist und was nicht</h4>
+                                        <p data-i18n="bors.s4p"><strong>Geprüft:</strong> Die Web-App rechnet gleich wie der Router
+                                            in QGIS, 325 von 325 Testrouten sind identisch.</p>
+                                        <p data-i18n="bors.s4p2"><strong>Nicht geprüft:</strong> BORS wurde nicht im Einsatz und nicht
+                                            systematisch vor Ort getestet. Es ist ein Prototyp ohne Einsatzfreigabe.</p>
                                     </li>
                                     <li>
-                                        <h4>Wie es weitergehen könnte</h4>
-                                        <p>BORS kann Engstellen für grosse Fahrzeuge vorab sichtbar machen. Ob es im Einsatz
-                                            Zeit spart, ist offen. Der nächste Schritt wäre, kritische Stellen vor Ort
-                                            zu überprüfen.</p>
+                                        <h4 data-i18n="bors.s5h">Wie es weitergehen könnte</h4>
+                                        <p data-i18n="bors.s5p">BORS kann Engstellen für grosse Fahrzeuge vorab sichtbar machen.
+                                            Ob es im Einsatz Zeit spart, ist offen. Der nächste Schritt wäre, kritische Stellen
+                                            vor Ort zu überprüfen.</p>
                                     </li>
                                 </ol>
 
                                 <!-- Die Live-App wird erst auf Klick geladen, weil sie gross ist (script.js) -->
                                 <div class="live-preview" id="bors-live">
-                                    <button type="button" class="button-secondary" id="bors-live-button">Live-Vorschau hier laden</button>
+                                    <button type="button" class="button-secondary" id="bors-live-button"
+                                        data-i18n="bors.live">Live-Vorschau hier laden</button>
                                 </div>
                             </div>
 
                             <div class="card-actions">
-                                <button type="button" class="details-toggle" aria-expanded="false" aria-controls="details-bors">Mehr erfahren</button>
-                                <a href="https://jonasbader7.github.io/BORS/">Zur Web-App</a>
+                                <button type="button" class="details-toggle" aria-expanded="false"
+                                    aria-controls="details-bors">Mehr erfahren</button>
+                                <a href="https://jonasbader7.github.io/BORS/" data-i18n="bors.link">Zur Web-App</a>
                             </div>
                         </article>
                     </li>
@@ -226,18 +244,19 @@
                     <li class="project-card">
                         <article>
                             <figure class="project-image">
-                                <img src="img/splitmate-schulden-anonym.png"
+                                <img src="img/splitmate-schulden-anonym.png" data-i18n-alt="sm.alt"
                                     alt="SplitMate-Schuldenübersicht: Total 20 CHF, zwei Personen zahlen je 10 CHF an eine dritte"
                                     width="728" height="425" loading="lazy">
                             </figure>
 
-                            <p class="project-meta">Teamprojekt · Software Engineering</p>
+                            <p class="project-meta" data-i18n="sm.meta">Teamprojekt · Software Engineering</p>
                             <h3>SplitMate</h3>
-                            <p>
+                            <p data-i18n="sm.text">
                                 Web-App, mit der eine WG ihre Kosten fair aufteilt: Gruppe erstellen, Ausgaben erfassen,
                                 und die App zeigt, wer wem wie viel schuldet.
                             </p>
-                            <p class="project-role"><strong>Mein Teil:</strong> Schuldenberechnung im Backend und Frontend-Setup.</p>
+                            <p class="project-role" data-i18n="sm.role"><strong>Mein Teil:</strong> Schuldenberechnung im
+                                Backend und Frontend-Setup.</p>
 
                             <ul class="tag-list">
                                 <li>Vue 3</li>
@@ -248,31 +267,31 @@
 
                             <div class="project-details" id="details-splitmate" hidden>
                                 <figure>
-                                    <img src="img/splitmate-app.jpg"
+                                    <img src="img/splitmate-app.jpg" data-i18n-alt="sm.startAlt"
                                         alt="SplitMate-Startseite mit Formularen zum Erstellen und Beitreten einer Gruppe"
                                         width="760" height="730" loading="lazy">
-                                    <figcaption>Startseite: Gruppe erstellen oder mit Code beitreten.</figcaption>
+                                    <figcaption data-i18n="sm.startCap">Startseite: Gruppe erstellen oder mit Code beitreten.</figcaption>
                                 </figure>
-                                <h4>Architektur</h4>
+                                <h4 data-i18n="sm.archH">Architektur</h4>
                                 <ul>
-                                    <li><strong>Frontend:</strong> Vue 3 mit Vue Router, gebaut mit Vite.</li>
-                                    <li><strong>Backend:</strong> Strapi 5 als REST-API, Daten in SQLite.</li>
-                                    <li><strong>Kommunikation:</strong> Das Frontend ruft die API mit <code>fetch()</code> auf.
-                                        Beim Anmelden liefert Strapi ein JWT-Token zurück.</li>
-                                    <li><strong>Eigener Endpunkt:</strong> <code>GET /api/expenses/schulden</code> berechnet die
-                                        Schulden auf dem Server und gibt eine Liste von Zahlungen zurück.</li>
+                                    <li data-i18n="sm.arch1"><strong>Frontend:</strong> Vue 3 mit Vue Router, gebaut mit Vite.</li>
+                                    <li data-i18n="sm.arch2"><strong>Backend:</strong> Strapi 5 als REST-API, Daten in SQLite.</li>
+                                    <li data-i18n="sm.arch3"><strong>Kommunikation:</strong> Das Frontend ruft die API mit
+                                        <code>fetch()</code> auf. Beim Anmelden liefert Strapi ein JWT-Token zurück.</li>
+                                    <li data-i18n="sm.arch4"><strong>Eigener Endpunkt:</strong> <code>GET /api/expenses/schulden</code>
+                                        berechnet die Schulden auf dem Server und gibt eine Liste von Zahlungen zurück.</li>
                                 </ul>
 
-                                <h4>Die Schuldenberechnung</h4>
+                                <h4 data-i18n="sm.calcH">Die Schuldenberechnung</h4>
                                 <ol>
-                                    <li>Pro Person zusammenzählen, was sie bezahlt hat.</li>
-                                    <li>Gesamtbetrag gleichmässig verteilen: Saldo = bezahlt − Anteil.</li>
-                                    <li>Schuldner und Gläubiger der Reihe nach ausgleichen, bis alle Salden null sind.
-                                        So braucht es höchstens eine Zahlung weniger, als es Personen gibt.</li>
+                                    <li data-i18n="sm.calc1">Pro Person zusammenzählen, was sie bezahlt hat.</li>
+                                    <li data-i18n="sm.calc2">Gesamtbetrag gleichmässig verteilen: Saldo = bezahlt − Anteil.</li>
+                                    <li data-i18n="sm.calc3">Schuldner und Gläubiger der Reihe nach ausgleichen, bis alle Salden
+                                        null sind. So braucht es höchstens eine Zahlung weniger, als es Personen gibt.</li>
                                 </ol>
 
-                                <h4>Grenzen und nächster Schritt</h4>
-                                <p>
+                                <h4 data-i18n="sm.limitsH">Grenzen und nächster Schritt</h4>
+                                <p data-i18n="sm.limits">
                                     Die Berechnung verteilt heute alle Ausgaben gleichmässig auf die Personen, die selbst
                                     etwas bezahlt haben, und noch nicht pro Gruppe. Als Nächstes müsste sie pro Gruppe
                                     rechnen und berücksichtigen, für wen eine Ausgabe war.
@@ -280,7 +299,8 @@
                             </div>
 
                             <div class="card-actions">
-                                <button type="button" class="details-toggle" aria-expanded="false" aria-controls="details-splitmate">Mehr erfahren</button>
+                                <button type="button" class="details-toggle" aria-expanded="false"
+                                    aria-controls="details-splitmate">Mehr erfahren</button>
                             </div>
                         </article>
                     </li>
@@ -288,28 +308,28 @@
                     <li class="project-card">
                         <article>
                             <figure class="project-image">
-                                <img src="img/r-analyse-interaktion.png"
+                                <img src="img/r-analyse-interaktion.png" data-i18n-alt="r.alt"
                                     alt="Streudiagramm: Lebenserwartung sinkt mit steigendem Raucheranteil, in einkommensstarken Regionen steiler"
                                     width="1400" height="900" loading="lazy">
                             </figure>
 
-                            <p class="project-meta">Gruppenprojekt · Datenmanagement &amp; Datenanalyse</p>
-                            <h3>Datenanalyse Lebenserwartung (R)</h3>
-                            <p>
+                            <p class="project-meta" data-i18n="r.meta">Gruppenprojekt · Datenmanagement &amp; Datenanalyse</p>
+                            <h3 data-i18n="r.title">Datenanalyse Lebenserwartung (R)</h3>
+                            <p data-i18n="r.text">
                                 Regressionsmodelle zum Zusammenhang von Lebenserwartung, Raucheranteil und Einkommen
                                 in 100 US-Regionen.
                             </p>
-                            <p class="project-role"><strong>Mein Teil:</strong> der gesamte Analyseteil.</p>
+                            <p class="project-role" data-i18n="r.role"><strong>Mein Teil:</strong> der gesamte Analyseteil.</p>
 
                             <ul class="tag-list">
                                 <li>R</li>
-                                <li>Regression</li>
-                                <li>Interaktionseffekte</li>
+                                <li data-i18n="tag.regression">Regression</li>
+                                <li data-i18n="tag.interaction">Interaktionseffekte</li>
                             </ul>
 
                             <div class="project-details" id="details-r" hidden>
-                                <h4>Ergebnis</h4>
-                                <p>
+                                <h4 data-i18n="r.resultH">Ergebnis</h4>
+                                <p data-i18n="r.result">
                                     Rauchen senkt die Lebenserwartung, und in einkommensstärkeren Regionen ist dieser
                                     Effekt stärker (Interaktion Raucheranteil × Einkommen). Die Modelle habe ich mit
                                     einer Residuendiagnostik geprüft.
@@ -317,24 +337,25 @@
                             </div>
 
                             <div class="card-actions">
-                                <button type="button" class="details-toggle" aria-expanded="false" aria-controls="details-r">Mehr erfahren</button>
+                                <button type="button" class="details-toggle" aria-expanded="false"
+                                    aria-controls="details-r">Mehr erfahren</button>
                             </div>
                         </article>
                     </li>
 
                     <li class="project-card">
                         <article>
-                            <p class="project-meta">Studienkonzept</p>
+                            <p class="project-meta" data-i18n="unia.meta">Studienkonzept</p>
                             <h3>Unia AI Assistant</h3>
-                            <p>
+                            <p data-i18n="unia.text">
                                 Konzept für einen KI-Assistenten, der Unterlagen für die Arbeitslosenkasse erkennt,
                                 auf Vollständigkeit prüft und weiterleitet.
                             </p>
-                            <p class="project-role"><strong>Mein Teil:</strong> IT-Architektur (Cloud, APIs, Sicherheit)
-                                und Digitalstrategie (KPIs, Roadmap).</p>
+                            <p class="project-role" data-i18n="unia.role"><strong>Mein Teil:</strong> IT-Architektur
+                                (Cloud, APIs, Sicherheit) und Digitalstrategie (KPIs, Roadmap).</p>
                             <ul class="tag-list">
-                                <li>Architektur</li>
-                                <li>Digitalstrategie</li>
+                                <li data-i18n="tag.architecture">Architektur</li>
+                                <li data-i18n="tag.strategy">Digitalstrategie</li>
                             </ul>
                         </article>
                     </li>
@@ -343,11 +364,11 @@
                         <article>
                             <p class="project-meta">Requirements Engineering</p>
                             <h3>2sports</h3>
-                            <p>
+                            <p data-i18n="two.text">
                                 Anforderungen an eine App, mit der man spontan Sportpartner:innen in der Nähe findet.
                             </p>
-                            <p class="project-role"><strong>Mein Teil:</strong> Variantenübersicht, Detailanforderungen
-                                und Stakeholderliste.</p>
+                            <p class="project-role" data-i18n="two.role"><strong>Mein Teil:</strong> Variantenübersicht,
+                                Detailanforderungen und Stakeholderliste.</p>
                             <ul class="tag-list">
                                 <li>Requirements</li>
                                 <li>Stakeholder</li>
@@ -357,12 +378,13 @@
 
                     <li class="project-card">
                         <article>
-                            <p class="project-meta">Servicekonzept</p>
+                            <p class="project-meta" data-i18n="tc.meta">Servicekonzept</p>
                             <h3>TrainCast</h3>
-                            <p>Servicekonzept, das Trainings automatisch in freie Kalenderlücken und trockenes Wetter plant.</p>
+                            <p data-i18n="tc.text">Servicekonzept, das Trainings automatisch in freie Kalenderlücken und
+                                trockenes Wetter plant.</p>
                             <ul class="tag-list">
                                 <li>Service Design</li>
-                                <li>Wetterdaten</li>
+                                <li data-i18n="tag.weather">Wetterdaten</li>
                             </ul>
                         </article>
                     </li>
@@ -372,37 +394,45 @@
 
 
             <section id="contact">
-                <h2>Kontakt</h2>
+                <h2 data-i18n="contact.title">Kontakt</h2>
 
-                <p>
+                <p data-i18n="contact.text">
                     Am einfachsten erreichst du mich über
                     <a href="https://github.com/Jonasbader7">GitHub</a> oder über dieses Formular.
                 </p>
 
-                <!-- novalidate: die Prüfung macht unser JavaScript, damit die Meldungen einheitlich aussehen -->
+                <!-- novalidate: die Prüfung macht unser JavaScript, damit die Meldungen einheitlich aussehen.
+                     Der Versand läuft über den Dienst Web3Forms (script.js, Teil 6). -->
                 <form id="kontaktformular" class="contact-form" novalidate>
                     <div class="field">
-                        <label for="name">Name</label>
+                        <label for="name" data-i18n="form.name">Name</label>
                         <input type="text" id="name" name="name" autocomplete="name" required
                             aria-describedby="name-fehler">
                         <p class="field-error" id="name-fehler" aria-live="polite"></p>
                     </div>
 
                     <div class="field">
-                        <label for="email">E-Mail</label>
+                        <label for="email" data-i18n="form.email">E-Mail</label>
                         <input type="email" id="email" name="email" autocomplete="email" required
                             aria-describedby="email-fehler">
                         <p class="field-error" id="email-fehler" aria-live="polite"></p>
                     </div>
 
                     <div class="field field-wide">
-                        <label for="nachricht">Nachricht</label>
+                        <label for="nachricht" data-i18n="form.message">Nachricht</label>
                         <textarea id="nachricht" name="nachricht" rows="5" required
                             aria-describedby="nachricht-fehler"></textarea>
                         <p class="field-error" id="nachricht-fehler" aria-live="polite"></p>
                     </div>
 
-                    <button type="submit" class="cta">Nachricht senden</button>
+                    <!-- Honeypot gegen Spam-Bots: für Menschen unsichtbar, Bots füllen es oft aus -->
+                    <input type="checkbox" name="botcheck" class="honeypot" tabindex="-1" autocomplete="off"
+                        aria-hidden="true">
+
+                    <p class="form-note" data-i18n="form.privacy">Die Nachricht wird über den Dienst Web3Forms
+                        an meine E-Mail-Adresse weitergeleitet und nur für die Antwort verwendet.</p>
+
+                    <button type="submit" class="cta" data-i18n="form.submit">Nachricht senden</button>
                     <p class="form-status" id="formular-status" role="status" hidden></p>
                 </form>
             </section>
@@ -413,7 +443,8 @@
 
 
     <footer class="site-footer">
-        <p>&copy; <span id="year"></span> Jonas Bader · <a href="https://github.com/Jonasbader7/Portfoliopage">Code auf GitHub</a></p>
+        <p>&copy; <span id="year"></span> Jonas Bader · <a href="https://github.com/Jonasbader7/Portfoliopage"
+                data-i18n="footer.code">Code auf GitHub</a></p>
     </footer>
 
 
