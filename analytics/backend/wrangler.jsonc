@@ -1,0 +1,10 @@
+{
+  "name": "jonas-portfolio-analytics",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-10-01",
+  "triggers": {"crons": ["0 3 * * *"]},
+  "d1_databases": [
+    {"binding": "DB", "database_name": "jonas-analytics", "database_id": "REPLACE_WITH_YOUR_D1_DATABASE_ID"}
+  ],
+  "vars": {"ALLOWED_ORIGINS": "https://jonasbader7.github.io"}
+}
