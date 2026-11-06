@@ -31,6 +31,7 @@
     "about.p3": "Je trouve mon équilibre dans les sports d’endurance : je m’entraîne pour le triathlon jusqu’à la distance Ironman, de préférence dehors, dans la nature.",
 
     "projects.title": "Projets",
+    "projects.more": "Autres travaux",
     "toggle.more": "En savoir plus",
     "toggle.less": "Afficher moins",
 
@@ -85,7 +86,8 @@
     "tag.regression": "Régression",
     "tag.interaction": "Effets d’interaction",
     "r.resultH": "Résultat",
-    "r.result": "Le tabagisme réduit l’espérance de vie, et cet effet est plus fort dans les régions à revenu élevé (interaction part de fumeurs × revenu). J’ai vérifié les modèles par un diagnostic des résidus.",
+    "r.result": "Les régions où la part de fumeurs est plus élevée ont en moyenne une espérance de vie plus basse, et ce lien est plus marqué dans les régions à revenu élevé (interaction part de fumeurs × revenu). J’ai vérifié les modèles par un diagnostic des résidus.",
+    "r.limit": "Comme il s’agit de données d’observation, l’analyse montre une corrélation, pas un effet causal.",
 
     "unia.meta": "Concept d’étude",
     "unia.text": "Concept d’un assistant IA qui reconnaît les documents destinés à la caisse de chômage, vérifie qu’ils sont complets et les transmet.",

@@ -31,6 +31,7 @@
     "about.p3": "I find balance in endurance sports: I train for triathlon up to the Ironman distance, preferably outdoors in nature.",
 
     "projects.title": "Projects",
+    "projects.more": "Further work",
     "toggle.more": "Learn more",
     "toggle.less": "Show less",
 
@@ -85,7 +86,8 @@
     "tag.regression": "Regression",
     "tag.interaction": "Interaction effects",
     "r.resultH": "Result",
-    "r.result": "Smoking lowers life expectancy, and in higher-income regions this effect is stronger (interaction share of smokers × income). I checked the models with residual diagnostics.",
+    "r.result": "Regions with a higher share of smokers have a lower life expectancy on average, and in higher-income regions this relationship is steeper (interaction share of smokers × income). I checked the models with residual diagnostics.",
+    "r.limit": "Because these are observational data, the analysis shows an association, not a causal effect.",
 
     "unia.meta": "Study concept",
     "unia.text": "Concept for an AI assistant that recognises documents for the unemployment insurance fund, checks them for completeness and forwards them.",
