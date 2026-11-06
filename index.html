@@ -9,6 +9,18 @@
 
     <title>Jonas Bader | Portfolio</title>
 
+    <!-- Vorschau beim Teilen des Links (LinkedIn, WhatsApp, Teams): Titel, Text und Bild -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://jonasbader7.github.io/Portfoliopage/">
+    <meta property="og:title" content="Jonas Bader | Portfolio">
+    <meta property="og:description"
+        content="Digital Business & AI an der BFH: Einsatzrouting für Blaulichtfahrzeuge in Bern, Datenanalyse in R, Web-Apps.">
+    <meta property="og:image" content="https://jonasbader7.github.io/Portfoliopage/img/bors-app.jpg">
+    <meta property="og:image:width" content="800">
+    <meta property="og:image:height" content="500">
+    <meta property="og:locale" content="de_CH">
+    <meta name="twitter:card" content="summary_large_image">
+
     <!-- Farbe der Browserleiste auf dem Handy, passend zum hellen bzw. dunklen Modus -->
     <meta name="theme-color" content="#f5f4ef" media="(prefers-color-scheme: light)">
     <meta name="theme-color" content="#0e1012" media="(prefers-color-scheme: dark)">
@@ -84,29 +96,10 @@
     </section>
 
 
-    <!-- ===== Seitenlayout: Grid mit Seitenleiste und Hauptinhalt ===== -->
+    <!-- ===== Seitenlayout: Grid mit Hauptinhalt und Seitenleiste =====
+         Im HTML steht der Hauptinhalt zuerst, damit Tastatur und Screenreader ihn vor der
+         Seitenleiste erreichen. Auf dem Desktop setzt grid-template-areas die Leiste nach links. -->
     <div class="layout">
-
-        <aside class="sidebar" aria-label="Kurzprofil" data-i18n-aria="side.aria">
-            <section>
-                <h2 data-i18n="side.languages">Sprachen</h2>
-                <p data-i18n="side.languagesText">Deutsch (Muttersprache), Englisch (C1), Französisch (B2)</p>
-            </section>
-
-            <section>
-                <h2 data-i18n="side.outside">Ausserhalb des Studiums</h2>
-                <p data-i18n="side.outsideText">Triathlon, Unihockey, Klettern, Klavier</p>
-            </section>
-
-            <!-- Wird per fetch() von der GitHub-API gefüllt (script.js) -->
-            <section>
-                <h2 data-i18n="side.github">Zuletzt auf GitHub</h2>
-                <ul class="plain-list" id="repo-liste">
-                    <li class="muted">…</li>
-                </ul>
-            </section>
-        </aside>
-
 
         <main id="main">
 
@@ -187,15 +180,17 @@
                                     width="800" height="500" loading="lazy">
                             </figure>
 
-                            <p class="project-meta" data-i18n="bors.meta">Hauptprojekt · Modul BCS</p>
+                            <p class="project-meta" data-i18n="bors.meta">Hauptprojekt · Teamprojekt BFH, 6 Personen</p>
                             <h3>BORS Bern</h3>
                             <p data-i18n="bors.text">
                                 Einsatzrouting für Blaulichtfahrzeuge: Welche Strasse ist für welches Fahrzeug physisch
                                 passierbar? BORS prüft für Notarzt, Rettungswagen und zwei Feuerwehrfahrzeuge, ob Breite,
                                 Höhe und Gewicht reichen, und berechnet darauf die Route, in Bern und zehn Nachbargemeinden.
                             </p>
-                            <p class="project-role" data-i18n="bors.role"><strong>Mein Teil:</strong> die gesamte technische Umsetzung,
-                                von der Datenaufbereitung und Breitenmessung über den Router bis zur Web-App.</p>
+                            <p class="project-role" data-i18n="bors.role"><strong>Mein Teil:</strong> Product Owner und die
+                                gesamte technische Umsetzung, von der Datenaufbereitung und Breitenmessung über den Router
+                                bis zur Web-App. Fachfragen klärt das Team mit Schutz und Rettung Bern, dem Tiefbauamt der
+                                Stadt Bern und dem ASTRA.</p>
 
                             <ul class="tag-list">
                                 <li>Python</li>
@@ -213,12 +208,12 @@
                                             alt="Beispielroute zur Felsenaubrücke: grosse Feuerwehr fährt einen Umweg von 6,8 km"
                                             width="800" height="500" loading="lazy">
                                         <figcaption data-i18n="bors.routeCap">Beispiel Felsenaubrücke: Notarzt und Rettungswagen
-                                            fahren direkt, die grosse Feuerwehr braucht 6,8 km Umweg.</figcaption>
+                                            fahren direkt, die grosse Feuerwehr braucht 6,8 km Umweg (Stand 29.10.2026).</figcaption>
                                     </figure>
                                     <figure>
                                         <img src="img/bors-netz.jpg" data-i18n-alt="bors.netAlt"
                                             alt="Gesamtes BORS-Strassennetz, eingefärbt nach Zustand für das grosse Feuerwehrfahrzeug"
-                                            width="1760" height="1100" loading="lazy">
+                                            width="1200" height="750" loading="lazy">
                                         <figcaption data-i18n="bors.netCap">Das ganze Netz für die grosse Feuerwehr:
                                             grün validiert, gelb unvalidiert, rot gesperrt.</figcaption>
                                     </figure>
@@ -235,7 +230,7 @@
                                         <h4 data-i18n="bors.s2h">Was es schwierig macht</h4>
                                         <p data-i18n="bors.s2p">Die befahrbare Breite einer Strasse steht in keiner Datenquelle direkt.
                                             Parkfelder, Mauern und Pfeiler verengen sie, und jede Messung hat eine Toleranz.
-                                            Höhen- und Gewichtslimiten aus OpenStreetMap sind nicht vor Ort bestätigt.</p>
+                                            Höhenangaben aus OpenStreetMap sind nicht vor Ort bestätigt.</p>
                                     </li>
                                     <li>
                                         <h4 data-i18n="bors.s3h">Wie BORS es löst</h4>
@@ -250,8 +245,10 @@
                                     </li>
                                     <li>
                                         <h4 data-i18n="bors.s4h">Was geprüft ist und was nicht</h4>
-                                        <p data-i18n="bors.s4p"><strong>Geprüft:</strong> Die Web-App rechnet gleich wie der Router
-                                            in QGIS, 325 von 325 Testrouten sind identisch.</p>
+                                        <p data-i18n="bors.s4p"><strong>Geprüft:</strong> Die Gewichtsgrenzen und die Regel «ohne
+                                            Signal mindestens 4 m Höhe» hat das Tiefbauamt der Stadt Bern im November 2026 bestätigt.
+                                            Die Web-App ist eine Übertragung des QGIS-Routers; beim Abgleich der Version V9.2c waren
+                                            325 von 325 Testrouten identisch.</p>
                                         <p data-i18n="bors.s4p2"><strong>Nicht geprüft:</strong> BORS wurde nicht im Einsatz und nicht
                                             systematisch vor Ort getestet. Es ist ein Prototyp ohne Einsatzfreigabe.</p>
                                     </li>
@@ -439,7 +436,6 @@
                             <li>R</li>
                             <li>SQL</li>
                             <li>SQLite</li>
-                            <li>Excel</li>
                         </ul>
                         <p class="skill-use" data-i18n="skills.dataUse"><span>Eingesetzt in</span> BORS,
                             Datenanalyse Lebenserwartung, SplitMate</p>
@@ -477,7 +473,8 @@
                             <li>GitHub Actions</li>
                             <li>GitLab CI/CD</li>
                         </ul>
-                        <p class="skill-use" data-i18n="skills.devUse"><span>Eingesetzt in</span> allen Projekten</p>
+                        <p class="skill-use" data-i18n="skills.devUse"><span>Eingesetzt in</span> BORS, SplitMate,
+                            dieser Seite</p>
                     </li>
 
                     <li class="skill-row">
@@ -509,8 +506,8 @@
                 <h2 data-i18n="contact.title">Kontakt</h2>
 
                 <p data-i18n="contact.text">
-                    Am einfachsten erreichst du mich über
-                    <a href="https://github.com/Jonasbader7">GitHub</a> oder über dieses Formular.
+                    Am einfachsten erreichst du mich über dieses Formular. Meinen Code findest du auf
+                    <a href="https://github.com/Jonasbader7">GitHub</a>.
                 </p>
 
                 <!-- novalidate: die Prüfung macht unser JavaScript, damit die Meldungen einheitlich aussehen.
@@ -549,6 +546,26 @@
             </section>
 
         </main>
+
+        <aside class="sidebar" aria-label="Kurzprofil" data-i18n-aria="side.aria">
+            <section>
+                <h2 data-i18n="side.languages">Sprachen</h2>
+                <p data-i18n="side.languagesText">Deutsch (Muttersprache), Englisch (C1), Französisch (B2)</p>
+            </section>
+
+            <section>
+                <h2 data-i18n="side.outside">Ausserhalb des Studiums</h2>
+                <p data-i18n="side.outsideText">Triathlon, Unihockey, Klettern, Klavier</p>
+            </section>
+
+            <!-- Wird per fetch() von der GitHub-API gefüllt und eine Stunde zwischengespeichert (script.js) -->
+            <section>
+                <h2 data-i18n="side.github">Zuletzt auf GitHub</h2>
+                <ul class="plain-list" id="repo-liste">
+                    <li class="muted">…</li>
+                </ul>
+            </section>
+        </aside>
 
     </div>
 

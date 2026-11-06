@@ -28,7 +28,9 @@ Persönliche Portfolio-Seite, entstanden im Modul Web Engineering (EWEB) an der 
 - **Mobile First.** Die Grundregeln gelten fürs Handy. Ab 768 px (Tablet) und 1024 px (Desktop) ergänzen Media Queries das Layout.
 - **Details auf Klick.** Die Projektkarten zeigen zuerst nur das Wichtigste. Mehr Tiefe gibt es mit «Mehr erfahren», damit die Seite ruhig bleibt.
 - **BORS-Vorschau erst auf Klick.** Die eingebettete BORS-App ist gross und wird deshalb erst geladen, wenn jemand sie öffnen will.
-- **Daten per `fetch()`.** Die Seitenleiste lädt die neusten öffentlichen Repositories über die GitHub-API. Lade-, Leer- und Fehlerzustand werden angezeigt.
+- **Daten per `fetch()` mit Zwischenspeicher.** Die Seitenleiste lädt die neusten öffentlichen Repositories über die GitHub-API und speichert die Antwort eine Stunde im `localStorage`. So reicht das Limit der API (60 Abfragen pro Stunde und IP-Adresse) auch, wenn viele Personen im selben Netz die Seite öffnen. Ist GitHub nicht erreichbar, erscheint die zuletzt gespeicherte Liste. Lade-, Leer- und Fehlerzustand werden angezeigt.
+- **Reihenfolge im HTML.** Der Hauptinhalt steht vor der Seitenleiste, damit Tastatur und Screenreader ihn zuerst erreichen; auf dem Desktop setzt `grid-template-areas` die Leiste nach links.
+- **Link-Vorschau.** Open-Graph-Tags liefern Titel, Text und Bild, wenn der Link auf LinkedIn, WhatsApp oder Teams geteilt wird.
 - **Drei Sprachen.** Elemente mit `data-i18n` erhalten beim Sprachwechsel den Text aus `lang/*.json`, die per `fetch()` geladen wird. Die gewählte Sprache wird im Browser gespeichert.
 - **Kontaktformular über Web3Forms.** Eine statische Seite kann keine E-Mails verschicken. Das Formular sendet die Eingaben deshalb per `fetch()` an Web3Forms, das sie per E-Mail weiterleitet. Der Zugangsschlüssel darf öffentlich sein, die Mailadresse steht nicht im Code.
 - **Sicherheit.** Text aus der GitHub-API wird mit `textContent` eingefügt, nie mit `innerHTML`. Ein unsichtbares Honeypot-Feld hält einfache Spam-Bots ab.
@@ -37,7 +39,7 @@ Persönliche Portfolio-Seite, entstanden im Modul Web Engineering (EWEB) an der 
 
 GitHub Pages veröffentlicht den Branch `main` automatisch. Nach einem Push dauert es ein bis zwei Minuten, bis die Änderung live ist.
 
-Eine GitHub Action (`.github/workflows/html-check.yml`) prüft bei jedem Push, ob `index.html` valides HTML ist.
+Eine GitHub Action (`.github/workflows/html-check.yml`) prüft bei jedem Push mit dem aktuellen W3C-Validator (`vnu-jar`), ob `index.html` valides HTML ist.
 
 ## Lokal ansehen
 
@@ -52,4 +54,4 @@ Danach http://localhost:8000 im Browser öffnen.
 ## Bekannte Grenzen
 
 - Web3Forms erlaubt in der Gratisversion 250 Nachrichten pro Monat.
-- Die GitHub-API erlaubt ohne Anmeldung nur eine begrenzte Zahl Abfragen pro Stunde. Ist das Limit erreicht, zeigt die Seitenleiste einen Hinweis statt der Liste.
+- Die GitHub-API erlaubt ohne Anmeldung 60 Abfragen pro Stunde und IP-Adresse. Wer die Seite zum ersten Mal öffnet, während das Limit erreicht ist, sieht einen Hinweis statt der Liste.

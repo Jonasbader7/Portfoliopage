@@ -23,10 +23,10 @@ const texteDe = {
     "bors.liveTitle": "BORS-Web-App, Live-Vorschau",
     "form.sending": "Wird gesendet …",
     "form.success": "Danke! Deine Nachricht ist angekommen. Ich melde mich bald.",
-    "form.fail": "Die Nachricht konnte leider nicht gesendet werden. Versuch es später nochmals oder schreib mir über GitHub.",
+    "form.fail": "Die Nachricht konnte leider nicht gesendet werden. Versuch es bitte später nochmals.",
     "err.name": "Bitte gib deinen Namen ein.",
     "err.email": "Bitte gib eine gültige E-Mail-Adresse ein.",
-    "err.message": "Bitte schreib mindestens 20 Zeichen (aktuell {n}).",
+    "err.message": "Bitte schreib mindestens 10 Zeichen (aktuell {n}).",
     "repo.empty": "Noch keine öffentlichen Projekte.",
     "repo.error": "Gerade nicht erreichbar."
 };
@@ -201,7 +201,43 @@ liveButton.addEventListener("click", function () {
 let repos = null;       // geladene Liste, null = noch am Laden
 let repoFehler = false; // true, wenn die API nicht erreichbar war
 
+// Ohne Anmeldung erlaubt die GitHub-API nur 60 Abfragen pro Stunde und IP-Adresse.
+// Damit die Liste auch in einem gemeinsamen Netz (z. B. bei einer Präsentation) erscheint,
+// wird die Antwort eine Stunde im Browser zwischengespeichert.
+const REPO_CACHE_KEY = "github-repos";
+const REPO_CACHE_MS = 60 * 60 * 1000;
+
+// Repositories, die nicht in der Liste erscheinen sollen (z. B. Hausaufgaben)
+const REPOS_AUSGEBLENDET = ["EMPR_HW1"];
+
+function leseRepoCache() {
+    try {
+        const roh = localStorage.getItem(REPO_CACHE_KEY);
+        return roh ? JSON.parse(roh) : null; // { zeit: ..., liste: [...] }
+    } catch (fehler) {
+        return null; // localStorage blockiert oder Inhalt beschädigt
+    }
+}
+
+function schreibeRepoCache(liste) {
+    try {
+        localStorage.setItem(REPO_CACHE_KEY, JSON.stringify({ zeit: Date.now(), liste: liste }));
+    } catch (fehler) {
+        // nicht gespeichert, die Liste wird beim nächsten Besuch neu geladen
+    }
+}
+
 async function ladeRepos() {
+    const cache = leseRepoCache();
+
+    // 1. Frischer Zwischenspeicher: gar keine Anfrage an GitHub
+    if (cache && Date.now() - cache.zeit < REPO_CACHE_MS) {
+        repos = cache.liste;
+        zeigeRepos();
+        return;
+    }
+
+    // 2. Sonst bei GitHub nachfragen
     const url = "https://api.github.com/users/Jonasbader7/repos?sort=pushed&per_page=10";
     try {
         const antwort = await fetch(url);
@@ -209,11 +245,22 @@ async function ladeRepos() {
             throw new Error("HTTP " + antwort.status);
         }
         const alle = await antwort.json();
-        // Nur eigene Repos (keine Forks), die neusten drei
-        repos = alle.filter(function (repo) { return !repo.fork; }).slice(0, 3);
+        // Nur eigene Repos (keine Forks, nichts Ausgeblendetes), die neusten drei.
+        // Gespeichert werden nur die drei Felder, die die Liste braucht.
+        repos = alle
+            .filter(function (repo) { return !repo.fork && !REPOS_AUSGEBLENDET.includes(repo.name); })
+            .slice(0, 3)
+            .map(function (repo) {
+                return { name: repo.name, html_url: repo.html_url, pushed_at: repo.pushed_at };
+            });
+        schreibeRepoCache(repos);
     } catch (fehler) {
-        // z. B. offline oder API-Limit erreicht
-        repoFehler = true;
+        // 3. GitHub nicht erreichbar (offline, API-Limit): lieber eine ältere Liste als keine
+        if (cache) {
+            repos = cache.liste;
+        } else {
+            repoFehler = true;
+        }
     }
     zeigeRepos();
 }
@@ -260,6 +307,9 @@ const statusText = document.querySelector("#formular-status");
 const sendenKnopf = formular.querySelector("button[type=submit]");
 const felder = formular.querySelectorAll("input:not(.honeypot), textarea");
 
+// Kurz genug für «Bitte um Rückruf», lang genug gegen versehentliches Absenden
+const MIN_NACHRICHT = 10;
+
 // Prüfregeln: pro Feld eine Funktion, die eine Fehlermeldung oder "" zurückgibt
 const regeln = {
     name: function (wert) {
@@ -271,7 +321,7 @@ const regeln = {
         return muster.test(wert) ? "" : t("err.email");
     },
     nachricht: function (wert) {
-        return wert.length < 20 ? t("err.message").replace("{n}", wert.length) : "";
+        return wert.length < MIN_NACHRICHT ? t("err.message").replace("{n}", wert.length) : "";
     }
 };
 

@@ -642,7 +642,7 @@ img {
 .sidebar h2 {
     margin: 0 0 0.6rem;
     color: var(--color-muted);
-    font-size: 0.72rem;
+    font-size: 0.78rem;
     text-transform: uppercase;
     letter-spacing: 0.08em;
 }
@@ -736,7 +736,7 @@ main > section > h2::before {
     border-radius: 6px;
     background: var(--color-bg);
     color: var(--color-text-soft);
-    font-size: 0.74rem;
+    font-size: 0.78rem;
     line-height: 1.5;
 }
 
@@ -856,7 +856,7 @@ main > section > h2::before {
 .project-meta {
     margin: 0 0 0.5rem;
     color: var(--color-muted);
-    font-size: 0.72rem;
+    font-size: 0.78rem;
     text-transform: uppercase;
     letter-spacing: 0.08em;
 }
@@ -949,7 +949,7 @@ main > section > h2::before {
     margin-right: 0.4rem;
     color: var(--color-muted);
     font-family: var(--font-mono);
-    font-size: 0.72rem;
+    font-size: 0.76rem;
     text-transform: uppercase;
     letter-spacing: 0.06em;
 }
