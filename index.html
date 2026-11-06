@@ -624,11 +624,16 @@
 
 
     <footer class="site-footer">
+        <p><a href="analytics/datenschutz.html">Datenschutz &amp; Analytics</a></p>
         <p>&copy; <span id="year"></span> Jonas Bader · <a href="https://github.com/Jonasbader7/Portfoliopage"
                 data-i18n="footer.code">Code auf GitHub</a></p>
     </footer>
 
 
+    <!-- Weltweite, aggregierte Analyse ohne Cookies und Nutzerkennungen.
+         Deaktiviert, solange analytics-config.js keinen Server-Endpunkt enthält. -->
+    <script src="analytics-config.js"></script>
+    <script src="analytics-client.js" data-analytics-site="portfolio" defer></script>
     <script src="script.js"></script>
 
 </body>
