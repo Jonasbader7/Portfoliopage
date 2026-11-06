@@ -46,8 +46,10 @@ $config = Get-Content -Raw $configPath | ConvertFrom-Json
 $config.d1_databases[0].database_id = "$databaseId"
 $config | ConvertTo-Json -Depth 20 | Set-Content -Encoding utf8 $configPath
 Write-Host "4/7 Datenbankschema in Cloudflare anlegen..." -ForegroundColor Cyan
-& $wrangler d1 execute jonas-analytics --remote --file=./schema.sql
+& $wrangler d1 execute jonas-analytics --remote --file=./schema.sql --yes
 Write-Host "5/7 Worker bereitstellen (Websites bleiben noch ohne Analytics)..." -ForegroundColor Cyan
+Write-Host 'Voraussetzung: Im Cloudflare Dashboard unter Workers & Pages muss die workers.dev-Subdomain zuerst registriert sein.' -ForegroundColor Yellow
+Write-Host 'Cloudflare: https://dash.cloudflare.com/ (Workers & Pages > Your subdomain)' -ForegroundColor Yellow
 $deploy = (& $wrangler deploy | Out-String)
 Write-Host $deploy
 $match = [regex]::Match($deploy, 'https://[a-zA-Z0-9.-]+\.workers\.dev')
