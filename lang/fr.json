@@ -11,16 +11,18 @@
 
     "hero.alt": "Portrait de Jonas Bader",
     "hero.role": "Digital Business &amp; AI · Analyse de données · Berne",
-    "hero.intro": "J’aime travailler avec les données, les mathématiques et les questions épineuses. Je présente ici des projets sur lesquels j’ai travaillé : ce qu’ils font, comment ils fonctionnent et ce que j’en ai appris.",
+    "hero.intro": "J’étudie le Digital Business &amp; AI à la BFH ; auparavant, j’ai travaillé plusieurs années dans la banque et étudié la physique. Je construis à partir de données réelles des outils que l’on peut vraiment utiliser – je montre ici ce qu’ils font et comment ils fonctionnent.",
+    "hero.github": "Profil GitHub",
     "hero.ctaProjects": "Découvrir les projets",
     "hero.ctaContact": "Me contacter",
 
     "side.aria": "Profil en bref",
     "side.languages": "Langues",
-    "side.languagesText": "Allemand (langue maternelle), anglais (C1), français (B2)",
+    "side.languagesText": "Allemand, anglais, français",
     "side.outside": "En dehors des études",
     "side.outsideText": "Triathlon, unihockey, escalade, piano",
     "side.github": "Récemment sur GitHub",
+    "side.githubAll": "Tous les projets sur GitHub",
 
     "about.title": "À propos",
     "about.lead": "J’aime les données, les mathématiques et les problèmes complexes, surtout quand la solution fait du bien aux personnes et à la nature.",

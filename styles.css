@@ -490,12 +490,39 @@ img {
     grid-area: actions;
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     gap: 0.75rem;
     margin-top: 2rem;
 }
 
 .hero-actions .cta {
     margin-top: 0;
+}
+
+/* Dritter, leiser Link im Hero: Text mit Pfeil statt Knopf */
+.hero-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.85rem 0.5rem;
+    color: var(--color-text);
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.hero-link::after {
+    content: "↗";
+    color: var(--color-accent);
+    transition: transform 0.3s var(--ease-spring);
+}
+
+.hero-link:hover {
+    color: var(--color-accent);
+}
+
+.hero-link:hover::after {
+    transform: translate(2px, -2px);
 }
 
 

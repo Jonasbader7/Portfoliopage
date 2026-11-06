@@ -205,11 +205,13 @@ let repoFehler = false; // true, wenn die API nicht erreichbar war
 // Ohne Anmeldung erlaubt die GitHub-API nur 60 Abfragen pro Stunde und IP-Adresse.
 // Damit die Liste auch in einem gemeinsamen Netz (z. B. bei einer Präsentation) erscheint,
 // wird die Antwort eine Stunde im Browser zwischengespeichert.
-const REPO_CACHE_KEY = "github-repos";
+// «-v2»: neuer Name, damit ältere Zwischenspeicher (noch mit dem Profil-Repo) nicht mehr gelten.
+const REPO_CACHE_KEY = "github-repos-v2";
 const REPO_CACHE_MS = 60 * 60 * 1000;
 
-// Repositories, die nicht in der Liste erscheinen sollen (z. B. Hausaufgaben)
-const REPOS_AUSGEBLENDET = ["EMPR_HW1"];
+// Repositories, die nicht in der Liste erscheinen sollen: Hausaufgaben und das Profil-README
+// (das Repo mit dem eigenen Benutzernamen zeigt GitHub oben auf der Profilseite an)
+const REPOS_AUSGEBLENDET = ["EMPR_HW1", "Jonasbader7"];
 
 function leseRepoCache() {
     try {
