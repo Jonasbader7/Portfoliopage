@@ -8,11 +8,19 @@ Persönliche Portfolio-Seite, entstanden im Modul Web Engineering (EWEB) an der 
 
 | Datei | Inhalt |
 |-------|--------|
-| `index.html` | Struktur und Inhalt: Header, Hero, Kernkompetenzen, Seitenleiste (`aside`), Über mich, Projekte, Kontakt, Footer |
-| `styles.css` | Gestaltung: CSS-Variablen, Flexbox, Grid mit `grid-template-areas`, Media Queries (Mobile First) |
-| `script.js` | Verhalten: Sprachwechsel, Menü, Projektdetails aufklappen, BORS-Live-Vorschau, GitHub-API, Formular |
+| `index.html` | Struktur und Inhalt: Header, Hero, Seitenleiste (`aside`), Über mich, Projekte, Kontakt, Footer |
+| `styles.css` | Gestaltung: Design-Tokens als CSS-Variablen (hell und dunkel), Flexbox, Grid mit `grid-template-areas`, Media Queries (Mobile First) |
+| `script.js` | Verhalten: Sprachwechsel, Menü, Projektdetails aufklappen, BORS-Live-Vorschau, GitHub-API, Formular, Lesefortschritt, aktiver Menüpunkt, Einblenden beim Scrollen |
 | `lang/en.json`, `lang/fr.json` | Übersetzungen ins Englische und Französische (Deutsch steht direkt im HTML) |
+| `fonts/` | Schriften Inter, Inter Tight und JetBrains Mono als variable WOFF2-Dateien (Lizenz in `fonts/LIZENZ.md`) |
 | `img/` | Bilder (Porträt, Projekt-Screenshots, Favicon) |
+
+## Gestaltung
+
+- **Typografie trägt das Design.** Grosse, eng gesetzte Titel in Inter Tight, Fliesstext in Inter, kleine Etiketten (Rolle, Projektart, Tags, Abschnittsnummern) in JetBrains Mono. Die Abschnittsnummern «01», «02» … entstehen per CSS-Zähler.
+- **Eine Akzentfarbe.** Warmer Papierton, dunkle «Tinte» und Petrol als einzige Akzentfarbe. Alle Farben stehen als Tokens in `:root`; der dunkle Modus folgt der Geräteeinstellung (`prefers-color-scheme`) und tauscht nur die Tokens.
+- **Spürbare Interaktionen.** Knöpfe geben beim Klicken nach, Pfeile rücken beim Überfahren nach, das Plus beim Aufklappen dreht sich zum ×, Karten heben sich leicht an (nur mit Maus, `@media (hover: hover)`). Wer weniger Bewegung eingestellt hat (`prefers-reduced-motion`), bekommt keine Animationen.
+- **Schriften selbst ausgeliefert.** Keine Anfrage an Google Fonts; das ist schneller und gibt keine Daten an Dritte weiter. Die zwei wichtigsten Schriften werden mit `<link rel="preload">` früh geladen.
 
 ## Technologieentscheidungen
 
