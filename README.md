@@ -8,7 +8,7 @@ Persönliche Portfolio-Seite, entstanden im Modul Web Engineering (EWEB) an der 
 
 | Datei | Inhalt |
 |-------|--------|
-| `index.html` | Struktur und Inhalt: Header, Hero, Seitenleiste (`aside`), Über mich, Projekte, Kontakt, Footer |
+| `index.html` | Struktur und Inhalt: Header, Hero, Seitenleiste (`aside`), Über mich mit Werdegang, Projekte und weitere Arbeiten, Kompetenzen, Kontakt, Footer |
 | `styles.css` | Gestaltung: Design-Tokens als CSS-Variablen (hell und dunkel), Flexbox, Grid mit `grid-template-areas`, Media Queries (Mobile First) |
 | `script.js` | Verhalten: Sprachwechsel, Menü, Projektdetails aufklappen, BORS-Live-Vorschau, GitHub-API, Formular, Lesefortschritt, aktiver Menüpunkt, Einblenden beim Scrollen |
 | `lang/en.json`, `lang/fr.json` | Übersetzungen ins Englische und Französische (Deutsch steht direkt im HTML) |

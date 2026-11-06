@@ -48,6 +48,7 @@
             <ul class="nav-list">
                 <li><a href="#profile" data-i18n="nav.about">Über mich</a></li>
                 <li><a href="#projects" data-i18n="nav.projects">Projekte</a></li>
+                <li><a href="#skills" data-i18n="nav.skills">Kompetenzen</a></li>
                 <li><a href="#contact" data-i18n="nav.contact">Kontakt</a></li>
             </ul>
         </nav>
@@ -88,27 +89,13 @@
 
         <aside class="sidebar" aria-label="Kurzprofil" data-i18n-aria="side.aria">
             <section>
-                <h2 data-i18n="side.skills">Kompetenzen</h2>
-                <ul class="tag-list">
-                    <li>Python</li>
-                    <li>R</li>
-                    <li>SQL</li>
-                    <li>QGIS</li>
-                    <li>JavaScript</li>
-                    <li>HTML / CSS</li>
-                    <li>Git</li>
-                    <li>Excel</li>
-                </ul>
-            </section>
-
-            <section>
                 <h2 data-i18n="side.languages">Sprachen</h2>
-                <p data-i18n="side.languagesText">Deutsch, Englisch, Französisch</p>
+                <p data-i18n="side.languagesText">Deutsch (Muttersprache), Englisch (C1), Französisch (B2)</p>
             </section>
 
             <section>
                 <h2 data-i18n="side.outside">Ausserhalb des Studiums</h2>
-                <p data-i18n="side.outsideText">Triathlon, Unihockey, Klettern, Musik</p>
+                <p data-i18n="side.outsideText">Triathlon, Unihockey, Klettern, Klavier</p>
             </section>
 
             <!-- Wird per fetch() von der GitHub-API gefüllt (script.js) -->
@@ -154,6 +141,35 @@
                     Ausgleich finde ich im Ausdauersport: Ich trainiere für Triathlon bis zur
                     Ironman-Distanz, am liebsten draussen in der Natur.
                 </p>
+
+                <!-- Stationen als kurze Zeitleiste, neuste zuerst -->
+                <h3 class="about-subtitle" data-i18n="about.cvTitle">Werdegang</h3>
+                <ol class="cv-list">
+                    <li>
+                        <span class="cv-year" data-i18n="cv.since">seit 2024</span>
+                        <span data-i18n="cv.1">BSc Digital Business &amp; AI, Berner Fachhochschule</span>
+                    </li>
+                    <li>
+                        <span class="cv-year">2024–2026</span>
+                        <span data-i18n="cv.2">Privatkundenberater, Bank Cler Bern (SAQ-zertifiziert 2025)</span>
+                    </li>
+                    <li>
+                        <span class="cv-year">2021–2023</span>
+                        <span data-i18n="cv.3">Physikstudium an der Universität Bern, 3 Semester, Minor Astronomie</span>
+                    </li>
+                    <li>
+                        <span class="cv-year">2020–2021</span>
+                        <span data-i18n="cv.4">Passerelle, Kollegium St.&nbsp;Michael (Abschlussnote 5.0)</span>
+                    </li>
+                    <li>
+                        <span class="cv-year">2019–2020</span>
+                        <span data-i18n="cv.5">Kundenberater und Assistenz Bankleitung, Raiffeisenbank See-Lac</span>
+                    </li>
+                    <li>
+                        <span class="cv-year">2016–2019</span>
+                        <span data-i18n="cv.6">Kaufmann EFZ Bank mit Berufsmaturität, Raiffeisenbank See-Lac</span>
+                    </li>
+                </ol>
             </section>
 
 
@@ -405,6 +421,85 @@
                             <p data-i18n="tc.text">Servicekonzept, das Trainings automatisch in freie Kalenderlücken und
                                 trockenes Wetter plant.</p>
                         </div>
+                    </li>
+                </ul>
+            </section>
+
+
+            <!-- Kompetenzen mit Beleg: pro Bereich die Werkzeuge und wo man sie auf dieser Seite sieht -->
+            <section id="skills">
+                <h2 data-i18n="skills.title">Kompetenzen</h2>
+                <p class="section-intro" data-i18n="skills.intro">Was ich einsetze und wo man es auf dieser Seite sieht.</p>
+
+                <ul class="skill-list">
+                    <li class="skill-row">
+                        <h3 data-i18n="skills.dataH">Daten &amp; Statistik</h3>
+                        <ul class="tag-list">
+                            <li>Python</li>
+                            <li>R</li>
+                            <li>SQL</li>
+                            <li>SQLite</li>
+                            <li>Excel</li>
+                        </ul>
+                        <p class="skill-use" data-i18n="skills.dataUse"><span>Eingesetzt in</span> BORS,
+                            Datenanalyse Lebenserwartung, SplitMate</p>
+                    </li>
+
+                    <li class="skill-row">
+                        <h3 data-i18n="skills.geoH">Geodaten</h3>
+                        <ul class="tag-list">
+                            <li>QGIS / PyQGIS</li>
+                            <li>GeoPackage</li>
+                            <li>OpenStreetMap</li>
+                            <li data-i18n="skills.swisstopo">swisstopo-Dienste</li>
+                            <li data-i18n="skills.lv95">Koordinatensystem LV95</li>
+                        </ul>
+                        <p class="skill-use" data-i18n="skills.geoUse"><span>Eingesetzt in</span> BORS</p>
+                    </li>
+
+                    <li class="skill-row">
+                        <h3>Web &amp; Software</h3>
+                        <ul class="tag-list">
+                            <li>JavaScript</li>
+                            <li>HTML / CSS</li>
+                            <li>Vue 3</li>
+                            <li data-i18n="skills.rest">REST-APIs</li>
+                            <li>MapLibre GL</li>
+                        </ul>
+                        <p class="skill-use" data-i18n="skills.webUse"><span>Eingesetzt in</span> BORS-Web-App,
+                            SplitMate, diese Seite</p>
+                    </li>
+
+                    <li class="skill-row">
+                        <h3 data-i18n="skills.devH">Versionierung &amp; Abläufe</h3>
+                        <ul class="tag-list">
+                            <li>Git / GitHub</li>
+                            <li>GitHub Actions</li>
+                            <li>GitLab CI/CD</li>
+                        </ul>
+                        <p class="skill-use" data-i18n="skills.devUse"><span>Eingesetzt in</span> allen Projekten</p>
+                    </li>
+
+                    <li class="skill-row">
+                        <h3 data-i18n="skills.methH">Methoden</h3>
+                        <ul class="tag-list">
+                            <li data-i18n="skills.regression">Regression und Residuendiagnostik</li>
+                            <li>Requirements Engineering</li>
+                            <li>Scrum</li>
+                            <li>Service Design</li>
+                        </ul>
+                        <p class="skill-use" data-i18n="skills.methUse"><span>Eingesetzt in</span> Datenanalyse,
+                            2sports, BCS-Team, TrainCast</p>
+                    </li>
+
+                    <li class="skill-row">
+                        <h3 data-i18n="skills.aiH">Arbeiten mit KI</h3>
+                        <ul class="tag-list">
+                            <li>Claude Code</li>
+                            <li>ChatGPT</li>
+                        </ul>
+                        <p class="skill-use" data-i18n="skills.aiUse"><span>Eingesetzt in</span> BORS und dieser
+                            Seite, für Code und Übersetzungen</p>
                     </li>
                 </ul>
             </section>

@@ -746,6 +746,10 @@ main > section > h2::before {
     list-style: none;
 }
 
+.plain-list li {
+    font-size: 0.95rem;
+}
+
 .plain-list li + li {
     margin-top: 0.45rem;
 }
@@ -866,6 +870,88 @@ main > section > h2::before {
     padding-left: 0.9rem;
     border-left: 2px solid var(--color-accent);
     font-size: 0.95rem;
+}
+
+/* Werdegang: Jahr links (Monospace), Station rechts */
+.cv-list {
+    max-width: 40rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-bottom: 1px solid var(--color-line);
+}
+
+.cv-list li {
+    display: grid;
+    grid-template-columns: 6.5rem minmax(0, 1fr);
+    gap: 1rem;
+    padding: 0.65rem 0;
+    border-top: 1px solid var(--color-line);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.cv-year {
+    padding-top: 0.1rem;
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Kompetenzen: Bereich links, Werkzeuge und Beleg rechts (ab Tablet) */
+.section-intro {
+    max-width: 40rem;
+    margin: -0.75rem 0 1.5rem;
+    color: var(--color-muted);
+}
+
+.skill-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-bottom: 1px solid var(--color-line);
+}
+
+.skill-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+        "title"
+        "tags"
+        "use";
+    gap: 0.6rem 2rem;
+    padding: 1.35rem 0;
+    border-top: 1px solid var(--color-line);
+}
+
+.skill-row h3 {
+    grid-area: title;
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 650;
+    letter-spacing: -0.01em;
+}
+
+.skill-row .tag-list {
+    grid-area: tags;
+}
+
+.skill-use {
+    grid-area: use;
+    margin: 0;
+    color: var(--color-text-soft);
+    font-size: 0.9rem;
+}
+
+/* «Eingesetzt in» als kleines Etikett vor der Aufzählung */
+.skill-use span {
+    margin-right: 0.4rem;
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
 }
 
 /* Weitere Arbeiten: kompakte Liste statt Karten (Handy untereinander, ab Tablet zweispaltig) */
@@ -1287,6 +1373,17 @@ code {
 
     .work-item .project-meta {
         padding-top: 0.35rem;
+    }
+
+    .skill-row {
+        grid-template-columns: 13rem minmax(0, 1fr);
+        grid-template-areas:
+            "title tags"
+            "title use";
+    }
+
+    .skill-row h3 {
+        padding-top: 0.1rem;
     }
 
     /* Formular: Name und E-Mail nebeneinander, Nachricht über die ganze Breite */
