@@ -2,42 +2,157 @@
    Portfolio Jonas Bader – Stylesheet
    Mobile First: Grundregeln fürs Handy, grössere Bildschirme
    bekommen am Schluss Ergänzungen per Media Query.
+
+   Designlinie: ruhig und typografisch. Warmer Papierton, eine
+   Akzentfarbe (Petrol), grosse enge Titel (Inter Tight), Fliesstext
+   in Inter, kleine Etiketten in JetBrains Mono.
+   Alle Schriften liegen im Ordner fonts/ (keine Anfrage an Google).
    ========================================================= */
 
-/* Grundwerte für Farben und Abstände */
-:root {
-    --color-bg: #f7f8fa;
-    --color-text: #1f2933;
-    --color-muted: #52606d;
-    --color-accent: #2563eb;
-    --color-accent-dark: #1d4ed8;
-    --color-card: #ffffff;
-    --color-line: #e4e7eb;
-    --color-error: #b42318;
-    --space: 1rem;
-    --radius: 12px;
-    --shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-    --max-width: 1040px;
+
+/* ---------- Schriften (variabel: eine Datei für alle Stärken) ---------- */
+@font-face {
+    font-family: "Inter";
+    src: url("fonts/inter-latin.woff2") format("woff2");
+    font-weight: 100 900;
+    font-display: swap;
 }
 
+@font-face {
+    font-family: "Inter Tight";
+    src: url("fonts/inter-tight-latin.woff2") format("woff2");
+    font-weight: 100 900;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "JetBrains Mono";
+    src: url("fonts/jetbrains-mono-latin.woff2") format("woff2");
+    font-weight: 100 800;
+    font-display: swap;
+}
+
+
+/* ---------- Grundwerte (Design-Tokens) ---------- */
+:root {
+    /* Farben hell */
+    --color-bg: #f5f4ef;          /* Papier */
+    --color-card: #ffffff;        /* Flächen */
+    --color-card-2: #eeece5;      /* leicht abgesetzte Flächen */
+    --color-text: #121417;        /* Tinte */
+    --color-text-soft: #30363d;   /* Fliesstext */
+    --color-muted: #5d6670;
+    --color-line: #e2dfd6;
+    --color-line-strong: #cbc7bb;
+    --color-accent: #0f766e;
+    --color-accent-dark: #0b5f58;
+    --color-accent-soft: rgba(15, 118, 110, 0.12);
+    --color-on-accent: #ffffff;
+    --color-error: #b42318;
+    --color-error-soft: rgba(180, 35, 24, 0.12);
+
+    /* Schrift */
+    --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-display: "Inter Tight", "Inter", system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+
+    /* Abstände, Radien, Schatten */
+    --space: 1rem;
+    --gutter: clamp(1rem, 4vw, 2rem);
+    --section-gap: clamp(3rem, 7vw, 5rem);
+    --radius-s: 10px;
+    --radius: 16px;
+    --radius-l: 24px;
+    --shadow: 0 1px 2px rgba(18, 20, 23, 0.04), 0 1px 1px rgba(18, 20, 23, 0.03);
+    --shadow-hover: 0 18px 40px -18px rgba(18, 20, 23, 0.28), 0 3px 8px rgba(18, 20, 23, 0.05);
+    --max-width: 1120px;
+
+    /* Bewegung: weich auslaufend, bzw. leicht federnd */
+    --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    color-scheme: light dark;
+}
+
+/* Dunkler Modus: folgt der Einstellung des Geräts */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-bg: #0e1012;
+        --color-card: #16191c;
+        --color-card-2: #1d2125;
+        --color-text: #eceae4;
+        --color-text-soft: #cfcdc6;
+        --color-muted: #9aa2ab;
+        --color-line: #262a2f;
+        --color-line-strong: #383d44;
+        --color-accent: #45c4b3;
+        --color-accent-dark: #6dd5c7;
+        --color-accent-soft: rgba(69, 196, 179, 0.14);
+        --color-on-accent: #0e1012;
+        --color-error: #f97066;
+        --color-error-soft: rgba(249, 112, 102, 0.15);
+        --shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        --shadow-hover: 0 18px 40px -16px rgba(0, 0, 0, 0.7), 0 2px 6px rgba(0, 0, 0, 0.35);
+    }
+}
+
+
+/* ---------- Basis ---------- */
 * {
     box-sizing: border-box;
 }
 
 html {
     scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem; /* Anker landen nicht unter der festen Kopfzeile */
+    -webkit-text-size-adjust: 100%;
 }
 
 body {
     margin: 0;
-    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-    line-height: 1.6;
-    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    color: var(--color-text-soft);
     background: var(--color-bg);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4 {
+    font-family: var(--font-display);
+    color: var(--color-text);
+    text-wrap: balance;
+}
+
+p,
+li {
+    text-wrap: pretty;
+}
+
+strong {
+    color: var(--color-text);
+    font-weight: 600;
 }
 
 a {
     color: var(--color-accent);
+    text-underline-offset: 0.2em;
+    text-decoration-thickness: 1px;
+    transition: color 0.2s;
+}
+
+a:hover {
+    color: var(--color-accent-dark);
+}
+
+::selection {
+    background: var(--color-accent);
+    color: var(--color-on-accent);
 }
 
 /* Flexible Bilder: nie breiter als ihr Container */
@@ -73,92 +188,160 @@ img {
     top: var(--space);
     z-index: 100;
     padding: 0.5rem 1rem;
-    background: var(--color-card);
+    border-radius: var(--radius-s);
+    background: var(--color-text);
+    color: var(--color-bg);
 }
 
 :focus-visible {
-    outline: 3px solid var(--color-accent);
-    outline-offset: 2px;
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+
+/* Kleine Etiketten in Monospace: Abschnittsnummern, Meta-Zeilen, Tags */
+.hero-role,
+.about-subtitle,
+.project-meta,
+.sidebar h2,
+.tag-list li {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+}
+
+
+/* ---------- Lesefortschritt oben (Breite setzt script.js) ---------- */
+.scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 60;
+    width: 100%;
+    height: 2px;
+    background: var(--color-accent);
+    transform: scaleX(var(--progress, 0));
+    transform-origin: left;
+    pointer-events: none;
 }
 
 
 /* ---------- Header und Navigation ---------- */
+/* Der Inhalt sitzt in derselben Spalte wie die Seite: Innenabstand
+   = mindestens der Rand, auf breiten Bildschirmen der freie Platz */
 .site-header {
     position: sticky;
     top: 0;
     z-index: 50;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: var(--space) calc(var(--space) * 1.5);
-    background: var(--color-card);
-    border-bottom: 1px solid var(--color-line);
-}
-
-.site-header {
     gap: 0.75rem;
+    padding: 0.75rem max(var(--gutter), (100% - var(--max-width)) / 2 + var(--gutter));
+    background: color-mix(in srgb, var(--color-bg) 82%, transparent);
+    -webkit-backdrop-filter: saturate(1.4) blur(14px);
+    backdrop-filter: saturate(1.4) blur(14px);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s, background-color 0.3s;
 }
 
+/* Sobald gescrollt wurde (Klasse von script.js): feine Linie */
+.site-header.is-scrolled {
+    border-bottom-color: var(--color-line);
+}
+
+/* Monogramm */
 .logo {
-    margin-right: auto; /* schiebt Sprachumschalter und Menü nach rechts */
+    display: inline-grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    margin-right: auto; /* schiebt Navigation und Sprachumschalter nach rechts */
+    border-radius: 10px;
+    background: var(--color-text);
+    color: var(--color-bg);
+    font-family: var(--font-display);
+    font-size: 0.95rem;
     font-weight: 700;
+    letter-spacing: -0.02em;
     text-decoration: none;
-    color: var(--color-text);
+    transition: transform 0.35s var(--ease-spring);
 }
 
-/* Sprachumschalter: drei kleine Knöpfe nebeneinander (Flexbox) */
+.logo:hover {
+    color: var(--color-bg);
+    transform: rotate(-6deg) scale(1.06);
+}
+
+.logo:active {
+    transform: scale(0.94);
+}
+
+/* Sprachumschalter: Segment-Schalter (Flexbox) */
 .lang-switch {
     display: flex;
+    gap: 2px;
+    padding: 3px;
     border: 1px solid var(--color-line);
     border-radius: 999px;
-    overflow: hidden;
+    background: var(--color-card);
 }
 
 .lang-switch button {
-    padding: 0.3rem 0.6rem;
+    min-width: 2.25rem;
+    padding: 0.3rem 0.55rem;
     border: 0;
+    border-radius: 999px;
     background: none;
     color: var(--color-muted);
-    font: inherit;
-    font-size: 0.8rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
     font-weight: 600;
     cursor: pointer;
+    transition: background-color 0.25s var(--ease), color 0.25s, transform 0.2s var(--ease-spring);
 }
 
 .lang-switch button:hover {
-    color: var(--color-accent);
+    color: var(--color-text);
+}
+
+.lang-switch button:active {
+    transform: scale(0.92);
 }
 
 /* Aktive Sprache: am Attribut aria-pressed erkennbar */
 .lang-switch button[aria-pressed="true"] {
-    background: var(--color-accent);
-    color: #ffffff;
+    background: var(--color-text);
+    color: var(--color-bg);
 }
 
 /* Handy: Menüknopf ganz rechts, Sprachumschalter davor */
 .nav-toggle {
     order: 3;
-}
-
-/* Hamburger-Knopf: ein Strich plus ::before und ::after */
-.nav-toggle {
     display: grid;
     place-items: center;
     width: 2.5rem;
     height: 2.5rem;
-    border: 0;
-    background: none;
+    border: 1px solid var(--color-line);
+    border-radius: 999px;
+    background: var(--color-card);
     cursor: pointer;
+    transition: transform 0.2s var(--ease-spring);
 }
 
+.nav-toggle:active {
+    transform: scale(0.92);
+}
+
+/* Hamburger-Knopf: ein Strich plus ::before und ::after */
 .nav-toggle-bar,
 .nav-toggle-bar::before,
 .nav-toggle-bar::after {
     display: block;
-    width: 1.25rem;
-    height: 2px;
+    width: 1.1rem;
+    height: 1.5px;
+    border-radius: 2px;
     background: var(--color-text);
-    transition: transform 0.25s;
+    transition: transform 0.35s var(--ease), background-color 0.2s;
 }
 
 .nav-toggle-bar {
@@ -173,11 +356,11 @@ img {
 }
 
 .nav-toggle-bar::before {
-    top: -6px;
+    top: -5px;
 }
 
 .nav-toggle-bar::after {
-    top: 6px;
+    top: 5px;
 }
 
 /* Offenes Menü: aus den Strichen wird ein X */
@@ -186,11 +369,11 @@ img {
 }
 
 .nav-toggle[aria-expanded="true"] .nav-toggle-bar::before {
-    transform: translateY(6px) rotate(45deg);
+    transform: translateY(5px) rotate(45deg);
 }
 
 .nav-toggle[aria-expanded="true"] .nav-toggle-bar::after {
-    transform: translateY(-6px) rotate(-45deg);
+    transform: translateY(-5px) rotate(-45deg);
 }
 
 /* Handy: Navigation zuerst zu, klappt unter dem Header auf */
@@ -200,117 +383,235 @@ img {
     top: 100%;
     left: 0;
     right: 0;
-    background: var(--color-card);
+    background: var(--color-bg);
     border-bottom: 1px solid var(--color-line);
-    box-shadow: var(--shadow);
+    box-shadow: var(--shadow-hover);
 }
 
 .main-nav.is-open {
     display: block;
+    animation: einblenden 0.3s var(--ease);
 }
 
 .nav-list {
     display: flex;
     flex-direction: column;
     margin: 0;
-    padding: 0.5rem calc(var(--space) * 1.5);
+    padding: 0.5rem var(--gutter) 1rem;
     list-style: none;
 }
 
 .nav-list a {
+    position: relative;
     display: block;
-    padding: 0.6rem 0;
+    padding: 0.85rem 0;
+    border-bottom: 1px solid var(--color-line);
+    color: var(--color-text);
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
     text-decoration: none;
-    color: var(--color-muted);
 }
 
-.nav-list a:hover {
+/* Menüpunkt des Abschnitts, der gerade sichtbar ist (script.js) */
+.nav-list a[aria-current="true"] {
     color: var(--color-accent);
 }
 
 
 /* ---------- Hero ---------- */
+/* Grid mit benannten Bereichen: Handy untereinander, Desktop Foto rechts */
 .hero {
-    padding: calc(var(--space) * 3) calc(var(--space) * 1.5);
-    text-align: center;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+        "photo"
+        "role"
+        "name"
+        "intro"
+        "actions";
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: clamp(2.5rem, 8vw, 6rem) var(--gutter) clamp(2.5rem, 6vw, 5rem);
 }
 
 .hero-foto {
-    width: 8rem;
-    margin: 0 auto var(--space);
+    grid-area: photo;
+    width: 5.5rem;
+    margin-bottom: 1.75rem;
     aspect-ratio: 1;
     object-fit: cover;
-    border-radius: 50%;
-    border: 4px solid var(--color-card);
-    box-shadow: var(--shadow);
+    object-position: center 20%;
+    border-radius: 18px;
+    box-shadow: 0 0 0 1px var(--color-line), 10px 10px 0 0 var(--color-accent-soft);
+}
+
+/* Rolle als kleine Zeile über dem Namen, mit kurzem Strich davor */
+.hero-role {
+    grid-area: role;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 0 0 1.1rem;
+    color: var(--color-accent);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.hero-role::before {
+    content: "";
+    flex: none;
+    width: 1.75rem;
+    height: 1px;
+    background: currentColor;
 }
 
 .hero h1 {
-    font-size: 2.2rem;
-    margin: 0 0 0.25rem;
-}
-
-.hero-role {
-    margin-top: 0;
-    color: var(--color-muted);
-    font-weight: 600;
+    grid-area: name;
+    margin: 0 0 1.5rem;
+    font-size: clamp(2.9rem, 10vw, 6rem);
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
 }
 
 .hero-intro {
-    max-width: 36rem;
-    margin: 0 auto;
+    grid-area: intro;
+    max-width: 34rem;
+    margin: 0;
+    font-size: clamp(1.08rem, 1.6vw, 1.22rem);
+    line-height: 1.6;
 }
 
 .hero-actions {
+    grid-area: actions;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    gap: 0 var(--space);
+    gap: 0.75rem;
+    margin-top: 2rem;
+}
+
+.hero-actions .cta {
+    margin-top: 0;
+}
+
+
+/* ---------- Knöpfe ---------- */
+/* Hauptknopf: dunkel gefüllt, beim Überfahren Akzentfarbe, Pfeil rückt nach */
+.cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: var(--space);
+    padding: 0.85rem 1.35rem;
+    border: 1px solid var(--color-text);
+    border-radius: 999px;
+    background: var(--color-text);
+    color: var(--color-bg);
+    font: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.2;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+        background-color 0.25s var(--ease),
+        border-color 0.25s var(--ease),
+        color 0.25s,
+        transform 0.2s var(--ease-spring),
+        box-shadow 0.3s var(--ease);
+}
+
+.cta::after {
+    content: "→";
+    font-family: var(--font-sans);
+    transition: transform 0.3s var(--ease-spring);
+}
+
+.cta:hover {
+    border-color: var(--color-accent);
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+    box-shadow: 0 10px 24px -12px var(--color-accent);
+}
+
+.cta:hover::after {
+    transform: translateX(4px);
+}
+
+/* Spürbarer Druck: Knopf gibt beim Klicken leicht nach */
+.cta:active {
+    transform: translateY(1px) scale(0.97);
+    box-shadow: none;
 }
 
 /* Zwei Klassen = höhere Spezifität, damit diese Regeln die von .cta überschreiben */
 .cta.cta-secondary {
-    padding: 10px 22px;
-    background: none;
-    border: 2px solid var(--color-accent);
-    color: var(--color-accent);
+    border-color: var(--color-line-strong);
+    background: transparent;
+    color: var(--color-text);
+}
+
+.cta.cta-secondary::after {
+    content: none;
 }
 
 .cta.cta-secondary:hover {
-    background: var(--color-accent);
-    color: #ffffff;
+    border-color: var(--color-text);
+    background: var(--color-card);
+    color: var(--color-text);
+    box-shadow: none;
 }
 
-
-/* Einleitender Satz im Über-mich-Text */
-.lead {
-    font-size: 1.15rem;
-    font-weight: 600;
-}
-
-/* Zwischentitel im Über-mich-Text (Werdegang) */
-.about-subtitle {
-    margin: calc(var(--space) * 1.5) 0 calc(var(--space) * 0.5);
-    font-size: 1.1rem;
-}
-
-.cta {
-    display: inline-block;
-    margin-top: var(--space);
-    padding: 12px 24px;
-    border: 0;
-    border-radius: 25px;
-    background: var(--color-accent);
-    color: #ffffff;
+/* Kleine Knöpfe in den Karten: Details auf-/zuklappen, Live-Vorschau */
+.details-toggle,
+.button-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.5rem 0.95rem 0.5rem 1.1rem;
+    border: 1px solid var(--color-line-strong);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--color-text);
     font: inherit;
-    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
     cursor: pointer;
-    transition: transform 0.3s, background-color 0.3s;
+    transition:
+        background-color 0.2s,
+        border-color 0.2s,
+        transform 0.2s var(--ease-spring);
 }
 
-.cta:hover {
-    transform: scale(1.05);
-    background: var(--color-accent-dark);
+.details-toggle:hover,
+.button-secondary:hover {
+    border-color: var(--color-text);
+    background: var(--color-card-2);
+}
+
+.details-toggle:active,
+.button-secondary:active {
+    transform: scale(0.96);
+}
+
+/* Plus-Zeichen, das sich beim Öffnen zum × dreht */
+.details-toggle::after {
+    content: "+";
+    display: grid;
+    place-items: center;
+    width: 1.15rem;
+    height: 1.15rem;
+    font-size: 1.15rem;
+    font-weight: 400;
+    line-height: 1;
+    transition: transform 0.4s var(--ease-spring);
+}
+
+.details-toggle[aria-expanded="true"]::after {
+    transform: rotate(45deg);
 }
 
 
@@ -318,51 +619,104 @@ img {
 /* Handy: Hauptinhalt zuerst, Seitenleiste darunter */
 .layout {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     grid-template-areas:
         "main"
         "sidebar";
-    gap: calc(var(--space) * 2);
+    gap: var(--section-gap);
     max-width: var(--max-width);
     margin: 0 auto;
-    padding: 0 var(--space);
+    padding: 0 var(--gutter);
 }
 
 .sidebar {
     grid-area: sidebar;
     align-self: start;
-    padding: calc(var(--space) * 1.5);
+    padding: 1.5rem;
     background: var(--color-card);
+    border: 1px solid var(--color-line);
     border-radius: var(--radius);
-    box-shadow: var(--shadow);
 }
 
 .sidebar h2 {
-    font-size: 1rem;
-    margin: 0 0 0.5rem;
+    margin: 0 0 0.6rem;
+    color: var(--color-muted);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
 }
 
 .sidebar p {
     margin: 0;
+    font-size: 0.95rem;
 }
 
 .sidebar section + section {
-    margin-top: calc(var(--space) * 1.5);
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-line);
 }
 
 main {
     grid-area: main;
     min-width: 0; /* verhindert, dass breite Inhalte das Grid sprengen */
+    counter-reset: kapitel;
 }
 
+/* Abschnitte nummeriert: «01 Über mich», «02 Projekte» … per CSS-Zähler */
 main > section {
-    padding-bottom: calc(var(--space) * 2.5);
+    counter-increment: kapitel;
+    padding-bottom: var(--section-gap);
 }
 
-main h2 {
+main > section + section {
+    padding-top: var(--section-gap);
+    border-top: 1px solid var(--color-line);
+}
+
+main > section > h2 {
+    display: flex;
+    align-items: baseline;
+    gap: 0.9rem;
+    margin: 0 0 1.75rem;
+    font-size: clamp(2rem, 4.5vw, 2.9rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+}
+
+main > section > h2::before {
+    content: counter(kapitel, decimal-leading-zero);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--color-accent);
+}
+
+/* Über mich: angenehme Zeilenlänge */
+#profile p {
+    max-width: 40rem;
+}
+
+/* Einleitender Satz im Über-mich-Text */
+.lead {
     margin-top: 0;
-    padding-bottom: 0.25rem;
-    border-bottom: 2px solid var(--color-accent);
+    color: var(--color-text);
+    font-family: var(--font-display);
+    font-size: clamp(1.3rem, 2.4vw, 1.6rem);
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.015em;
+}
+
+/* Zwischentitel im Über-mich-Text (Werdegang) */
+.about-subtitle {
+    margin: 2.5rem 0 0.75rem;
+    color: var(--color-accent);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
 }
 
 /* Listen */
@@ -376,10 +730,13 @@ main h2 {
 }
 
 .tag-list li {
-    padding: 2px 10px;
-    border-radius: 999px;
+    padding: 0.2rem 0.55rem;
+    border: 1px solid var(--color-line);
+    border-radius: 6px;
     background: var(--color-bg);
-    font-size: 0.9rem;
+    color: var(--color-text-soft);
+    font-size: 0.74rem;
+    line-height: 1.5;
 }
 
 .plain-list {
@@ -389,37 +746,63 @@ main h2 {
 }
 
 .plain-list li + li {
-    margin-top: 0.35rem;
+    margin-top: 0.45rem;
+}
+
+.plain-list a {
+    color: var(--color-text);
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.plain-list a:hover {
+    color: var(--color-accent);
 }
 
 .muted,
 .plain-list span {
     color: var(--color-muted);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
 }
 
 
 /* ---------- Projektkarten ---------- */
 .project-list {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: calc(var(--space) * 1.5);
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.25rem;
     margin: 0;
     padding: 0;
     list-style: none;
 }
 
 .project-card {
-    padding: calc(var(--space) * 1.5);
+    padding: 1.5rem;
     background: var(--color-card);
+    border: 1px solid var(--color-line);
     border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    transition: box-shadow 0.3s, transform 0.3s;
+    transition:
+        transform 0.4s var(--ease),
+        box-shadow 0.4s var(--ease),
+        border-color 0.4s var(--ease);
 }
 
-.project-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+/* Hover nur bei Geräten mit Maus, sonst bleibt der Effekt auf dem Handy «kleben» */
+@media (hover: hover) {
+    .project-card:hover {
+        transform: translateY(-4px);
+        border-color: var(--color-line-strong);
+        box-shadow: var(--shadow-hover);
+    }
+
+    .project-card:hover .project-image img {
+        transform: scale(1.035);
+    }
+
+    /* Aufgeklappte Karte bleibt ruhig liegen, damit der Text nicht wackelt */
+    .project-card:has(.project-details:not([hidden])):hover {
+        transform: none;
+    }
 }
 
 /* Inhalt der Karte untereinander, Knöpfe ganz unten */
@@ -430,18 +813,30 @@ main h2 {
 }
 
 .project-card h3 {
-    margin: 0 0 0.5rem;
+    margin: 0 0 0.6rem;
+    font-size: 1.45rem;
+    font-weight: 650;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
 }
 
 .project-card h4 {
-    margin: 1.25rem 0 0.5rem;
+    margin: 1.75rem 0 0.5rem;
+    font-size: 1.05rem;
+    font-weight: 650;
+    letter-spacing: -0.01em;
+}
+
+.project-card p {
+    margin: 0 0 0.9rem;
 }
 
 .project-image {
-    margin: calc(var(--space) * -1.5) calc(var(--space) * -1.5) var(--space);
+    margin: -1.5rem -1.5rem 1.4rem;
     overflow: hidden;
-    border-radius: var(--radius) var(--radius) 0 0;
-    background: var(--color-bg);
+    border-radius: calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0 0;
+    border-bottom: 1px solid var(--color-line);
+    background: var(--color-card-2);
 }
 
 /* Alle Vorschaubilder gleich hoch, Ausschnitt oben */
@@ -450,30 +845,37 @@ main h2 {
     aspect-ratio: 16 / 10;
     object-fit: cover;
     object-position: top;
+    transition: transform 0.8s var(--ease);
 }
 
 .project-meta {
-    margin: 0 0 0.25rem;
-    font-size: 0.85rem;
-    font-weight: 600;
+    margin: 0 0 0.5rem;
+    color: var(--color-muted);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.project-card-featured .project-meta {
     color: var(--color-accent);
 }
 
-.project-role {
-    padding-left: 0.75rem;
-    border-left: 3px solid var(--color-accent);
+.project-card .project-role {
+    padding-left: 0.9rem;
+    border-left: 2px solid var(--color-accent);
     font-size: 0.95rem;
 }
 
 .project-card .tag-list {
-    margin-bottom: var(--space);
+    margin-bottom: 0.5rem;
 }
 
 /* Aufklappbare Details */
 .project-details {
-    padding-top: var(--space);
+    margin-top: 1.25rem;
+    padding-top: 1.5rem;
     border-top: 1px solid var(--color-line);
-    animation: einblenden 0.3s ease-out;
+    animation: einblenden 0.45s var(--ease);
 }
 
 .project-details figure {
@@ -487,13 +889,14 @@ main h2 {
 
 .project-details img {
     border: 1px solid var(--color-line);
-    border-radius: 8px;
+    border-radius: var(--radius-s);
 }
 
 .project-details figcaption {
-    margin-top: 0.35rem;
-    font-size: 0.85rem;
+    margin-top: 0.5rem;
     color: var(--color-muted);
+    font-size: 0.85rem;
+    line-height: 1.5;
 }
 
 .project-details ul,
@@ -501,22 +904,24 @@ main h2 {
     padding-left: 1.25rem;
 }
 
+.project-details li + li {
+    margin-top: 0.35rem;
+}
+
 /* Code-Begriffe im Fliesstext */
 code {
-    padding: 0 0.3rem;
-    border-radius: 4px;
-    background: var(--color-bg);
-    font-size: 0.9em;
+    padding: 0.1rem 0.35rem;
+    border-radius: 5px;
+    background: var(--color-card-2);
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.82em;
 }
 
-.project-details li + li {
-    margin-top: 0.3rem;
-}
-
-/* BORS in fünf Schritten: Nummern per CSS-Zähler statt von Hand */
+/* BORS in fünf Schritten: Zeitleiste mit nummerierten Punkten (CSS-Zähler) */
 .project-details .case-steps {
     counter-reset: schritt;
-    margin: 0;
+    margin: 1.75rem 0 0;
     padding: 0;
     list-style: none;
 }
@@ -524,25 +929,45 @@ code {
 .case-steps > li {
     counter-increment: schritt;
     position: relative;
-    padding-left: 3rem;
+    padding: 0 0 1.5rem 3.25rem;
 }
 
 .case-steps > li + li {
-    margin-top: var(--space);
+    margin-top: 0;
 }
 
-/* Die Nummer erscheint als «01», «02» … links neben jedem Schritt */
+/* Nummer im Kreis */
 .case-steps > li::before {
     content: counter(schritt, decimal-leading-zero);
     position: absolute;
     left: 0;
-    top: 0.1rem;
-    font-weight: 700;
+    top: 0;
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border: 1px solid var(--color-line-strong);
+    border-radius: 50%;
+    background: var(--color-card);
     color: var(--color-accent);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+}
+
+/* Verbindungslinie zum nächsten Schritt */
+.case-steps > li:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    left: calc(1.125rem - 0.5px);
+    top: 2.5rem;
+    bottom: 0.25rem;
+    width: 1px;
+    background: var(--color-line-strong);
 }
 
 .case-steps h4 {
-    margin: 0 0 0.25rem;
+    margin: 0.35rem 0 0.35rem;
 }
 
 .case-steps p {
@@ -552,7 +977,7 @@ code {
 /* Zwei Bilder nebeneinander (ab Tablet), siehe Media Query */
 .details-grid {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--space);
 }
 
@@ -573,33 +998,39 @@ code {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--space);
+    gap: 0.75rem 1.25rem;
     margin-top: auto;
-    padding-top: var(--space);
+    padding-top: 1rem;
 }
 
-.details-toggle,
-.button-secondary {
-    padding: 0.45rem 1rem;
-    border: 1px solid var(--color-accent);
-    border-radius: 25px;
-    background: none;
+/* Link zur Web-App: Pfeil schräg nach oben = öffnet eine andere Seite */
+.card-actions a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    color: var(--color-text);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.card-actions a::after {
+    content: "↗";
     color: var(--color-accent);
-    font: inherit;
-    font-size: 0.95rem;
-    cursor: pointer;
-    transition: background-color 0.2s, color 0.2s;
+    transition: transform 0.3s var(--ease-spring);
 }
 
-.details-toggle:hover,
-.button-secondary:hover {
-    background: var(--color-accent);
-    color: #ffffff;
+.card-actions a:hover {
+    color: var(--color-accent);
+}
+
+.card-actions a:hover::after {
+    transform: translate(2px, -2px);
 }
 
 /* Live-Vorschau der BORS-App */
 .live-preview {
-    margin-top: var(--space);
+    margin-top: 0.5rem;
 }
 
 .live-preview iframe {
@@ -607,53 +1038,84 @@ code {
     width: 100%;
     aspect-ratio: 16 / 10;
     border: 1px solid var(--color-line);
-    border-radius: 8px;
+    border-radius: var(--radius-s);
+    background: var(--color-card-2);
 }
 
 
 /* ---------- Kontaktformular ---------- */
+#contact > p {
+    max-width: 40rem;
+    margin-top: 0;
+}
+
 .contact-form {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 0 var(--space);
-    padding: calc(var(--space) * 1.5);
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0 1.25rem;
+    margin-top: 1.5rem;
+    padding: clamp(1.25rem, 3vw, 2rem);
     background: var(--color-card);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-l);
 }
 
 .field label {
     display: block;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.4rem;
+    color: var(--color-text);
+    font-size: 0.875rem;
     font-weight: 600;
-    font-size: 0.95rem;
 }
 
 .field input,
 .field textarea {
     width: 100%;
-    padding: 0.6rem 0.75rem;
-    border: 1px solid var(--color-line);
-    border-radius: 8px;
-    font: inherit;
-    color: inherit;
+    padding: 0.75rem 0.9rem;
+    border: 1px solid var(--color-line-strong);
+    border-radius: var(--radius-s);
     background: var(--color-bg);
+    color: var(--color-text);
+    font: inherit;
+    font-size: 1rem; /* mindestens 16px: iOS zoomt sonst beim Antippen */
+    transition: border-color 0.2s, box-shadow 0.25s var(--ease), background-color 0.2s;
+}
+
+.field input:hover,
+.field textarea:hover {
+    border-color: var(--color-muted);
+}
+
+/* Fokus: weicher Ring in Akzentfarbe statt Standard-Umriss */
+.field input:focus-visible,
+.field textarea:focus-visible {
+    outline: none;
+    border-color: var(--color-accent);
+    background: var(--color-card);
+    box-shadow: 0 0 0 4px var(--color-accent-soft);
 }
 
 .field textarea {
+    min-height: 8rem;
     resize: vertical;
 }
 
 /* Rote Umrandung, wenn script.js ein Feld als fehlerhaft markiert */
-.field .is-invalid {
+.field .is-invalid,
+.field .is-invalid:hover {
     border-color: var(--color-error);
+}
+
+.field .is-invalid:focus-visible {
+    border-color: var(--color-error);
+    box-shadow: 0 0 0 4px var(--color-error-soft);
 }
 
 .field-error {
     min-height: 1.3em;
-    margin: 0.2rem 0 0.5rem;
-    font-size: 0.85rem;
+    margin: 0.3rem 0 0.6rem;
     color: var(--color-error);
+    font-size: 0.82rem;
 }
 
 .contact-form .cta {
@@ -662,14 +1124,14 @@ code {
 }
 
 .form-note {
-    margin: 0 0 var(--space);
-    font-size: 0.85rem;
+    margin: 0 0 1.25rem;
     color: var(--color-muted);
+    font-size: 0.82rem;
 }
 
 .form-status {
-    margin: var(--space) 0 0;
-    color: var(--color-muted);
+    margin: 1rem 0 0;
+    color: var(--color-text-soft);
 }
 
 .form-status.is-error {
@@ -690,35 +1152,70 @@ code {
 
 /* ---------- Footer ---------- */
 .site-footer {
-    padding: calc(var(--space) * 2);
-    text-align: center;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 2rem var(--gutter) 2.5rem;
     color: var(--color-muted);
+    font-size: 0.85rem;
+}
+
+.site-footer p {
+    margin: 0;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-line);
+}
+
+.site-footer a {
+    color: var(--color-text);
+}
+
+
+/* ---------- Einblenden beim Scrollen ---------- */
+/* script.js gibt Elementen unterhalb des Bildschirms die Klasse .reveal
+   und ergänzt .is-visible, sobald sie ins Bild kommen. Ohne JavaScript
+   bleibt alles normal sichtbar. */
+.reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+        opacity 0.8s var(--ease),
+        transform 0.8s var(--ease);
+}
+
+.reveal.is-visible {
+    opacity: 1;
+    transform: none;
 }
 
 
 /* Wer weniger Bewegung eingestellt hat, bekommt keine Animationen */
 @media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
     *,
     *::before,
     *::after {
         animation: none !important;
         transition: none !important;
     }
+
+    .reveal {
+        opacity: 1;
+        transform: none;
+    }
 }
 
 
 /* ---------- Tablet ab 768px ---------- */
 @media (min-width: 48em) {
-    .hero {
-        padding: calc(var(--space) * 4) calc(var(--space) * 2);
-    }
-
-    .hero h1 {
-        font-size: 2.6rem;
+    .hero-foto {
+        width: 6.5rem;
     }
 
     .project-list {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     /* Hauptprojekt über beide Spalten. Eine aufgeklappte Karte ebenfalls,
@@ -729,13 +1226,21 @@ code {
         grid-column: 1 / -1;
     }
 
+    .project-card {
+        padding: 1.75rem;
+    }
+
+    .project-image {
+        margin: -1.75rem -1.75rem 1.5rem;
+    }
+
     .details-grid {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     /* Formular: Name und E-Mail nebeneinander, Nachricht über die ganze Breite */
     .contact-form {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .field-wide,
@@ -758,6 +1263,7 @@ code {
     .main-nav {
         display: block;
         position: static;
+        margin-right: 0.75rem;
         border: 0;
         box-shadow: none;
         background: none;
@@ -765,31 +1271,83 @@ code {
 
     .nav-list {
         flex-direction: row;
-        gap: calc(var(--space) * 1.5);
+        gap: 1.75rem;
         padding: 0;
     }
 
     .nav-list a {
-        padding: 0;
+        padding: 0.35rem 0;
+        border: 0;
+        color: var(--color-muted);
+        font-family: var(--font-sans);
+        font-size: 0.92rem;
+        font-weight: 500;
+        letter-spacing: 0;
     }
 
-    /* Seitenleiste links, Hauptinhalt rechts */
+    /* Unterstrich wächst beim Überfahren von links nach rechts */
+    .nav-list a::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 1.5px;
+        background: currentColor;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.35s var(--ease);
+    }
+
+    .nav-list a:hover,
+    .nav-list a[aria-current="true"] {
+        color: var(--color-text);
+    }
+
+    .nav-list a:hover::after,
+    .nav-list a[aria-current="true"]::after {
+        transform: scaleX(1);
+    }
+
+    /* Hero: Text links, Foto rechts über alle Zeilen */
+    .hero {
+        grid-template-columns: minmax(0, 1fr) auto;
+        grid-template-areas:
+            "role    photo"
+            "name    photo"
+            "intro   photo"
+            "actions photo";
+        align-content: center;
+        column-gap: clamp(3rem, 6vw, 6rem);
+        min-height: min(78vh, 46rem);
+    }
+
+    .hero-foto {
+        align-self: center;
+        width: clamp(16rem, 25vw, 21rem);
+        margin: 0;
+        aspect-ratio: 4 / 5;
+        border-radius: var(--radius-l);
+        box-shadow: 0 0 0 1px var(--color-line), 18px 18px 0 0 var(--color-accent-soft);
+    }
+
+    /* Seitenleiste links (klebt beim Scrollen), Hauptinhalt rechts */
     .layout {
-        grid-template-columns: 1fr 3fr;
+        grid-template-columns: 15rem minmax(0, 1fr);
         grid-template-areas: "sidebar main";
-        padding: 0 calc(var(--space) * 2);
+        gap: clamp(2.5rem, 5vw, 4.5rem);
     }
 
     .sidebar {
         position: sticky;
-        top: 5rem;
+        top: 6rem;
     }
 
     /* Hauptprojekt: Bild links, Text rechts */
     .project-card-featured article {
         display: grid;
-        grid-template-columns: 1.1fr 1fr;
-        column-gap: calc(var(--space) * 1.5);
+        grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+        column-gap: 2rem;
         align-content: start;
     }
 
@@ -797,12 +1355,17 @@ code {
         grid-row: 1 / span 6;
         align-self: start; /* Bild nur so hoch wie nötig, nicht so hoch wie der Text */
         margin: 0;
-        border-radius: 8px;
         border: 1px solid var(--color-line);
+        border-radius: var(--radius-s);
     }
 
     .project-card-featured .project-image img {
         aspect-ratio: 8 / 5;
+    }
+
+    .project-card-featured h3 {
+        font-size: 2rem;
+        letter-spacing: -0.03em;
     }
 
     .project-card-featured .project-details,

@@ -9,6 +9,13 @@
 
     <title>Jonas Bader | Portfolio</title>
 
+    <!-- Farbe der Browserleiste auf dem Handy, passend zum hellen bzw. dunklen Modus -->
+    <meta name="theme-color" content="#f5f4ef" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0e1012" media="(prefers-color-scheme: dark)">
+
+    <!-- Die zwei wichtigsten Schriften früh laden, damit die Seite nicht nachträglich springt -->
+    <link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="fonts/inter-tight-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
 </head>
@@ -23,6 +30,9 @@
     -->
 
     <a href="#main" class="skip-link" data-i18n="nav.skip">Zum Inhalt springen</a>
+
+    <!-- Dünner Balken oben: zeigt, wie weit man gescrollt hat (script.js, Teil 8) -->
+    <div class="scroll-progress" aria-hidden="true"></div>
 
     <!-- ===== Kopfzeile mit Navigation ===== -->
     <header class="site-header">
