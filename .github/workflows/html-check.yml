@@ -10,16 +10,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Code holen
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
-      - name: Python einrichten
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      # html5validator nutzt den offiziellen W3C-Validator; Java ist auf dem Runner vorinstalliert
+      # Aktueller W3C-Validator als npm-Paket (feste Version, gleich wie validator.w3.org).
+      # Das frühere Paket html5validator 0.4.2 enthält einen Validator von 2020, der neuere
+      # HTML-Regeln noch nicht kennt. Java ist auf dem Runner vorinstalliert.
       - name: Validator installieren
-        run: pip install html5validator==0.4.2
+        run: npm install --no-save vnu-jar@26.11.4
 
       - name: index.html prüfen
-        run: html5validator --files index.html
+        run: java -jar node_modules/vnu-jar/build/dist/vnu.jar --errors-only index.html
