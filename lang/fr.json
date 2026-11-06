@@ -24,8 +24,10 @@
 
     "about.title": "À propos",
     "about.lead": "J’aime les données, les mathématiques et les problèmes complexes, surtout quand la solution fait du bien aux personnes et à la nature.",
-    "about.p1": "J’étudie le Digital Business &amp; AI à la Haute école spécialisée bernoise (BFH), avec une spécialisation en analyse de données. Je m’intéresse à la manière dont les données et les logiciels résolvent de vrais problèmes du quotidien.",
-    "about.p2": "Les chiffres m’accompagnent depuis longtemps : d’abord à la banque, puis dans une passerelle vers l’université et en études de physique. Aujourd’hui, c’est surtout l’application qui m’intéresse : des mathématiques que l’on voit sur une carte ou dans une application.",
+    "about.pathTitle": "Comment j’en suis arrivé là",
+    "about.path1": "Tout a commencé avec un jeu en ligne. Vers dix ou douze ans, j’y faisais du commerce : observer les prix, calculer et essayer de faire les meilleures affaires possibles. Je n’avais ni beaucoup d’argent ni beaucoup de temps, alors je devais bien réfléchir au moment où quelque chose en valait la peine. Bizarrement, cela me fascinait davantage que le jeu lui-même.",
+    "about.path2": "Comme j’aimais calculer et travailler avec les chiffres, j’ai ensuite choisi un apprentissage à la banque. J’y ai toutefois constaté que le quotidien était bien plus marqué par le conseil à la clientèle que je ne l’avais imaginé. J’ai donc fait la passerelle vers l’université et commencé des études de physique. Les mathématiques me plaisaient, mais l’application pratique me manquait.",
+    "about.path3": "Aujourd’hui, j’étudie le Digital Business &amp; AI à la Haute école spécialisée bernoise (BFH), avec une spécialisation en analyse de données. J’y réunis ce qui m’intéressait déjà à l’époque : travailler avec des chiffres, reconnaître des liens et en faire quelque chose d’utile au-delà de l’écran.",
     "about.p3": "Je trouve mon équilibre dans les sports d’endurance : je m’entraîne pour le triathlon jusqu’à la distance Ironman, de préférence dehors, dans la nature.",
 
     "projects.title": "Projets",

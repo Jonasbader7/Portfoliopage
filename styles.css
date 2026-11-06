@@ -288,6 +288,12 @@ img {
     font-weight: 600;
 }
 
+/* Zwischentitel im Über-mich-Text (Werdegang) */
+.about-subtitle {
+    margin: calc(var(--space) * 1.5) 0 calc(var(--space) * 0.5);
+    font-size: 1.1rem;
+}
+
 .cta {
     display: inline-block;
     margin-top: var(--space);

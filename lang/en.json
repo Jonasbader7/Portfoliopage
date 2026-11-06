@@ -24,8 +24,10 @@
 
     "about.title": "About me",
     "about.lead": "I love data, mathematics and complex problems, especially when the solution does something good for people and nature.",
-    "about.p1": "I study Digital Business &amp; AI at Bern University of Applied Sciences (BFH), focusing on data analysis. I am interested in how data and software solve real problems in everyday life.",
-    "about.p2": "Numbers have been with me for a long time: first at a bank, then in a university entrance programme (Passerelle) and in physics studies. Today I am most interested in application: mathematics you can see on a map or in an app.",
+    "about.pathTitle": "How I got here",
+    "about.path1": "It all started with an online game. When I was about ten or twelve, I traded there: watching prices, doing the maths and trying to make the best possible deals. I had little money and little time, so I had to think carefully about when something was worth it. Somehow that fascinated me more than the game itself.",
+    "about.path2": "Because I enjoyed calculating and working with numbers, I later chose a commercial apprenticeship at a bank. There I realised that everyday work was shaped far more by advising customers than I had expected. So I completed the Passerelle, a university entrance programme, and started studying physics. I liked the mathematics, but I missed the practical application.",
+    "about.path3": "Today I study Digital Business &amp; AI at Bern University of Applied Sciences (BFH), focusing on data analysis. Here I can combine what already interested me back then: working with numbers, recognising patterns and turning them into something that is useful beyond the screen.",
     "about.p3": "I find balance in endurance sports: I train for triathlon up to the Ironman distance, preferably outdoors in nature.",
 
     "projects.title": "Projects",
