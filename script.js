@@ -7,6 +7,8 @@
    5. Neuste GitHub-Repositories laden (fetch)
    6. Kontaktformular prüfen und über Web3Forms senden
    7. Jahr im Footer
+   8. Kopfzeile, Lesefortschritt und aktiver Menüpunkt
+   9. Inhalte beim Scrollen einblenden
    ========================================================= */
 
 
@@ -353,6 +355,94 @@ formular.addEventListener("submit", async function (event) {
 
 /* ---------- 7. Jahr im Footer ---------- */
 document.querySelector("#year").textContent = new Date().getFullYear();
+
+
+/* ---------- 8. Kopfzeile, Lesefortschritt und aktiver Menüpunkt ---------- */
+const kopfzeile = document.querySelector(".site-header");
+const fortschritt = document.querySelector(".scroll-progress");
+let scrollGeplant = false;
+
+// Beim Scrollen höchstens einmal pro Bild rechnen (requestAnimationFrame)
+function aktualisiereScroll() {
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    const anteil = maxScroll > 0 ? window.scrollY / maxScroll : 0;
+    fortschritt.style.setProperty("--progress", anteil.toFixed(4));
+    kopfzeile.classList.toggle("is-scrolled", window.scrollY > 8);
+    scrollGeplant = false;
+}
+
+window.addEventListener("scroll", function () {
+    if (!scrollGeplant) {
+        scrollGeplant = true;
+        requestAnimationFrame(aktualisiereScroll);
+    }
+}, { passive: true });
+aktualisiereScroll();
+
+// Menüpunkt des Abschnitts markieren, der gerade in der Bildmitte liegt
+const menuLinks = document.querySelectorAll(".nav-list a");
+const abschnittBeobachter = new IntersectionObserver(function (eintraege) {
+    eintraege.forEach(function (eintrag) {
+        if (!eintrag.isIntersecting) return;
+        menuLinks.forEach(function (link) {
+            if (link.getAttribute("href") === "#" + eintrag.target.id) {
+                link.setAttribute("aria-current", "true");
+            } else {
+                link.removeAttribute("aria-current");
+            }
+        });
+    });
+}, { rootMargin: "-45% 0px -50% 0px" }); // nur ein schmaler Streifen in der Bildmitte zählt
+
+document.querySelectorAll("#profile, #projects, #contact").forEach(function (abschnitt) {
+    abschnittBeobachter.observe(abschnitt);
+});
+
+// Ganz oben (im Hero) ist kein Abschnitt aktiv
+window.addEventListener("scroll", function () {
+    if (window.scrollY < 200) {
+        menuLinks.forEach(function (link) { link.removeAttribute("aria-current"); });
+    }
+}, { passive: true });
+
+
+/* ---------- 9. Inhalte beim Scrollen einblenden ---------- */
+// Nur wenn keine reduzierte Bewegung eingestellt ist und der Browser es kann
+const wenigBewegung = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+if (!wenigBewegung && "IntersectionObserver" in window) {
+    const einblendBeobachter = new IntersectionObserver(function (eintraege, beobachter) {
+        eintraege.forEach(function (eintrag) {
+            if (!eintrag.isIntersecting) return;
+            const el = eintrag.target;
+            el.classList.add("is-visible");
+            beobachter.unobserve(el);
+            // Nach dem Einblenden die Klassen entfernen, damit Hover-Effekte wieder ihr eigenes Tempo haben
+            el.addEventListener("transitionend", function () {
+                el.classList.remove("reveal", "is-visible");
+            }, { once: true });
+        });
+    }, { rootMargin: "0px 0px -8% 0px" });
+
+    const kandidaten = document.querySelectorAll(
+        "main > section > h2, #profile p, .about-subtitle, .project-card, .sidebar, .contact-form"
+    );
+    kandidaten.forEach(function (el) {
+        // Was schon sichtbar ist, bleibt sichtbar (kein Aufblitzen beim Laden)
+        if (el.getBoundingClientRect().top > window.innerHeight) {
+            el.classList.add("reveal");
+            einblendBeobachter.observe(el);
+        }
+    });
+
+    // Karten in derselben Reihe leicht versetzt einblenden
+    document.querySelectorAll(".project-card.reveal").forEach(function (karte, i) {
+        karte.style.transitionDelay = (i % 2) * 80 + "ms";
+        karte.addEventListener("transitionend", function () {
+            karte.style.transitionDelay = "";
+        }, { once: true });
+    });
+}
 
 
 /* ---------- Start ---------- */
