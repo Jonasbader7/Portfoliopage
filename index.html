@@ -135,34 +135,61 @@
                     Ironman-Distanz, am liebsten draussen in der Natur.
                 </p>
 
-                <!-- Stationen als kurze Zeitleiste, neuste zuerst -->
+                <!-- Werdegang als Zeitachse: Balken auf einer gemeinsamen Jahresachse zeigen, was sich
+                     überschneidet. Beginn und Ende stehen als Dezimaljahr in data-von / data-bis
+                     (2016.583 = August 2016); script.js, Teil 10, setzt daraus die Positionen. -->
                 <h3 class="about-subtitle" data-i18n="about.cvTitle">Werdegang</h3>
-                <ol class="cv-list">
-                    <li>
-                        <span class="cv-year" data-i18n="cv.since">seit 2024</span>
-                        <span data-i18n="cv.1">BSc Digital Business &amp; AI, Berner Fachhochschule</span>
-                    </li>
-                    <li>
-                        <span class="cv-year">2024–2026</span>
-                        <span data-i18n="cv.2">Privatkundenberater, Bank Cler Bern (SAQ-zertifiziert 2025)</span>
-                    </li>
-                    <li>
-                        <span class="cv-year">2021–2023</span>
-                        <span data-i18n="cv.3">Physikstudium an der Universität Bern, 3 Semester, Minor Astronomie</span>
-                    </li>
-                    <li>
-                        <span class="cv-year">2020–2021</span>
-                        <span data-i18n="cv.4">Passerelle, Kollegium St.&nbsp;Michael (Abschlussnote 5.0)</span>
-                    </li>
-                    <li>
-                        <span class="cv-year">2019–2020</span>
-                        <span data-i18n="cv.5">Kundenberater und Assistenz Bankleitung, Raiffeisenbank See-Lac</span>
-                    </li>
-                    <li>
-                        <span class="cv-year">2016–2019</span>
-                        <span data-i18n="cv.6">Kaufmann EFZ Bank mit Berufsmaturität, Raiffeisenbank See-Lac</span>
-                    </li>
-                </ol>
+                <div class="timeline" id="werdegang">
+                    <ul class="tl-legend">
+                        <li class="tl-edu" data-i18n="cv.legendEdu">Ausbildung</li>
+                        <li class="tl-work" data-i18n="cv.legendWork">Arbeit</li>
+                        <li class="tl-side" data-i18n="cv.legendSide">Nebenjob</li>
+                        <li class="tl-planned" data-i18n="cv.legendPlanned">geplant</li>
+                    </ul>
+
+                    <div class="tl-axis" aria-hidden="true">
+                        <div class="tl-ticks"></div>
+                        <span class="tl-today-label" data-i18n="cv.today">heute</span>
+                    </div>
+
+                    <ol class="tl-list">
+                        <li class="tl-row tl-edu" data-von="2016.583" data-bis="2019.583">
+                            <p class="tl-label"><span class="tl-date">2016–2019</span>
+                                <span data-i18n="cv.6">Kaufmann EFZ Bank mit Berufsmaturität, Raiffeisenbank See-Lac</span></p>
+                            <div class="tl-track"><span class="tl-bar"></span></div>
+                        </li>
+                        <li class="tl-row tl-work" data-von="2019.583" data-bis="2020.583">
+                            <p class="tl-label"><span class="tl-date">2019–2020</span>
+                                <span data-i18n="cv.5">Kundenberater und Assistenz Bankleitung, Raiffeisenbank See-Lac</span></p>
+                            <div class="tl-track"><span class="tl-bar"></span></div>
+                        </li>
+                        <li class="tl-row tl-edu" data-von="2020.583" data-bis="2021.5">
+                            <p class="tl-label"><span class="tl-date">2020–2021</span>
+                                <span data-i18n="cv.4">Passerelle, Kollegium St.&nbsp;Michael (Abschlussnote 5.0)</span></p>
+                            <div class="tl-track"><span class="tl-bar"></span></div>
+                        </li>
+                        <li class="tl-row tl-side" data-von="2020.667" data-bis="2024.333">
+                            <p class="tl-label"><span class="tl-date">2020–2024</span>
+                                <span data-i18n="cv.7">Verkauf und Bistro, TopShop Laupen (neben Passerelle und Studium)</span></p>
+                            <div class="tl-track"><span class="tl-bar"></span></div>
+                        </li>
+                        <li class="tl-row tl-edu" data-von="2021.667" data-bis="2023.083">
+                            <p class="tl-label"><span class="tl-date">2021–2023</span>
+                                <span data-i18n="cv.3">Physikstudium an der Universität Bern, 3 Semester, Minor Astronomie</span></p>
+                            <div class="tl-track"><span class="tl-bar"></span></div>
+                        </li>
+                        <li class="tl-row tl-work" data-von="2024.5" data-bis="2026.167">
+                            <p class="tl-label"><span class="tl-date">2024–2026</span>
+                                <span data-i18n="cv.2">Privatkundenberater, Bank Cler Bern (SAQ-zertifiziert 2025)</span></p>
+                            <div class="tl-track"><span class="tl-bar"></span></div>
+                        </li>
+                        <li class="tl-row tl-edu" data-von="2024.667" data-bis="2028.667">
+                            <p class="tl-label"><span class="tl-date" data-i18n="cv.since">seit 2024</span>
+                                <span data-i18n="cv.1">BSc Digital Business &amp; AI, Berner Fachhochschule</span></p>
+                            <div class="tl-track"><span class="tl-bar"></span></div>
+                        </li>
+                    </ol>
+                </div>
             </section>
 
 

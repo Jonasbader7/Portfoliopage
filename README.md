@@ -21,6 +21,7 @@ Persönliche Portfolio-Seite, entstanden im Modul Web Engineering (EWEB) an der 
 - **Eine Akzentfarbe.** Warmer Papierton, dunkle «Tinte» und Petrol als einzige Akzentfarbe. Alle Farben stehen als Tokens in `:root`; der dunkle Modus folgt der Geräteeinstellung (`prefers-color-scheme`) und tauscht nur die Tokens.
 - **Spürbare Interaktionen.** Knöpfe geben beim Klicken nach, Pfeile rücken beim Überfahren nach, das Plus beim Aufklappen dreht sich zum ×, Karten heben sich leicht an (nur mit Maus, `@media (hover: hover)`). Wer weniger Bewegung eingestellt hat (`prefers-reduced-motion`), bekommt keine Animationen.
 - **Schriften selbst ausgeliefert.** Keine Anfrage an Google Fonts; das ist schneller und gibt keine Daten an Dritte weiter. Die zwei wichtigsten Schriften werden mit `<link rel="preload">` früh geladen.
+- **Werdegang als Zeitachse.** Jede Station trägt Beginn und Ende als Dezimaljahr (`data-von`, `data-bis`). `script.js` berechnet daraus die Achse, die Linie «heute» und bei laufenden Stationen den Anteil bis heute; Position und Breite der Balken rechnet das CSS mit `calc()`. So sieht man Überschneidungen (Bank neben Studium, Nebenjob neben Passerelle und Physik). Ohne JavaScript bleibt eine normale Liste.
 
 ## Technologieentscheidungen
 

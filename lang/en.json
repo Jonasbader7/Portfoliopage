@@ -37,6 +37,12 @@
     "cv.4": "Passerelle (university entrance programme), Kollegium St.&nbsp;Michael (final grade 5.0 out of 6)",
     "cv.5": "Client advisor and assistant to bank management, Raiffeisenbank See-Lac",
     "cv.6": "Commercial apprenticeship in banking (EFZ) with vocational baccalaureate, Raiffeisenbank See-Lac",
+    "cv.7": "Sales and bistro, TopShop Laupen (alongside Passerelle and studies)",
+    "cv.legendEdu": "Education",
+    "cv.legendWork": "Work",
+    "cv.legendSide": "Side job",
+    "cv.legendPlanned": "planned",
+    "cv.today": "today",
 
     "skills.title": "Skills",
     "skills.intro": "From my studies, my projects and my time in banking.",

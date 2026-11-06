@@ -37,6 +37,12 @@
     "cv.4": "Passerelle, Collège Saint-Michel (note finale 5,0)",
     "cv.5": "Conseiller à la clientèle et assistant de la direction, Banque Raiffeisen See-Lac",
     "cv.6": "Apprentissage d’employé de commerce, banque (CFC), avec maturité professionnelle, Banque Raiffeisen See-Lac",
+    "cv.7": "Vente et bistro, TopShop Laupen (en parallèle de la passerelle et des études)",
+    "cv.legendEdu": "Formation",
+    "cv.legendWork": "Travail",
+    "cv.legendSide": "Job d’appoint",
+    "cv.legendPlanned": "prévu",
+    "cv.today": "aujourd’hui",
 
     "skills.title": "Compétences",
     "skills.intro": "Issues de mes études, de mes projets et de mes années à la banque.",

@@ -9,6 +9,7 @@
    7. Jahr im Footer
    8. Kopfzeile, Lesefortschritt und aktiver Menüpunkt
    9. Inhalte beim Scrollen einblenden
+  10. Werdegang als Zeitachse
    ========================================================= */
 
 
@@ -475,7 +476,7 @@ if (!wenigBewegung && "IntersectionObserver" in window) {
     }, { rootMargin: "0px 0px -8% 0px" });
 
     const kandidaten = document.querySelectorAll(
-        "main > section > h2, #profile p, .about-subtitle, .project-card, .section-label, .work-item, .cv-list, .section-intro, .skill-card, .sidebar, .contact-form"
+        "main > section > h2, #profile p, .about-subtitle, .project-card, .section-label, .work-item, .timeline, .section-intro, .skill-card, .sidebar, .contact-form"
     );
     kandidaten.forEach(function (el) {
         // Was schon sichtbar ist, bleibt sichtbar (kein Aufblitzen beim Laden)
@@ -492,6 +493,77 @@ if (!wenigBewegung && "IntersectionObserver" in window) {
             karte.style.transitionDelay = "";
         }, { once: true });
     });
+}
+
+
+/* ---------- 10. Werdegang als Zeitachse ---------- */
+// Jede Zeile trägt Beginn und Ende als Dezimaljahr (data-von / data-bis, 2016.583 = August 2016).
+// Hier entstehen daraus die Achse (ganze Jahre, Striche alle zwei Jahre), die Linie «heute»
+// und bei laufenden Stationen der Anteil bis heute. Position und Breite rechnet das CSS.
+const zeitachse = document.querySelector("#werdegang");
+
+function alsDezimaljahr(datum) {
+    const jahresbeginn = new Date(datum.getFullYear(), 0, 1);
+    const naechstesJahr = new Date(datum.getFullYear() + 1, 0, 1);
+    return datum.getFullYear() + (datum - jahresbeginn) / (naechstesJahr - jahresbeginn);
+}
+
+if (zeitachse) {
+    const zeilen = zeitachse.querySelectorAll(".tl-row");
+    const heute = alsDezimaljahr(new Date());
+
+    // Achse: vom ersten geraden Jahr vor dem frühesten Beginn bis zum Jahr nach dem spätesten Ende
+    let fruehester = Infinity;
+    let spaetester = -Infinity;
+    zeilen.forEach(function (zeile) {
+        fruehester = Math.min(fruehester, parseFloat(zeile.dataset.von));
+        spaetester = Math.max(spaetester, parseFloat(zeile.dataset.bis));
+    });
+    const achseVon = Math.floor(fruehester / 2) * 2;
+    const achseBis = Math.ceil(spaetester);
+
+    zeitachse.style.setProperty("--tl-start", achseVon);
+    zeitachse.style.setProperty("--tl-span", achseBis - achseVon);
+    zeitachse.style.setProperty("--heute", heute.toFixed(3));
+
+    zeilen.forEach(function (zeile, i) {
+        const von = parseFloat(zeile.dataset.von);
+        const bis = parseFloat(zeile.dataset.bis);
+        zeile.style.setProperty("--von", von);
+        zeile.style.setProperty("--bis", bis);
+        zeile.style.setProperty("--i", i); // für das versetzte Wachsen der Balken
+
+        // Läuft noch: bis heute voll, danach schraffiert
+        if (bis > heute) {
+            const anteil = Math.min(100, Math.max(0, (heute - von) / (bis - von) * 100));
+            zeile.classList.add("is-laufend");
+            zeile.style.setProperty("--ist", anteil.toFixed(1) + "%");
+        }
+    });
+
+    // Jahreszahlen alle zwei Jahre
+    const striche = zeitachse.querySelector(".tl-ticks");
+    for (let jahr = achseVon; jahr < achseBis; jahr += 2) {
+        const marke = document.createElement("span");
+        marke.textContent = jahr;
+        marke.style.setProperty("--jahr", jahr);
+        striche.append(marke);
+    }
+
+    zeitachse.classList.add("is-ready");
+
+    // Balken wachsen lassen, sobald die Zeitachse zu sehen ist
+    if (wenigBewegung || !("IntersectionObserver" in window)) {
+        zeitachse.classList.add("is-drawn");
+    } else {
+        const zeichner = new IntersectionObserver(function (eintraege, beobachter) {
+            if (eintraege[0].isIntersecting) {
+                zeitachse.classList.add("is-drawn");
+                beobachter.disconnect();
+            }
+        }, { threshold: 0.3 });
+        zeichner.observe(zeitachse);
+    }
 }
 
 

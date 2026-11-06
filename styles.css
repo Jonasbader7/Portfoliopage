@@ -872,31 +872,214 @@ main > section > h2::before {
     font-size: 0.95rem;
 }
 
-/* Werdegang: Jahr links (Monospace), Station rechts */
-.cv-list {
-    max-width: 40rem;
+/* ---------- Werdegang als Zeitachse ----------
+   Alle Balken liegen auf derselben Jahresachse. script.js (Teil 10) setzt:
+   --tl-start / --tl-span  Beginn und Länge der Achse in Jahren (an .timeline)
+   --heute                 heutiges Datum als Dezimaljahr (an .timeline)
+   --von / --bis           Beginn und Ende einer Station (an .tl-row)
+   --ist                   bei laufenden Stationen: Anteil bis heute in Prozent
+   Position und Breite rechnet dann das CSS. Ohne JavaScript bleibt eine normale Liste. */
+.timeline {
+    --tl-offset: 0px; /* Breite der Textspalte links von den Balken (ab Tablet, siehe unten) */
+    --tl-gap: 0px;
+    --farbe-edu: var(--color-accent);
+    --farbe-work: var(--color-text);
+    --farbe-side: color-mix(in srgb, var(--color-muted) 55%, transparent);
+    max-width: 48rem;
+}
+
+/* Legende: kleine Farbpunkte, «geplant» schraffiert */
+.tl-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.25rem;
+    margin: 0 0 1rem;
+    padding: 0;
+    list-style: none;
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+}
+
+.tl-legend li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+}
+
+.tl-legend li::before {
+    content: "";
+    width: 1.4rem;
+    height: 0.5rem;
+    border-radius: 999px;
+    background: var(--farbe);
+}
+
+.tl-legend .tl-planned::before {
+    background: repeating-linear-gradient(-45deg,
+            var(--farbe-edu) 0 2px, transparent 2px 5px);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--farbe-edu) 60%, transparent);
+}
+
+.tl-edu {
+    --farbe: var(--farbe-edu);
+}
+
+.tl-work {
+    --farbe: var(--farbe-work);
+}
+
+.tl-side {
+    --farbe: var(--farbe-side);
+}
+
+/* Jahresachse über den Balken */
+.tl-axis {
+    position: relative;
+    height: 2.6rem; /* oben «heute», unten die Jahreszahlen, damit sich nichts überlappt */
+    margin-left: calc(var(--tl-offset) + var(--tl-gap));
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-variant-numeric: tabular-nums;
+}
+
+.tl-ticks span {
+    position: absolute;
+    bottom: 0.2rem;
+    left: calc((var(--jahr) - var(--tl-start)) / var(--tl-span) * 100%);
+    transform: translateX(-50%);
+}
+
+/* Das erste Jahr bündig links, damit nichts über den Rand ragt */
+.tl-ticks span:first-child {
+    transform: none;
+}
+
+/* Handy: nur jede zweite Jahreszahl (alle vier Jahre), sonst wird es eng; ab Tablet alle */
+.tl-ticks span:nth-child(even) {
+    display: none;
+}
+
+/* «heute» über der Linie */
+.tl-today-label {
+    position: absolute;
+    top: 0;
+    left: calc((var(--heute) - var(--tl-start)) / var(--tl-span) * 100%);
+    transform: translateX(-50%);
+    padding: 0 0.3rem;
+    border-radius: 4px;
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+    font-weight: 600;
+}
+
+/* Die Zeilen */
+.tl-list {
+    position: relative;
     margin: 0;
     padding: 0;
     list-style: none;
     border-bottom: 1px solid var(--color-line);
 }
 
-.cv-list li {
+.tl-row {
     display: grid;
-    grid-template-columns: 6.5rem minmax(0, 1fr);
-    gap: 1rem;
-    padding: 0.65rem 0;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: center;
+    gap: 0.4rem var(--tl-gap);
+    padding: 0.7rem 0;
     border-top: 1px solid var(--color-line);
-    font-size: 0.95rem;
-    line-height: 1.5;
+    transition: background-color 0.2s;
 }
 
-.cv-year {
-    padding-top: 0.1rem;
+.tl-label {
+    margin: 0;
+    color: var(--color-text-soft);
+    font-size: 0.92rem;
+    line-height: 1.45;
+}
+
+.tl-date {
+    display: block;
     color: var(--color-muted);
     font-family: var(--font-mono);
-    font-size: 0.78rem;
+    font-size: 0.76rem;
     font-variant-numeric: tabular-nums;
+}
+
+/* Spur mit feinen Linien alle zwei Jahre */
+.tl-track {
+    position: relative;
+    height: 0.9rem;
+    background: repeating-linear-gradient(90deg,
+            var(--color-line) 0 1px,
+            transparent 1px calc(100% / var(--tl-span) * 2));
+}
+
+.tl-bar {
+    position: absolute;
+    top: 50%;
+    left: calc((var(--von) - var(--tl-start)) / var(--tl-span) * 100%);
+    width: calc((var(--bis) - var(--von)) / var(--tl-span) * 100%);
+    min-width: 4px;
+    height: 0.6rem;
+    border-radius: 999px;
+    background: var(--farbe);
+    transform: translateY(-50%) scaleX(0);
+    transform-origin: left center;
+    transition:
+        transform 0.9s var(--ease) calc(var(--i, 0) * 90ms),
+        height 0.25s var(--ease);
+}
+
+/* Laufende Station: voll bis heute, danach schraffiert (geplant) */
+.tl-row.is-laufend .tl-bar {
+    background:
+        linear-gradient(90deg, var(--farbe) 0 var(--ist), transparent var(--ist)),
+        repeating-linear-gradient(-45deg,
+            color-mix(in srgb, var(--farbe) 70%, transparent) 0 2px,
+            transparent 2px 5px);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--farbe) 60%, transparent);
+}
+
+/* Balken wachsen von links, sobald die Zeitachse ins Bild kommt (Klasse von script.js) */
+.timeline.is-drawn .tl-bar {
+    transform: translateY(-50%) scaleX(1);
+}
+
+/* Senkrechte Linie «heute» durch alle Zeilen */
+.tl-list::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(var(--tl-offset) + var(--tl-gap) + (var(--heute) - var(--tl-start)) / var(--tl-span) * (100% - var(--tl-offset) - var(--tl-gap)));
+    border-left: 1px dashed var(--color-accent);
+    pointer-events: none;
+}
+
+/* Spürbar: die überfahrene Zeile hebt sich ab, ihr Balken wird dicker */
+@media (hover: hover) {
+    .tl-row:hover {
+        background: var(--color-card-2);
+    }
+
+    .tl-row:hover .tl-bar {
+        height: 0.85rem;
+    }
+
+    .tl-row:hover .tl-label {
+        color: var(--color-text);
+    }
+}
+
+/* Ohne JavaScript (oder bevor es läuft): keine Achse, keine Balken, nur die Liste */
+.timeline:not(.is-ready) .tl-axis,
+.timeline:not(.is-ready) .tl-track,
+.timeline:not(.is-ready) .tl-legend,
+.timeline:not(.is-ready) .tl-list::after {
+    display: none;
 }
 
 /* Kompetenzen: vier Karten im Grid (Handy untereinander, ab Tablet 2 × 2),
@@ -1421,6 +1604,20 @@ code {
 
     .details-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    /* Zeitachse: Text links in einer festen Spalte, Balken rechts */
+    .timeline {
+        --tl-offset: 17rem;
+        --tl-gap: 1.5rem;
+    }
+
+    .tl-row {
+        grid-template-columns: var(--tl-offset) minmax(0, 1fr);
+    }
+
+    .tl-ticks span:nth-child(even) {
+        display: inline;
     }
 
     /* Weitere Arbeiten: Art der Arbeit links, Inhalt rechts */
