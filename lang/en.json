@@ -8,20 +8,17 @@
     "menu.open": "Open menu",
     "menu.close": "Close menu",
     "lang.aria": "Language",
-
     "hero.alt": "Portrait of Jonas Bader",
     "hero.role": "Digital Business &amp; AI · Data analysis · Bern",
     "hero.intro": "I enjoy working with data, mathematics and tricky questions. Here I show projects I have worked on: what they do, how they work and what I found out along the way.",
     "hero.ctaProjects": "Explore projects",
     "hero.ctaContact": "Get in touch",
-
     "side.aria": "Short profile",
     "side.languages": "Languages",
     "side.languagesText": "German (native), English (C1), French (B2)",
     "side.outside": "Outside of studies",
     "side.outsideText": "Triathlon, floorball, climbing, piano",
     "side.github": "Recently on GitHub",
-
     "about.title": "About me",
     "about.lead": "I love data, mathematics and complex problems, especially when the solution does something good for people and nature.",
     "about.pathTitle": "How I got here",
@@ -37,7 +34,6 @@
     "cv.4": "Passerelle (university entrance programme), Kollegium St.&nbsp;Michael (final grade 5.0 out of 6)",
     "cv.5": "Client advisor and assistant to bank management, Raiffeisenbank See-Lac",
     "cv.6": "Commercial apprenticeship in banking (EFZ) with vocational baccalaureate, Raiffeisenbank See-Lac",
-
     "skills.title": "Skills",
     "skills.intro": "What I use and where you can see it on this page.",
     "skills.dataH": "Data &amp; statistics",
@@ -55,12 +51,10 @@
     "skills.methUse": "<span>Used in</span> data analysis, 2sports, BCS team, TrainCast",
     "skills.aiH": "Working with AI",
     "skills.aiUse": "<span>Used in</span> BORS and this page, for code and translations",
-
     "projects.title": "Projects",
     "projects.more": "Further work",
     "toggle.more": "Learn more",
     "toggle.less": "Show less",
-
     "bors.alt": "BORS web app: map of Bern with streets coloured green, yellow or red depending on passability",
     "bors.meta": "Main project · BFH team project, 6 people",
     "bors.text": "Routing for emergency vehicles: which street is physically passable for which vehicle? For an emergency doctor's car, an ambulance and two fire engines, BORS checks whether width, height and weight are sufficient and calculates the route on that basis, in Bern and ten neighbouring municipalities.",
@@ -85,7 +79,6 @@
     "bors.live": "Load live preview here",
     "bors.liveTitle": "BORS web app, live preview",
     "bors.link": "Open the web app",
-
     "sm.alt": "SplitMate debt overview: total 20 CHF, two people each pay 10 CHF to a third",
     "sm.meta": "Team project · Software Engineering",
     "sm.text": "A web app that lets a shared flat split its costs fairly: create a group, record expenses, and the app shows who owes whom how much.",
@@ -103,7 +96,6 @@
     "sm.calc3": "Settle debtors and creditors one after the other until all balances are zero. This needs at most one payment fewer than there are people.",
     "sm.limitsH": "Limits and next step",
     "sm.limits": "Today the calculation splits all expenses evenly among the people who paid something themselves, and not yet per group. As a next step it would have to calculate per group and take into account who an expense was for.",
-
     "r.alt": "Scatter plot: life expectancy falls as the share of smokers rises, more steeply in high-income regions",
     "r.meta": "Group project · Data Management &amp; Data Analysis",
     "r.title": "Data analysis: life expectancy (R)",
@@ -114,17 +106,13 @@
     "r.resultH": "Result",
     "r.result": "Regions with a higher share of smokers have a lower life expectancy on average, and in higher-income regions this relationship is steeper (interaction share of smokers × income). I checked the models with residual diagnostics.",
     "r.limit": "Because these are observational data, the analysis shows an association, not a causal effect.",
-
     "unia.meta": "Study concept",
     "unia.text": "Concept for an AI assistant that recognises documents for the unemployment insurance fund, checks them for completeness and forwards them.",
     "unia.role": "<strong>My part:</strong> IT architecture (cloud, APIs, security) and digital strategy (KPIs, roadmap).",
-
     "two.text": "Requirements for an app that helps you spontaneously find sports partners nearby.",
     "two.role": "<strong>My part:</strong> overview of variants, detailed requirements and stakeholder list.",
-
     "tc.meta": "Service concept",
     "tc.text": "A service concept that automatically schedules training sessions into free calendar slots and dry weather.",
-
     "contact.title": "Contact",
     "contact.text": "The easiest way to reach me is this form. You can find my code on <a href=\"https://github.com/Jonasbader7\">GitHub</a>.",
     "form.name": "Name",
@@ -140,6 +128,11 @@
     "err.message": "Please write at least 10 characters (currently {n}).",
     "repo.empty": "No public projects yet.",
     "repo.error": "Currently unavailable.",
-
-    "footer.code": "Code on GitHub"
+    "footer.code": "Code on GitHub",
+    "r.code": "Code, data & results",
+    "freddy.meta": "Jury award · BFH Entrepreneurship Week 2024",
+    "freddy.text": "Our team project received the “Jury award for originality and productive use of technology” from the BFH Institute Innovation & Strategic Entrepreneurship.",
+    "freddy.role": "<strong>My part:</strong> all video editing and postproduction in LumaFusion, plus some of the filming.",
+    "freddy.link": "Project, team & award",
+    "sm.code": "Source code & project status"
 }
