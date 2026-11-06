@@ -475,7 +475,7 @@ if (!wenigBewegung && "IntersectionObserver" in window) {
     }, { rootMargin: "0px 0px -8% 0px" });
 
     const kandidaten = document.querySelectorAll(
-        "main > section > h2, #profile p, .about-subtitle, .project-card, .section-label, .work-item, .cv-list, .section-intro, .skill-row, .sidebar, .contact-form"
+        "main > section > h2, #profile p, .about-subtitle, .project-card, .section-label, .work-item, .cv-list, .section-intro, .skill-card, .sidebar, .contact-form"
     );
     kandidaten.forEach(function (el) {
         // Was schon sichtbar ist, bleibt sichtbar (kein Aufblitzen beim Laden)

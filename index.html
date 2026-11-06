@@ -271,6 +271,7 @@
                                 <button type="button" class="details-toggle" aria-expanded="false"
                                     aria-controls="details-bors">Mehr erfahren</button>
                                 <a href="https://jonasbader7.github.io/BORS/" data-i18n="bors.link">Zur Web-App</a>
+                                <a href="https://github.com/Jonasbader7/BORS" data-i18n="link.code">Code auf GitHub</a>
                             </div>
                         </article>
                     </li>
@@ -335,7 +336,7 @@
                             <div class="card-actions">
                                 <button type="button" class="details-toggle" aria-expanded="false"
                                     aria-controls="details-splitmate">Mehr erfahren</button>
-                                <a href="https://github.com/Jonasbader7/SplitMate" target="_blank" rel="noopener noreferrer" data-i18n="sm.code">Quellcode &amp; Projektstand</a>
+                                <a href="https://github.com/Jonasbader7/SplitMate" data-i18n="link.code">Code auf GitHub</a>
                             </div>
                         </article>
                     </li>
@@ -351,8 +352,9 @@
                             <p class="project-meta" data-i18n="r.meta">Gruppenprojekt · Datenmanagement &amp; Datenanalyse</p>
                             <h3 data-i18n="r.title">Datenanalyse Lebenserwartung (R)</h3>
                             <p data-i18n="r.text">
-                                Regressionsmodelle zum Zusammenhang von Lebenserwartung, Raucheranteil und Einkommen
-                                in 100 US-Regionen.
+                                Regressionsmodelle für 100 US-Regionen: Wie hängen Raucheranteil und Einkommen mit der
+                                Lebenserwartung zusammen (Frauen im untersten Einkommensquartil, ab 40 Jahren)?
+                                Reproduzierbar in R.
                             </p>
                             <p class="project-role" data-i18n="r.role"><strong>Mein Teil:</strong> der gesamte Analyseteil.</p>
 
@@ -365,9 +367,11 @@
                             <div class="project-details" id="details-r" hidden>
                                 <h4 data-i18n="r.resultH">Ergebnis</h4>
                                 <p data-i18n="r.result">
-                                    Regionen mit höherem Raucheranteil haben im Schnitt eine tiefere Lebenserwartung,
-                                    und in einkommensstärkeren Regionen ist dieser Zusammenhang steiler (Interaktion
-                                    Raucheranteil × Einkommen). Die Modelle habe ich mit einer Residuendiagnostik geprüft.
+                                    Ein um 10 Prozentpunkte höherer Raucheranteil geht mit einer um rund 1,25 Jahre tieferen
+                                    Lebenserwartung einher. In Regionen mit überdurchschnittlichem Einkommen ist der
+                                    Zusammenhang etwa doppelt so steil (−1,7 statt −0,9 Jahre, Interaktion p = 0,005).
+                                    Das Modell erklärt 46 % der Streuung (R² = 0,46); geprüft habe ich es mit einer
+                                    Residuendiagnostik.
                                 </p>
                                 <p data-i18n="r.limit">
                                     Weil es Beobachtungsdaten sind, zeigt die Analyse einen Zusammenhang, keinen
@@ -378,137 +382,145 @@
                             <div class="card-actions">
                                 <button type="button" class="details-toggle" aria-expanded="false"
                                     aria-controls="details-r">Mehr erfahren</button>
-                                <a href="https://github.com/Jonasbader7/life-expectancy-analysis-r" target="_blank" rel="noopener noreferrer" data-i18n="r.code">Code, Daten &amp; Ergebnisse</a>
+                                <a href="https://github.com/Jonasbader7/life-expectancy-analysis-r" data-i18n="link.code">Code auf GitHub</a>
                             </div>
                         </article>
                     </li>
 
                 </ul>
 
-                <!-- Kleinere Konzeptarbeiten kompakt als Liste, damit die drei grossen Projekte mehr Gewicht haben -->
+                <!-- Kleinere Arbeiten kompakt als Liste, damit die drei grossen Projekte mehr Gewicht haben -->
                 <h3 class="section-label" data-i18n="projects.more">Weitere Arbeiten</h3>
                 <ul class="work-list">
                     <li class="work-item">
-                        <p class="project-meta" data-i18n="freddy.meta">Jurypreis · BFH Entrepreneurship Week 2024</p>
+                        <p class="project-meta" data-i18n="freddy.meta">Entrepreneurship Week 2024</p>
                         <div>
-                            <h4>Die Befreiung von Freddy: gefangen im magischen Buch</h4>
-                            <p data-i18n="freddy.text">Unser Teamprojekt erhielt den «Jury award for originality and productive use of technology» des BFH Institute Innovation &amp; Strategic Entrepreneurship.</p>
-                            <p class="project-role" data-i18n="freddy.role"><strong>Mein Teil:</strong> gesamter Videoschnitt und Nachbearbeitung in LumaFusion; teilweise Mitarbeit bei den Aufnahmen.</p>
-                            <p><a href="https://github.com/Jonasbader7/freddy-entrepreneurship-2024" target="_blank" rel="noopener noreferrer" data-i18n="freddy.link">Projekt, Team &amp; Auszeichnung</a></p>
+                            <h4>Die Befreiung von Freddy <span class="award" data-i18n="freddy.award">Jurypreis</span></h4>
+                            <p data-i18n="freddy.text">Videoprojekt im Team (5 Personen) an der BFH Entrepreneurship
+                                Week. Die Jury zeichnete es für Originalität und produktiven Einsatz von Technologie aus.</p>
+                            <p class="project-role" data-i18n="freddy.role"><strong>Mein Teil:</strong> der ganze
+                                Videoschnitt und die Nachbearbeitung in LumaFusion, teilweise auch die Aufnahmen.</p>
+                            <a class="work-link" href="https://github.com/Jonasbader7/freddy-entrepreneurship-2024"
+                                data-i18n="link.details">Details auf GitHub</a>
                         </div>
                     </li>
 
                     <li class="work-item">
                         <p class="project-meta" data-i18n="unia.meta">Studienkonzept</p>
                         <div>
-                            <h4><a href="https://github.com/Jonasbader7/bfh-digital-business-projects/tree/main/unia-ai-assistant" target="_blank" rel="noopener noreferrer">Unia AI Assistant</a></h4>
+                            <h4>Unia AI Assistant</h4>
                             <p data-i18n="unia.text">
                                 Konzept für einen KI-Assistenten, der Unterlagen für die Arbeitslosenkasse erkennt,
                                 auf Vollständigkeit prüft und weiterleitet.
                             </p>
                             <p class="project-role" data-i18n="unia.role"><strong>Mein Teil:</strong> IT-Architektur
                                 (Cloud, APIs, Sicherheit) und Digitalstrategie (KPIs, Roadmap).</p>
+                            <a class="work-link"
+                                href="https://github.com/Jonasbader7/bfh-digital-business-projects/tree/main/unia-ai-assistant"
+                                data-i18n="link.details">Details auf GitHub</a>
                         </div>
                     </li>
 
                     <li class="work-item">
                         <p class="project-meta">Requirements Engineering</p>
                         <div>
-                            <h4><a href="https://github.com/Jonasbader7/bfh-digital-business-projects/tree/main/2sports" target="_blank" rel="noopener noreferrer">2sports</a></h4>
+                            <h4>2sports</h4>
                             <p data-i18n="two.text">
                                 Anforderungen an eine App, mit der man spontan Sportpartner:innen in der Nähe findet.
                             </p>
                             <p class="project-role" data-i18n="two.role"><strong>Mein Teil:</strong> Variantenübersicht,
                                 Detailanforderungen und Stakeholderliste.</p>
+                            <a class="work-link"
+                                href="https://github.com/Jonasbader7/bfh-digital-business-projects/tree/main/2sports"
+                                data-i18n="link.details">Details auf GitHub</a>
                         </div>
                     </li>
 
                     <li class="work-item">
                         <p class="project-meta" data-i18n="tc.meta">Servicekonzept</p>
                         <div>
-                            <h4><a href="https://github.com/Jonasbader7/bfh-digital-business-projects/tree/main/traincast" target="_blank" rel="noopener noreferrer">TrainCast</a></h4>
+                            <h4>TrainCast</h4>
                             <p data-i18n="tc.text">Servicekonzept, das Trainings automatisch in freie Kalenderlücken und
                                 trockenes Wetter plant.</p>
+                            <p class="project-role" data-i18n="tc.role"><strong>Mein Teil:</strong> das ganze Konzept
+                                als Einzelarbeit: User Journey, Personas und Value Proposition.</p>
+                            <a class="work-link"
+                                href="https://github.com/Jonasbader7/bfh-digital-business-projects/tree/main/traincast"
+                                data-i18n="link.details">Details auf GitHub</a>
                         </div>
                     </li>
                 </ul>
             </section>
 
 
-            <!-- Kompetenzen mit Beleg: pro Bereich die Werkzeuge und wo man sie auf dieser Seite sieht -->
+            <!-- Kompetenzen nach Lebenslauf: vier Bereiche als Karten (Grid), je mit Beleg -->
             <section id="skills">
                 <h2 data-i18n="skills.title">Kompetenzen</h2>
-                <p class="section-intro" data-i18n="skills.intro">Was ich einsetze und wo man es auf dieser Seite sieht.</p>
+                <p class="section-intro" data-i18n="skills.intro">Aus dem Studium, aus meinen Projekten und aus
+                    meiner Zeit in der Bank.</p>
 
-                <ul class="skill-list">
-                    <li class="skill-row">
-                        <h3 data-i18n="skills.dataH">Daten &amp; Statistik</h3>
+                <ul class="skill-grid">
+                    <li class="skill-card">
+                        <h3 data-i18n="skills.dataH">Daten &amp; Analyse</h3>
+                        <p data-i18n="skills.dataText">Daten aufbereiten, statistisch auswerten und so zeigen, dass
+                            man sie versteht.</p>
                         <ul class="tag-list">
                             <li>Python</li>
                             <li>R</li>
                             <li>SQL</li>
-                            <li>SQLite</li>
+                            <li>Excel</li>
+                            <li data-i18n="skills.regression">Regression</li>
+                            <li data-i18n="skills.bi">Data Analytics &amp; BI</li>
                         </ul>
-                        <p class="skill-use" data-i18n="skills.dataUse"><span>Eingesetzt in</span> BORS,
-                            Datenanalyse Lebenserwartung, SplitMate</p>
+                        <p class="skill-use" data-i18n="skills.dataUse"><span>Zu sehen in</span> BORS,
+                            Lebenserwartung (R), SplitMate</p>
                     </li>
 
-                    <li class="skill-row">
-                        <h3 data-i18n="skills.geoH">Geodaten</h3>
-                        <ul class="tag-list">
-                            <li>QGIS / PyQGIS</li>
-                            <li>GeoPackage</li>
-                            <li>OpenStreetMap</li>
-                            <li data-i18n="skills.swisstopo">swisstopo-Dienste</li>
-                            <li data-i18n="skills.lv95">Koordinatensystem LV95</li>
-                        </ul>
-                        <p class="skill-use" data-i18n="skills.geoUse"><span>Eingesetzt in</span> BORS</p>
-                    </li>
-
-                    <li class="skill-row">
-                        <h3>Web &amp; Software</h3>
+                    <li class="skill-card">
+                        <h3 data-i18n="skills.devH">Software &amp; Geodaten</h3>
+                        <p data-i18n="skills.devText">Vom Datenmodell bis zur Web-App, die im Browser läuft.</p>
                         <ul class="tag-list">
                             <li>JavaScript</li>
                             <li>HTML / CSS</li>
                             <li>Vue 3</li>
                             <li data-i18n="skills.rest">REST-APIs</li>
+                            <li>QGIS / PyQGIS</li>
                             <li>MapLibre GL</li>
-                        </ul>
-                        <p class="skill-use" data-i18n="skills.webUse"><span>Eingesetzt in</span> BORS-Web-App,
-                            SplitMate, diese Seite</p>
-                    </li>
-
-                    <li class="skill-row">
-                        <h3 data-i18n="skills.devH">Versionierung &amp; Abläufe</h3>
-                        <ul class="tag-list">
                             <li>Git / GitHub</li>
-                            <li>GitHub Actions</li>
-                            <li>GitLab CI/CD</li>
                         </ul>
-                        <p class="skill-use" data-i18n="skills.devUse"><span>Eingesetzt in</span> BORS, SplitMate,
+                        <p class="skill-use" data-i18n="skills.devUse"><span>Zu sehen in</span> BORS, SplitMate,
                             dieser Seite</p>
                     </li>
 
-                    <li class="skill-row">
-                        <h3 data-i18n="skills.methH">Methoden</h3>
+                    <li class="skill-card">
+                        <h3 data-i18n="skills.bankH">Bank &amp; Beratung</h3>
+                        <p data-i18n="skills.bankText">Mehrere Jahre Kundenkontakt: Bedürfnisse verstehen und
+                            Finanzprodukte verständlich erklären.</p>
                         <ul class="tag-list">
-                            <li data-i18n="skills.regression">Regression und Residuendiagnostik</li>
-                            <li>Requirements Engineering</li>
-                            <li>Scrum</li>
-                            <li>Service Design</li>
+                            <li data-i18n="skills.advice">Privatkundenberatung</li>
+                            <li data-i18n="skills.products">Zahlen, Sparen, Anlegen, Vorsorgen</li>
+                            <li data-i18n="skills.processes">Bankprozesse</li>
+                            <li data-i18n="skills.saq">SAQ-zertifiziert</li>
                         </ul>
-                        <p class="skill-use" data-i18n="skills.methUse"><span>Eingesetzt in</span> Datenanalyse,
-                            2sports, BCS-Team, TrainCast</p>
+                        <p class="skill-use" data-i18n="skills.bankUse"><span>Erfahrung bei</span> Raiffeisenbank
+                            See-Lac, Bank Cler</p>
                     </li>
 
-                    <li class="skill-row">
-                        <h3 data-i18n="skills.aiH">Arbeiten mit KI</h3>
+                    <li class="skill-card">
+                        <h3 data-i18n="skills.methH">Methoden &amp; Zusammenarbeit</h3>
+                        <p data-i18n="skills.methText">Projekte im Team strukturieren, Anforderungen klären und
+                            Ergebnisse präsentieren.</p>
                         <ul class="tag-list">
-                            <li>Claude Code</li>
-                            <li>ChatGPT</li>
+                            <li data-i18n="skills.po">Scrum, Product Owner</li>
+                            <li>Requirements Engineering</li>
+                            <li>Service Design</li>
+                            <li data-i18n="skills.strategy">Digitalstrategie</li>
+                            <li data-i18n="skills.video">Videoschnitt</li>
+                            <li>MS Office</li>
+                            <li data-i18n="skills.ai">KI-Werkzeuge (Claude Code, ChatGPT)</li>
                         </ul>
-                        <p class="skill-use" data-i18n="skills.aiUse"><span>Eingesetzt in</span> BORS und dieser
-                            Seite, für Code und Übersetzungen</p>
+                        <p class="skill-use" data-i18n="skills.methUse"><span>Zu sehen in</span> BORS, 2sports,
+                            TrainCast, Unia AI Assistant, Freddy</p>
                     </li>
                 </ul>
             </section>

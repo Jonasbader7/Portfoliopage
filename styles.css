@@ -899,52 +899,67 @@ main > section > h2::before {
     font-variant-numeric: tabular-nums;
 }
 
-/* Kompetenzen: Bereich links, Werkzeuge und Beleg rechts (ab Tablet) */
+/* Kompetenzen: vier Karten im Grid (Handy untereinander, ab Tablet 2 × 2),
+   nummeriert per CSS-Zähler wie die Abschnitte */
 .section-intro {
     max-width: 40rem;
     margin: -0.75rem 0 1.5rem;
     color: var(--color-muted);
 }
 
-.skill-list {
+.skill-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.25rem;
     margin: 0;
     padding: 0;
     list-style: none;
+    counter-reset: kompetenz;
+}
+
+.skill-card {
+    counter-increment: kompetenz;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    padding: 1.5rem;
+    background: var(--color-card);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius);
+}
+
+/* Nummer «01» … und eine kurze Linie in Akzentfarbe über dem Titel */
+.skill-card::before {
+    content: counter(kompetenz, decimal-leading-zero);
+    padding-bottom: 0.9rem;
     border-bottom: 1px solid var(--color-line);
+    color: var(--color-accent);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
 }
 
-.skill-row {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-areas:
-        "title"
-        "tags"
-        "use";
-    gap: 0.6rem 2rem;
-    padding: 1.35rem 0;
-    border-top: 1px solid var(--color-line);
-}
-
-.skill-row h3 {
-    grid-area: title;
+.skill-card h3 {
     margin: 0;
-    font-size: 1.1rem;
+    font-size: 1.25rem;
     font-weight: 650;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.02em;
 }
 
-.skill-row .tag-list {
-    grid-area: tags;
-}
-
-.skill-use {
-    grid-area: use;
+.skill-card > p {
     margin: 0;
-    color: var(--color-text-soft);
-    font-size: 0.9rem;
 }
 
-/* «Eingesetzt in» als kleines Etikett vor der Aufzählung */
+/* Beleg ganz unten in der Karte (zwei Klassen, damit es die Regel oben überschreibt) */
+.skill-card > .skill-use {
+    margin-top: auto;
+    padding-top: 0.25rem;
+    color: var(--color-text-soft);
+    font-size: 0.88rem;
+}
+
+/* «Zu sehen in» als kleines Etikett vor der Aufzählung */
 .skill-use span {
     margin-right: 0.4rem;
     color: var(--color-muted);
@@ -983,6 +998,48 @@ main > section > h2::before {
     font-size: 1.2rem;
     font-weight: 650;
     letter-spacing: -0.015em;
+}
+
+/* Etikett für eine Auszeichnung neben dem Titel */
+.award {
+    display: inline-block;
+    margin-left: 0.4rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+    background: var(--color-accent-soft);
+    color: var(--color-accent);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    vertical-align: 0.2em;
+}
+
+/* Link zu GitHub unter einer Arbeit, gleich gestaltet wie in den Karten */
+.work-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    margin-top: 0.75rem;
+    color: var(--color-text);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.work-link::after {
+    content: "↗";
+    color: var(--color-accent);
+    transition: transform 0.3s var(--ease-spring);
+}
+
+.work-link:hover {
+    color: var(--color-accent);
+}
+
+.work-link:hover::after {
+    transform: translate(2px, -2px);
 }
 
 .work-item p {
@@ -1375,15 +1432,8 @@ code {
         padding-top: 0.35rem;
     }
 
-    .skill-row {
-        grid-template-columns: 13rem minmax(0, 1fr);
-        grid-template-areas:
-            "title tags"
-            "title use";
-    }
-
-    .skill-row h3 {
-        padding-top: 0.1rem;
+    .skill-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     /* Formular: Name und E-Mail nebeneinander, Nachricht über die ganze Breite */
