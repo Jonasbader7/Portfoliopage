@@ -43,7 +43,7 @@ async function collect(request,env) {
   try {raw=await request.text();if(raw.length>1500)return result({error:"Too long"},413,c);}
   catch(_) {return result({error:"Unreadable request"},400,c);}
   let v;try {v=JSON.parse(raw);} catch(_) {return result({error:"Invalid JSON"},400,c);}
-  let site=one(v.site,["portfolio","bors"]);
+  let site=one(v.site,["portfolio","bors","transparenz"]);
   let event=one(v.event,["pageview","link_click","feature_click","engagement"]);
   if(!site||!event)return result({error:"Invalid event"},400,c);
   let detail=short(v.detail,70);

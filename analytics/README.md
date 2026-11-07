@@ -2,11 +2,15 @@
 
 Status: **Aktiv seit 7. November 2026** (Pull Request #1, auf Portfolio und BORS). Der Worker läuft unter `https://jonas-portfolio-analytics.jonas-bader-analytics.workers.dev`, `analytics-config.js` zeigt auf dessen `/collect`. Zähler und Sicherheitslog (volle IP-Adressen, 14 Tage) sind beide eingeschaltet; Jonas hat am 7.11.2026 entschieden, das so zu lassen. Ausschalten: in `analytics-config.js` beider Repos `endpoint: ""` setzen.
 
+**Projekt Transparenz (vorbereitet 7.11.2026):** Der Worker akzeptiert zusätzlich `site: "transparenz"` (gleiche Erfassung inkl. Sicherheitslog, Entscheid Jonas). Bereitgestellt am 7.11.2026 (Version `da476383`).
+
+**Worker erneut bereitstellen** (nach Änderungen an `src/worker.js`): in `analytics/backend` `npm install`, dann `powershell -ExecutionPolicy Bypass -File .\deploy-windows.ps1`. Ein direktes `npx wrangler deploy` scheitert, weil `wrangler.jsonc` im Repo nur den Platzhalter für die D1 `database_id` enthält; das Skript holt die ID bei Cloudflare und nutzt eine temporäre Konfiguration ausserhalb des Repos. Die Transparenz-Website bringt eigene Kopien von `analytics-config.js`/`analytics-client.js` mit (Repo `Projekt-Transparenz`, `src/transparenz/site/static/`); dort ausschalten mit `endpoint: ""` und `python -m transparenz build-site`. Deren Client zählt nur auf `https://jonasbader7.github.io` (Schutz gegen lokale Tests).
+
 Auswerten: `pwsh analytics/backend/dashboard-windows.ps1` (Zähler der letzten 30 Tage), mit `-Days 7` oder `-Security` (zeigt IP-Adressen, vertraulich). Das Skript liest Worker-Adresse und Token aus `%USERPROFILE%\.jonas-analytics` (Token mit Windows DPAPI verschlüsselt, nie committen). Die Anleitung unten beschreibt die Ersteinrichtung, die schon erledigt ist.
 
 ## Umfang
 
-- Portfolio und BORS: weltweite Seitenaufrufe, aggregierte Link-Kategorien, BORS-Ansichts-/Tab-Nutzung und ungefähre aktive Nutzungsdauer
+- Portfolio, BORS und Projekt Transparenz: weltweite Seitenaufrufe, aggregierte Link-Kategorien, BORS-Ansichts-/Tab-Nutzung und ungefähre aktive Nutzungsdauer (bei Transparenz keine Unterscheidung nach Unterseite)
 - Weltweit: Land, Region und (sofern bestimmbar) ungefähre Stadt; für die Schweiz auch Kantone über die Geo-IP-Region
 - Gerätetyp und Browser-Kategorie
 - Separate technische Sicherheitsprotokolle mit IP-Adresse bei `pageview`, **nicht** mit Klickdetails verknüpft
