@@ -36,10 +36,10 @@
     "cv.1": "BSc Digital Business &amp; AI, Bern University of Applied Sciences",
     "cv.2": "Private client advisor, Bank Cler Bern (SAQ certified 2025)",
     "cv.3": "Physics at the University of Bern, 3 semesters, minor in astronomy",
-    "cv.4": "Passerelle (university entrance programme), Kollegium St.&nbsp;Michael (final grade 5.0 out of 6)",
-    "cv.5": "Client advisor and assistant to bank management, Raiffeisenbank See-Lac",
-    "cv.6": "Commercial apprenticeship in banking (EFZ) with vocational baccalaureate, Raiffeisenbank See-Lac",
-    "cv.7": "Sales and bistro, TopShop Laupen (alongside Passerelle and studies)",
+    "cv.4": "Passerelle (university entrance programme), Kollegium St.&nbsp;Michael",
+    "cv.5": "Client advisor and assistant to bank management, Raiffeisen",
+    "cv.6": "Commercial apprenticeship in banking (EFZ) with vocational baccalaureate, Raiffeisen",
+    "cv.7": "Sales and bistro, TopShop (alongside Passerelle and studies)",
     "cv.legendEdu": "Education",
     "cv.legendWork": "Work",
     "cv.legendSide": "Side job",
@@ -61,7 +61,7 @@
     "skills.products": "Payments, saving, investing, retirement",
     "skills.processes": "Banking processes",
     "skills.saq": "SAQ certified",
-    "skills.bankUse": "<span>Experience at</span> Raiffeisenbank See-Lac, Bank Cler",
+    "skills.bankUse": "<span>Experience at</span> Raiffeisen, Bank Cler",
     "skills.methH": "Methods &amp; collaboration",
     "skills.methText": "Structuring team projects, clarifying requirements and presenting results.",
     "skills.po": "Scrum, product owner",
@@ -164,5 +164,6 @@
     "repo.empty": "No public projects yet.",
     "repo.error": "Currently unavailable.",
 
+    "footer.privacy": "Privacy &amp; analytics",
     "footer.code": "Code on GitHub"
 }

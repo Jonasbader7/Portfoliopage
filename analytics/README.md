@@ -1,6 +1,8 @@
 # Analytics & Sicherheitsprotokolle – Bereitstellung
 
-Status: **Vorbereitet, nicht aktiv.** Der Code ist in einem separaten GitHub-Branch. Die Datei `analytics-config.js` enthält absichtlich eine leere Endpoint-URL. Bis zur Einrichtung werden **keine Analytics-Anfragen** verschickt.
+Status: **Aktiv seit 7. November 2026** (Pull Request #1, auf Portfolio und BORS). Der Worker läuft unter `https://jonas-portfolio-analytics.jonas-bader-analytics.workers.dev`, `analytics-config.js` zeigt auf dessen `/collect`. Zähler und Sicherheitslog (volle IP-Adressen, 14 Tage) sind beide eingeschaltet; Jonas hat am 7.11.2026 entschieden, das so zu lassen. Ausschalten: in `analytics-config.js` beider Repos `endpoint: ""` setzen.
+
+Auswerten: `pwsh analytics/backend/dashboard-windows.ps1` (Zähler der letzten 30 Tage), mit `-Days 7` oder `-Security` (zeigt IP-Adressen, vertraulich). Das Skript liest Worker-Adresse und Token aus `%USERPROFILE%\.jonas-analytics` (Token mit Windows DPAPI verschlüsselt, nie committen). Die Anleitung unten beschreibt die Ersteinrichtung, die schon erledigt ist.
 
 ## Umfang
 

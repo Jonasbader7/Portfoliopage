@@ -36,10 +36,10 @@
     "cv.1": "BSc Digital Business &amp; AI, Haute école spécialisée bernoise",
     "cv.2": "Conseiller à la clientèle privée, Banque Cler Berne (certifié SAQ 2025)",
     "cv.3": "Études de physique à l’Université de Berne, 3 semestres, mineure en astronomie",
-    "cv.4": "Passerelle, Collège Saint-Michel (note finale 5,0)",
-    "cv.5": "Conseiller à la clientèle et assistant de la direction, Banque Raiffeisen See-Lac",
-    "cv.6": "Apprentissage d’employé de commerce, banque (CFC), avec maturité professionnelle, Banque Raiffeisen See-Lac",
-    "cv.7": "Vente et bistro, TopShop Laupen (en parallèle de la passerelle et des études)",
+    "cv.4": "Passerelle, Collège Saint-Michel",
+    "cv.5": "Conseiller à la clientèle et assistant de la direction, Raiffeisen",
+    "cv.6": "Apprentissage d’employé de commerce, banque (CFC), avec maturité professionnelle, Raiffeisen",
+    "cv.7": "Vente et bistro, TopShop (en parallèle de la passerelle et des études)",
     "cv.legendEdu": "Formation",
     "cv.legendWork": "Travail",
     "cv.legendSide": "Job d’appoint",
@@ -61,7 +61,7 @@
     "skills.products": "Paiements, épargne, placements, prévoyance",
     "skills.processes": "Processus bancaires",
     "skills.saq": "Certifié SAQ",
-    "skills.bankUse": "<span>Expérience chez</span> Banque Raiffeisen See-Lac, Banque Cler",
+    "skills.bankUse": "<span>Expérience chez</span> Raiffeisen, Banque Cler",
     "skills.methH": "Méthodes et collaboration",
     "skills.methText": "Structurer des projets en équipe, clarifier les exigences et présenter les résultats.",
     "skills.po": "Scrum, product owner",
@@ -164,5 +164,6 @@
     "repo.empty": "Pas encore de projets publics.",
     "repo.error": "Momentanément indisponible.",
 
+    "footer.privacy": "Confidentialité &amp; statistiques",
     "footer.code": "Code sur GitHub"
 }
