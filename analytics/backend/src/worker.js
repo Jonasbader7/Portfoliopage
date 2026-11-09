@@ -1,6 +1,6 @@
 /** Cloudflare Worker + D1: anonymous hourly counters + separated security logs.
  * No cookies, stable IDs, fingerprinting, URL parameters, submitted text or route coordinates.
- * Full IP addresses appear ONLY in protected short-lived security logs (pageview requests).
+ * Full IP addresses appear ONLY in protected security logs (90-day retention) (pageview requests).
  * IMPORTANT: Do not deploy without displaying the privacy statement and verifying local legal requirements.
  *
  * Bindings: DB (D1); secrets: ADMIN_TOKEN (random >=32 chars), ALLOWED_ORIGIN optional.
@@ -72,6 +72,7 @@ async function collect(request,env) {
 async function admin(request,env,url) {
   if(!adminAllowed(request,env))return result({error:"Not authorized"},401);
   if(request.method!=="GET")return result({error:"Method not allowed"},405);
+  if(url.pathname==="/admin/ip") return result({ip:ipAddress(request)});
   let days=Math.min(180,Math.max(1,parseInt(url.searchParams.get("days")||"30",10)||30));
   let since=new Date(Date.now()-days*86400000).toISOString().slice(0,13)+":00:00Z";
   if(url.pathname==="/admin/summary") {
@@ -89,9 +90,12 @@ async function admin(request,env,url) {
     return result(output);
   }
   if(url.pathname==="/admin/security") {
-    let limit=Math.min(100,Math.max(1,parseInt(url.searchParams.get("limit")||"50",10)||50));
-    let rows=await env.DB.prepare("SELECT ts,site,ip,country,region,city,reason FROM security_access ORDER BY ts DESC LIMIT ?").bind(limit).all();
-    return result({entries:rows.results,retentionDays:14,warning:"Confidential IP logs. Only for security diagnostics; no visitor profiling."});
+    let limit=Math.min(1000,Math.max(1,parseInt(url.searchParams.get("limit")||"1000",10)||1000));
+    let excluded=[...new Set(url.searchParams.getAll("excludeIP"))];
+    if(excluded.length>20 || excluded.some(ip=>ip.length>48 || !/^[0-9a-fA-F:.]+$/.test(ip)))return result({error:"Invalid excluded IP"},400);
+    let filter=excluded.length ? ` AND ip NOT IN (${excluded.map(()=>"?").join(",")})` : "";
+    let rows=await env.DB.prepare(`SELECT ts,site,ip,country,region,city,reason FROM security_access WHERE ts>=?${filter} ORDER BY ts DESC,id DESC LIMIT ?`).bind(since,...excluded,limit).all();
+    return result({entries:rows.results,retentionDays:90,warning:"Confidential IP logs. Only for security diagnostics; no visitor profiling."});
   }
   return result({error:"Not found"},404);
 }
@@ -104,7 +108,7 @@ export default {
     return result({error:"Not found"},404);
   },
   async scheduled(_controller,env,ctx) {
-    let cutoffSecurity=new Date(Date.now()-14*86400000).toISOString();
+    let cutoffSecurity=new Date(Date.now()-90*86400000).toISOString();
     let cutoffAnalytics=new Date(Date.now()-180*86400000).toISOString();
     ctx.waitUntil(env.DB.batch([
       env.DB.prepare("DELETE FROM security_access WHERE ts < ?").bind(cutoffSecurity),
@@ -112,3 +116,4 @@ export default {
     ]));
   }
 };
+

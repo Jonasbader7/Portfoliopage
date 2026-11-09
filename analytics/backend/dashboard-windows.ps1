@@ -1,6 +1,6 @@
 #requires -Version 7.0
 # Jonas Analytics CLI dashboard, token never displayed.
-param([ValidateRange(1,180)][int]$Days=30,[ValidateRange(1,100)][int]$Top=20,[switch]$Security)
+param([ValidateRange(1,180)][int]$Days=30,[ValidateRange(1,100)][int]$Top=20,[switch]$Security,[ValidateRange(1,1000)][int]$SecurityLimit=1000,[string[]]$ExcludeIP=@(),[switch]$IncludeOwnIP)
 $ErrorActionPreference='Stop'
 $dir=Join-Path $HOME '.jonas-analytics'
 $worker=(Get-Content -Raw (Join-Path $dir 'worker-url.txt')).Trim().TrimEnd('/')
@@ -32,8 +32,18 @@ try{
   $data.daily | Select-Object -First $Top | Format-Table day,site,event,hits -AutoSize | Out-Host
   if($Security){
     Write-Warning 'VERTRAULICH: Vollstaendige IP-Adressen. Ausgabe nicht weitergeben.'
-    $logs=Invoke-RestMethod -Uri "$worker/admin/security?limit=$Top" -Headers $headers
+    $excluded=@($ExcludeIP)
+    if(-not $IncludeOwnIP){
+      $self=Invoke-RestMethod -Uri "$worker/admin/ip" -Headers $headers
+      if(-not $self.ip){throw 'Eigene IP konnte nicht ermittelt werden.'}
+      $excluded += $self.ip
+    }
+    $query="limit=$SecurityLimit&days=$Days"
+    foreach($address in $excluded){$query += "&excludeIP=$([Uri]::EscapeDataString($address))"}
+    $logs=Invoke-RestMethod -Uri "$worker/admin/security?$query" -Headers $headers
+    Write-Host "IP-Logs: letzte $Days Tage, maximal $SecurityLimit Eintraege; Aufbewahrung: $($logs.retentionDays) Tage."
     $logs.entries | Format-Table ts,site,ip,country,region,city,reason -AutoSize | Out-Host
   }
   Write-Host 'Fertig.' -ForegroundColor Green
 }finally{Remove-Variable token,headers -ErrorAction SilentlyContinue}
+
