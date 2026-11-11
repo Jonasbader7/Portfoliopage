@@ -41,3 +41,26 @@ test('foreground accounting handles performance zero and flushes once; scroll th
  const c=client();c.setNow(5000);c.handlers.pagehide();c.handlers.pagehide();assert.equal(c.sent.filter(r=>r.event==='engagement').length,1);assert.equal(c.sent.at(-1).duration,5);
  c.context.scrollY=1200;c.handlers.scroll();c.handlers.scroll();assert.equal(c.sent.filter(r=>r.detail.startsWith('view:scroll_')).length,4);
 });
+
+import {sessionCookie,sessionAllowed} from '../src/dashboard-auth.js';
+test('dashboard session is signed, expires, is HttpOnly and is invalidated by a changed admin token',async()=>{
+ const secret='test-admin-token-'.repeat(3),now=Date.now(),setCookie=await sessionCookie(secret,now),cookie=setCookie.split(';')[0];
+ const req=new Request('https://analytics.example/dashboard',{headers:{Cookie:cookie}});
+ assert.match(setCookie,/Secure; HttpOnly; SameSite=Lax/);assert(!setCookie.includes(secret));
+ assert.equal(await sessionAllowed(req,secret,now),true);assert.equal(await sessionAllowed(req,secret,now+86400001),false);assert.equal(await sessionAllowed(req,'different-test-token-'.repeat(3),now),false);
+ const tampered=new Request(req.url,{headers:{Cookie:cookie.slice(0,-1)+(cookie.endsWith('a')?'b':'a')}});assert.equal(await sessionAllowed(tampered,secret,now),false);
+});
+test('dashboard login requires same-origin POST and signed session grants summary access',async()=>{
+ const db=database(),secret='test-admin-token-'.repeat(3),env={DB:db,ADMIN_TOKEN:secret};
+ const login=origin=>new Request('https://analytics.example/dashboard/login',{method:'POST',headers:{Origin:origin},body:new URLSearchParams({token:secret})});
+ assert.equal((await worker.fetch(login('https://evil.example'),env)).status,403);
+ const before=await worker.fetch(new Request('https://analytics.example/dashboard'),env);assert.equal(before.headers.get('Referrer-Policy'),'same-origin');assert.match(await before.text(),/Anmelden/);
+ const response=await worker.fetch(login('https://analytics.example'),env);assert.equal(response.status,303);const cookie=response.headers.get('set-cookie').split(';')[0];
+ const summary=await worker.fetch(new Request('https://analytics.example/admin/summary?days=7',{headers:{Cookie:cookie}}),env);assert.equal(summary.status,200);
+ const page=await worker.fetch(new Request('https://analytics.example/dashboard',{headers:{Cookie:cookie}}),env);const html=await page.text();assert.match(html,/refreshLive/);assert(!html.includes(secret));
+ const logout=await worker.fetch(new Request('https://analytics.example/dashboard/logout',{method:'POST',headers:{Origin:'https://analytics.example',Cookie:cookie}}),env);assert.match(logout.headers.get('set-cookie'),/Max-Age=0/);db.sql.close();
+});
+test('bundled worker dashboard matches the shared HTML source',async()=>{
+ const bundled=(await import('../src/dashboard-shell.js')).default;
+ assert.equal(bundled,readFileSync(new URL('../../dashboard.html',import.meta.url),'utf8'));
+});

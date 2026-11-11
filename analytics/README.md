@@ -1,8 +1,39 @@
+# Live-Dashboard – automatische Datenanbindung
+
+Das Dashboard lädt Statistiken direkt vom bestehenden Worker. Auf der öffentlichen Dashboard-Adresse wird die Live-Verfügbarkeit geprüft und anschliessend automatisch auf die geschützte Worker-Ansicht weitergeleitet. Dateiimport und PowerShell-Export sind nur noch optionale Offline-Funktionen.
+
+**Live-Adresse nach Bereitstellung:** `https://jonas-portfolio-analytics.jonas-bader-analytics.workers.dev/dashboard`
+
+- Einmal mit dem bestehenden Admin-Token anmelden; signierte Browseranmeldung für 24 Stunden.
+- Der Admin-Token bleibt serverseitiges Geheimnis und wird nur beim Login per HTTPS übermittelt. Er wird nicht im HTML, in URLs oder im Local-/Session-Storage gespeichert.
+- Die Anmeldung verwendet ein signiertes `Secure`, `HttpOnly`, `SameSite=Lax`-Cookie. Ändern des Admin-Tokens widerruft vorhandene Sitzungen. An- und Abmeldung erfordern einen POST von derselben Origin.
+- Beim Öffnen und bei jedem Website-/Zeitraumwechsel werden Aggregate direkt abgefragt. Aktualisierung alle 60 Sekunden, solange der Tab sichtbar ist. Aufbewahrung und Datenerfassung bleiben unverändert.
+- Die Auswertung reicht bis zur letzten vollen UTC-Stunde. Der Abruf ist aktuell; die laufende Teilstunde wird für vergleichbare Stundenperioden ausgeschlossen.
+- Das Dashboard enthält keine IP-Sicherheitslogs. Statistiken und HTML-Antworten sind nicht öffentlich cachebar. Der bestehende Bearer-Zugang für lokale Skripte funktioniert weiter.
+
+## Einmalige Bereitstellung
+
+```powershell
+cd analytics/backend
+npm ci
+powershell -ExecutionPolicy Bypass -File ./deploy-windows.ps1
+```
+
+Danach die Live-Adresse öffnen und anmelden. Der Deploy baut das eingebettete Dashboard automatisch aus `analytics/dashboard.html`. Direkter npm-Deploy baut es ebenfalls über `predeploy`. Wer die HTML-Datei manuell ändert, kann `npm run build:dashboard` ausführen; Tests erkennen einen veralteten eingebetteten Stand.
+
+In der Cloud-Chat-Umgebung ist kein Cloudflare-Login vorhanden. Die öffentliche Seite zeigt bis zur Bereitstellung einen klaren Hinweis, statt Beispieldaten für echte Zahlen auszugeben.
+
+## Prüfung
+
+Node-Tests für signierte Sitzung, Ablauf, manipulierte Cookies, Token-Wechsel, Origin-Prüfung, geschützte API, Logout und Synchronität des HTML-Bundles. Browserprüfung mit SQLite-Testdaten: Anmeldung → automatischer Abruf → Serverfilter → erneutes Öffnen mit Sitzung → Abmeldung. Keine Testdaten wurden an den produktiven Collector gesendet.
+
+---
+
 # Grafisches Website-Dashboard – Ausbau 11.11.2026
 
 Die Erweiterung umfasst Portfolio, **GreenRoute** (historischer Speicherschlüssel `bors`) und **Projekt Transparenz**. Der bisherige Datenbestand bleibt erhalten; keine Schemaänderung oder Datenmigration ist nötig.
 
-## So öffnest du deinen Bericht
+## Optional: Offline-Bericht öffnen
 
 Repository aktualisieren, dann in PowerShell 7:
 

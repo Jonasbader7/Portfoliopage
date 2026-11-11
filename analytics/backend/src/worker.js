@@ -1,3 +1,5 @@
+import {adminAllowed} from "./dashboard-auth.js";
+import {dashboardRoute} from "./dashboard-routes.js";
 import {summary} from "./reporting.js";
 /** Cloudflare Worker + D1: anonymous hourly counters + separated security logs.
  * No cookies, stable IDs, fingerprinting, URL parameters, submitted text or route coordinates.
@@ -27,14 +29,7 @@ function geo(request) {
     city:short(cf.city||"",80)
   };
 }
-function adminAllowed(request,env) {
-  let got=(request.headers.get("Authorization")||"").replace(/^Bearer /,"");
-  let expected=env.ADMIN_TOKEN||"";
-  if (expected.length<32 || got.length!==expected.length) return false;
-  let d=0;
-  for(let i=0;i<got.length;i++)d|=got.charCodeAt(i)^expected.charCodeAt(i);
-  return d===0;
-}
+
 async function collect(request,env) {
   let c=cors(request);
   if(!c)return result({error:"Origin forbidden"},403);
@@ -73,7 +68,7 @@ async function collect(request,env) {
   return new Response(null,{status:204,headers:c});
 }
 async function admin(request,env,url) {
-  if(!adminAllowed(request,env))return result({error:"Not authorized"},401);
+  if(!await adminAllowed(request,env))return result({error:"Not authorized"},401);
   if(request.method!=="GET")return result({error:"Method not allowed"},405);
   if(url.pathname==="/admin/ip") return result({ip:ipAddress(request)});
   let days=Math.min(180,Math.max(1,parseInt(url.searchParams.get("days")||"30",10)||30));
@@ -96,6 +91,7 @@ async function admin(request,env,url) {
 export default {
   async fetch(request,env) {
     let url=new URL(request.url);
+    if(url.pathname==="/dashboard"||url.pathname.startsWith("/dashboard/"))return dashboardRoute(request,env,url);
     if(url.pathname==="/collect")return collect(request,env);
     if(url.pathname.startsWith("/admin/"))return admin(request,env,url);
     if(url.pathname==="/health"&&request.method==="GET")return result({ok:true});

@@ -5,7 +5,9 @@
   "scripts": {
     "deploy": "wrangler deploy",
     "db:init": "wrangler d1 execute jonas-analytics --remote --file=./schema.sql",
-    "test": "node --test tests/*.test.js"
+    "test": "node --test tests/*.test.js",
+    "build:dashboard": "node scripts/build-dashboard.js",
+    "predeploy": "npm run build:dashboard"
   },
   "devDependencies": {
     "wrangler": "^4.0.0"

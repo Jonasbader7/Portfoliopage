@@ -17,6 +17,9 @@ $backend = $PSScriptRoot
 $wrangler = Join-Path $backend 'node_modules\.bin\wrangler.cmd'
 if (-not (Test-Path $wrangler)) { throw "wrangler fehlt: zuerst 'npm install' in $backend ausfuehren." }
 
+& node (Join-Path $backend 'scripts\build-dashboard.js')
+if ($LASTEXITCODE -ne 0) { throw 'Dashboard konnte nicht gebaut werden.' }
+
 Write-Host '1/3 D1-Datenbank jonas-analytics bei Cloudflare suchen...' -ForegroundColor Cyan
 $list = (& $wrangler d1 list --json | Out-String | ConvertFrom-Json)
 if ($LASTEXITCODE -ne 0) { throw 'wrangler d1 list fehlgeschlagen (Login? npx wrangler login).' }
