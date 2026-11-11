@@ -1,3 +1,4 @@
+import {summary} from "./reporting.js";
 /** Cloudflare Worker + D1: anonymous hourly counters + separated security logs.
  * No cookies, stable IDs, fingerprinting, URL parameters, submitted text or route coordinates.
  * Full IP addresses appear ONLY in protected security logs (90-day retention) (pageview requests).
@@ -43,9 +44,11 @@ async function collect(request,env) {
   try {raw=await request.text();if(raw.length>1500)return result({error:"Too long"},413,c);}
   catch(_) {return result({error:"Unreadable request"},400,c);}
   let v;try {v=JSON.parse(raw);} catch(_) {return result({error:"Invalid JSON"},400,c);}
-  let site=one(v.site,["portfolio","bors","transparenz"]);
+  if(!v || typeof v !== "object" || Array.isArray(v))return result({error:"Invalid event"},400,c);
+  let site=one(v.site,["portfolio","bors","greenroute","transparenz"]);
   let event=one(v.event,["pageview","link_click","feature_click","engagement"]);
   if(!site||!event)return result({error:"Invalid event"},400,c);
+  if(site === "greenroute") site = "bors"; // Historical storage key retained.
   let detail=short(v.detail,70);
   if(event==="link_click" && !/^(contact|github(?::[A-Za-z0-9_-]{1,40})?|bors-demo|strava|internal|external)$/.test(detail))return result({error:"Invalid detail"},400,c);
   if(event==="feature_click" && !/^(tab|view|demo):[a-z0-9_-]{1,35}$/.test(detail))return result({error:"Invalid detail"},400,c);
@@ -76,18 +79,9 @@ async function admin(request,env,url) {
   let days=Math.min(180,Math.max(1,parseInt(url.searchParams.get("days")||"30",10)||30));
   let since=new Date(Date.now()-days*86400000).toISOString().slice(0,13)+":00:00Z";
   if(url.pathname==="/admin/summary") {
-    let queries=[
-      ["totals","SELECT site,event,SUM(hits) hits,SUM(duration_seconds) seconds FROM analytics_hourly WHERE hour>=? GROUP BY site,event"],
-      ["countries","SELECT country,SUM(hits) hits FROM analytics_hourly WHERE hour>=? AND event='pageview' GROUP BY country ORDER BY hits DESC LIMIT 100"],
-      ["regions","SELECT country,region,city,SUM(hits) hits FROM analytics_hourly WHERE hour>=? AND event='pageview' GROUP BY country,region,city ORDER BY hits DESC LIMIT 100"],
-      ["devices","SELECT device,browser,SUM(hits) hits FROM analytics_hourly WHERE hour>=? AND event='pageview' GROUP BY device,browser ORDER BY hits DESC"],
-      ["clicks","SELECT site,event,detail,SUM(hits) hits FROM analytics_hourly WHERE hour>=? AND event IN ('link_click','feature_click') GROUP BY site,event,detail ORDER BY hits DESC LIMIT 100"],
-      ["sources","SELECT source,SUM(hits) hits FROM analytics_hourly WHERE hour>=? AND event='pageview' GROUP BY source ORDER BY hits DESC"],
-      ["daily","SELECT substr(hour,1,10) day,site,event,SUM(hits) hits FROM analytics_hourly WHERE hour>=? GROUP BY day,site,event ORDER BY day DESC LIMIT 540"]
-    ];
-    let output={days,note:"Counts are requests, not unique people. Duration is approximate foreground time."};
-    for(let [name,query] of queries)output[name]=(await env.DB.prepare(query).bind(since).all()).results;
-    return result(output);
+    const selected=url.searchParams.get("site")||"all";
+    if(!["all","portfolio","greenroute","transparenz"].includes(selected))return result({error:"Invalid site"},400);
+    return result(await summary(env.DB,days,selected));
   }
   if(url.pathname==="/admin/security") {
     let limit=Math.min(1000,Math.max(1,parseInt(url.searchParams.get("limit")||"1000",10)||1000));

@@ -1,6 +1,6 @@
 #requires -Version 7.0
 # Jonas Analytics CLI dashboard, token never displayed.
-param([ValidateRange(1,180)][int]$Days=30,[ValidateRange(1,100)][int]$Top=20,[switch]$Security,[ValidateRange(1,1000)][int]$SecurityLimit=1000,[string[]]$ExcludeIP=@(),[switch]$IncludeOwnIP)
+param([ValidateRange(1,180)][int]$Days=30,[ValidateRange(1,100)][int]$Top=20,[switch]$Security,[ValidateRange(1,1000)][int]$SecurityLimit=1000,[string[]]$ExcludeIP=@(),[switch]$IncludeOwnIP,[ValidateSet("all","portfolio","greenroute","transparenz")][string]$Site="all",[switch]$OpenDashboard,[string]$ExportJsonPath="")
 $ErrorActionPreference='Stop'
 $dir=Join-Path $HOME '.jonas-analytics'
 $worker=(Get-Content -Raw (Join-Path $dir 'worker-url.txt')).Trim().TrimEnd('/')
@@ -11,10 +11,30 @@ try{$token=[Runtime.InteropServices.Marshal]::PtrToStringBSTR($ptr)}
 finally{[Runtime.InteropServices.Marshal]::ZeroFreeBSTR($ptr)}
 try{
   $headers=@{ Authorization="Bearer $token" }
-  $data=Invoke-RestMethod -Uri "$worker/admin/summary?days=$Days" -Headers $headers
+  $data=Invoke-RestMethod -Uri "$worker/admin/summary?days=$Days&site=$Site" -Headers $headers
+  if($Site -ne "all" -and $data.site -ne $Site){throw "Der Worker unterstuetzt den Websitefilter noch nicht. Zuerst deploy-windows.ps1 ausfuehren."}
   Write-Host "JONAS ANALYTICS - $Days Tage" -ForegroundColor Cyan
   Write-Host 'Es handelt sich um Events, nicht eindeutige Menschen oder Sitzungen.'
-  Write-Host 'WEBSITES' -ForegroundColor Yellow
+  if($OpenDashboard -or $ExportJsonPath){
+    # Aggregates only. No token, headers or security entries are exported.
+    $reportJson=$data | ConvertTo-Json -Depth 20
+    if($ExportJsonPath){
+      [System.IO.File]::WriteAllText($ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($ExportJsonPath),$reportJson)
+      Write-Host "JSON-Bericht: $ExportJsonPath"
+    }
+    if($OpenDashboard){
+      $template=Get-Content -Raw (Join-Path $PSScriptRoot '..\dashboard.html')
+      $safeJson=$reportJson.Replace('&','\u0026').Replace('<','\u003c').Replace('>','\u003e')
+      $html=$template.Replace('<script id="report-data" type="application/json">null</script>', '<script id="report-data" type="application/json">'+$safeJson+'</script>')
+      $reportDir=Join-Path ([System.IO.Path]::GetTempPath()) ('jonas-analytics-'+[guid]::NewGuid().ToString('N'))
+      New-Item -ItemType Directory -Path $reportDir | Out-Null
+      $reportPath=Join-Path $reportDir 'report.html'
+      [System.IO.File]::WriteAllText($reportPath,$html)
+      Start-Process $reportPath
+      Write-Host "Privater Bericht (lokale Statistikdaten): $reportPath"
+    }
+  }
+  Write-Host 'WEBSITES'  -ForegroundColor Yellow
   $data.totals | Format-Table site,event,hits,seconds -AutoSize | Out-Host
   Write-Host 'LAENDER' -ForegroundColor Yellow
   $data.countries | Select-Object -First $Top | Format-Table country,hits -AutoSize | Out-Host
@@ -24,7 +44,7 @@ try{
   $data.regions | Where-Object { $_.country -ne 'CH' } | Select-Object -First $Top | Format-Table country,region,city,hits -AutoSize | Out-Host
   Write-Host 'GERAETE UND BROWSER' -ForegroundColor Yellow
   $data.devices | Select-Object -First $Top | Format-Table device,browser,hits -AutoSize | Out-Host
-  Write-Host 'KLICKS UND BORS-ANSICHTEN' -ForegroundColor Yellow
+  Write-Host 'KLICKS UND FUNKTIONEN (GREENROUTE / TRANSPARENZ)' -ForegroundColor Yellow
   $data.clicks | Select-Object -First $Top | Format-Table site,event,detail,hits -AutoSize | Out-Host
   Write-Host 'HERKUNFT' -ForegroundColor Yellow
   $data.sources | Select-Object -First $Top | Format-Table source,hits -AutoSize | Out-Host

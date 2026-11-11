@@ -67,9 +67,9 @@
 
         <!-- Sprachumschalter: drei Knöpfe, der aktive ist mit aria-pressed markiert -->
         <div class="lang-switch" role="group" aria-label="Sprache" data-i18n-aria="lang.aria">
-            <button type="button" data-lang="de" aria-pressed="true" lang="de">DE</button>
-            <button type="button" data-lang="en" aria-pressed="false" lang="en">EN</button>
-            <button type="button" data-lang="fr" aria-pressed="false" lang="fr">FR</button>
+            <button type="button" data-analytics-event="view:language_de" data-lang="de" aria-pressed="true" lang="de">DE</button>
+            <button type="button" data-analytics-event="view:language_en" data-lang="en" aria-pressed="false" lang="en">EN</button>
+            <button type="button" data-analytics-event="view:language_fr" data-lang="fr" aria-pressed="false" lang="fr">FR</button>
         </div>
     </header>
 
@@ -290,14 +290,14 @@
 
                                 <!-- Die Live-App wird erst auf Klick geladen, weil sie gross ist (script.js) -->
                                 <div class="live-preview" id="bors-live">
-                                    <button type="button" class="button-secondary" id="bors-live-button"
+                                    <button type="button" class="button-secondary" id="bors-live-button" data-analytics-event="demo:greenroute_preview"
                                         data-i18n="bors.live">Live-Vorschau hier laden</button>
                                 </div>
                             </div>
 
                             <div class="card-actions">
                                 <button type="button" class="details-toggle" aria-expanded="false"
-                                    aria-controls="details-bors">Mehr erfahren</button>
+                                    data-analytics-event="demo:details_greenroute" aria-controls="details-bors">Mehr erfahren</button>
                                 <a href="https://jonasbader7.github.io/GreenRoute/" data-i18n="bors.link">Zur Web-App</a>
                                 <a href="https://github.com/Jonasbader7/GreenRoute" data-i18n="link.code">Code auf GitHub</a>
                             </div>
@@ -363,7 +363,7 @@
 
                             <div class="card-actions">
                                 <button type="button" class="details-toggle" aria-expanded="false"
-                                    aria-controls="details-splitmate">Mehr erfahren</button>
+                                    data-analytics-event="demo:details_splitmate" aria-controls="details-splitmate">Mehr erfahren</button>
                                 <a href="https://github.com/Jonasbader7/SplitMate" data-i18n="link.code">Code auf GitHub</a>
                             </div>
                         </article>
@@ -409,7 +409,7 @@
 
                             <div class="card-actions">
                                 <button type="button" class="details-toggle" aria-expanded="false"
-                                    aria-controls="details-r">Mehr erfahren</button>
+                                    data-analytics-event="demo:details_r" aria-controls="details-r">Mehr erfahren</button>
                                 <a href="https://github.com/Jonasbader7/life-expectancy-analysis-r" data-i18n="link.code">Code auf GitHub</a>
                             </div>
                         </article>

@@ -1,0 +1,4 @@
+
+# Private exported usage summaries
+analytics-report*.json
+analytics-daily*.csv
