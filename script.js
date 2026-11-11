@@ -3,7 +3,7 @@
    1. Mehrsprachigkeit (Deutsch, Englisch, Französisch)
    2. Mobile Navigation (Menü auf-/zuklappen)
    3. Projektdetails auf-/zuklappen
-   4. BORS-Live-Vorschau erst auf Klick laden
+   4. GreenRoute-Live-Vorschau erst auf Klick laden
    5. Neuste GitHub-Repositories laden (fetch)
    6. Kontaktformular prüfen und über Web3Forms senden
    7. Jahr im Footer
@@ -21,7 +21,7 @@ const texteDe = {
     "menu.close": "Menü schliessen",
     "toggle.more": "Mehr erfahren",
     "toggle.less": "Weniger anzeigen",
-    "bors.liveTitle": "BORS-Web-App, Live-Vorschau",
+    "bors.liveTitle": "GreenRoute-Web-App, Live-Vorschau",
     "form.sending": "Wird gesendet …",
     "form.success": "Danke! Deine Nachricht ist angekommen. Ich melde mich bald.",
     "form.fail": "Die Nachricht konnte leider nicht gesendet werden. Versuch es bitte später nochmals.",
@@ -183,13 +183,13 @@ detailKnoepfe.forEach(function (knopf) {
 });
 
 
-/* ---------- 4. BORS-Live-Vorschau ---------- */
-// Die BORS-App ist gross. Sie wird deshalb erst geladen, wenn jemand darauf klickt.
+/* ---------- 4. GreenRoute-Live-Vorschau ---------- */
+// Die GreenRoute-App ist gross. Sie wird deshalb erst geladen, wenn jemand darauf klickt.
 const liveButton = document.querySelector("#bors-live-button");
 
 liveButton.addEventListener("click", function () {
     const iframe = document.createElement("iframe");
-    iframe.src = "https://jonasbader7.github.io/BORS/";
+    iframe.src = "https://jonasbader7.github.io/GreenRoute/";
     iframe.title = t("bors.liveTitle");
     iframe.loading = "lazy";
 
