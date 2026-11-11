@@ -10,7 +10,7 @@ Persönliche Portfolio-Seite, entstanden im Modul Web Engineering (EWEB) an der 
 |-------|--------|
 | `index.html` | Struktur und Inhalt: Header, Hero, Seitenleiste (`aside`), Über mich mit Werdegang, Projekte und weitere Arbeiten, Kompetenzen, Kontakt, Footer |
 | `styles.css` | Gestaltung: Design-Tokens als CSS-Variablen (hell und dunkel), Flexbox, Grid mit `grid-template-areas`, Media Queries (Mobile First) |
-| `script.js` | Verhalten: Sprachwechsel, Menü, Projektdetails aufklappen, BORS-Live-Vorschau, GitHub-API, Formular, Lesefortschritt, aktiver Menüpunkt, Einblenden beim Scrollen |
+| `script.js` | Verhalten: Sprachwechsel, Menü, Projektdetails aufklappen, GreenRoute-Live-Vorschau, GitHub-API, Formular, Lesefortschritt, aktiver Menüpunkt, Einblenden beim Scrollen |
 | `lang/en.json`, `lang/fr.json` | Übersetzungen ins Englische und Französische (Deutsch steht direkt im HTML) |
 | `fonts/` | Schriften Inter, Inter Tight und JetBrains Mono als variable WOFF2-Dateien (Lizenz in `fonts/LIZENZ.md`) |
 | `img/` | Bilder (Porträt, Projekt-Screenshots, Favicon) |
@@ -28,7 +28,7 @@ Persönliche Portfolio-Seite, entstanden im Modul Web Engineering (EWEB) an der 
 - **Nur HTML, CSS und JavaScript, ohne Framework.** Die Seite ist statisch und klein. Ein Framework wie React würde mehr Komplexität bringen, aber keinen Nutzen.
 - **Mobile First.** Die Grundregeln gelten fürs Handy. Ab 768 px (Tablet) und 1024 px (Desktop) ergänzen Media Queries das Layout.
 - **Details auf Klick.** Die Projektkarten zeigen zuerst nur das Wichtigste. Mehr Tiefe gibt es mit «Mehr erfahren», damit die Seite ruhig bleibt.
-- **BORS-Vorschau erst auf Klick.** Die eingebettete BORS-App ist gross und wird deshalb erst geladen, wenn jemand sie öffnen will.
+- **GreenRoute-Vorschau erst auf Klick.** Die eingebettete GreenRoute-App ist gross und wird deshalb erst geladen, wenn jemand sie öffnen will.
 - **Daten per `fetch()` mit Zwischenspeicher.** Die Seitenleiste lädt die neusten öffentlichen Repositories über die GitHub-API und speichert die Antwort eine Stunde im `localStorage`. So reicht das Limit der API (60 Abfragen pro Stunde und IP-Adresse) auch, wenn viele Personen im selben Netz die Seite öffnen. Ist GitHub nicht erreichbar, erscheint die zuletzt gespeicherte Liste. Lade-, Leer- und Fehlerzustand werden angezeigt.
 - **Reihenfolge im HTML.** Der Hauptinhalt steht vor der Seitenleiste, damit Tastatur und Screenreader ihn zuerst erreichen; auf dem Desktop setzt `grid-template-areas` die Leiste nach links.
 - **Link-Vorschau.** Open-Graph-Tags liefern Titel, Text und Bild, wenn der Link auf LinkedIn, WhatsApp oder Teams geteilt wird.
