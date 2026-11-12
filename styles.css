@@ -1376,6 +1376,190 @@ code {
     gap: var(--space);
 }
 
+/* GreenRoute: Umfang in vier Zahlen (Handy zweispaltig, ab Tablet vierspaltig) */
+.fact-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+    margin: 1rem 0 1.1rem;
+    padding: 0;
+    list-style: none;
+}
+
+.fact-list li {
+    padding: 0.7rem 0.8rem;
+    border: 1px solid var(--color-line);
+    border-radius: 10px;
+    background: var(--color-card-2);
+    color: var(--color-muted);
+    font-size: 0.8rem;
+    line-height: 1.35;
+}
+
+.fact-list strong {
+    display: block;
+    margin-bottom: 0.15rem;
+    color: var(--color-accent);
+    font-family: var(--font-display);
+    font-size: 1.45rem;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.1;
+}
+
+/* GreenRoute: vier Beispiele als Balken auf gemeinsamer Skala 0–25 min */
+.examples {
+    margin-top: 1.75rem;
+}
+
+.examples h4 {
+    margin: 0 0 0.35rem;
+}
+
+.examples-intro,
+.examples-note {
+    margin: 0 0 0.75rem;
+    color: var(--color-muted);
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+.examples-note {
+    margin: 0.9rem 0 0;
+}
+
+.bar-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 1.1rem;
+    margin: 0 0 0.9rem;
+    padding: 0;
+    list-style: none;
+    font-size: 0.8rem;
+}
+
+.bar-legend li {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.bar-legend li + li {
+    margin-top: 0;
+}
+
+.bar-legend li::before {
+    content: "";
+    width: 0.9rem;
+    height: 0.55rem;
+    border-radius: 999px;
+    background: var(--balken);
+}
+
+/* Farben der drei Balken: Auto neutral, GreenRoute Akzent, «wie das Auto» Warnfarbe */
+.bar-car {
+    --balken: var(--color-muted);
+}
+
+.bar-gr {
+    --balken: var(--color-accent);
+}
+
+.bar-naive {
+    --balken: var(--color-error);
+}
+
+.project-details .example-list {
+    display: grid;
+    gap: 0.75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.project-details .example-list > li + li {
+    margin-top: 0;
+}
+
+.example {
+    padding: 0.8rem 0.9rem 0.85rem;
+    border: 1px solid var(--color-line);
+    border-radius: 10px;
+    background: var(--color-card);
+}
+
+.example-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.2rem 0.6rem;
+    margin: 0 0 0.6rem;
+    font-size: 0.9rem;
+}
+
+.example-head a {
+    font-weight: 600;
+}
+
+.example-who {
+    color: var(--color-muted);
+    font-size: 0.8rem;
+}
+
+/* Ersparnis gegenüber «wie das Auto fahren und wenden» */
+.example-save {
+    margin-left: auto;
+    padding: 0.1rem 0.45rem;
+    border-radius: 6px;
+    background: var(--color-accent-soft);
+    color: var(--color-accent-dark);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.bars {
+    display: grid;
+    gap: 0.3rem;
+    margin: 0;
+}
+
+/* Eine Zeile: Balken (Breite = --w) und Wert mit fester Breite, damit die Skala in allen Zeilen gleich ist */
+.bars > div {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 4.6rem;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.bars > div::before {
+    content: "";
+    width: var(--w);
+    min-width: 4px;
+    height: 0.6rem;
+    border-radius: 999px;
+    background: var(--balken);
+}
+
+/* Beschriftung nur für Screenreader; sichtbar ist die Legende darüber */
+.bars dt {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+.bars dd {
+    margin: 0;
+    color: var(--color-text-soft);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+}
+
 @keyframes einblenden {
     from {
         opacity: 0;
@@ -1633,6 +1817,10 @@ code {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
+    .fact-list {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
     /* Zeitachse: Text links in einer festen Spalte, Balken rechts */
     .timeline {
         --tl-offset: 17rem;
@@ -1793,5 +1981,18 @@ code {
     .project-card-featured .project-details,
     .project-card-featured .card-actions {
         grid-column: 1 / -1;
+    }
+
+    /* Zahlen links unter dem Bild statt in der schmalen Textspalte (füllt den Leerraum unter dem Bild) */
+    .project-card-featured .project-image {
+        grid-row: 1 / span 3;
+    }
+
+    .project-card-featured .fact-list {
+        grid-column: 1;
+        grid-row: 4 / span 3;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-self: start;
+        margin: 1rem 0 0;
     }
 }

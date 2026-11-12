@@ -220,11 +220,20 @@
                                 bis zur Web-App. Fachfragen klärt das Team mit Schutz und Rettung Bern, dem Tiefbauamt der
                                 Stadt Bern und dem ASTRA.</p>
 
+                            <!-- Umfang auf einen Blick; Zahlen formatiert script.js je Sprache (data-zahl) -->
+                            <ul class="fact-list">
+                                <li><strong data-zahl="4">4</strong> <span data-i18n="bors.f1">Fahrzeugklassen, je eigene Route</span></li>
+                                <li><strong data-zahl="20867">20 867</strong> <span data-i18n="bors.f2">Strassenabschnitte, für jedes Fahrzeug bewertet</span></li>
+                                <li><strong data-zahl="19">19</strong> <span data-i18n="bors.f3">veröffentlichte Versionen der Web-App</span></li>
+                                <li><strong data-zahl="19">19</strong> <span data-i18n="bors.f4">Engstellen und Brücken am Luftbild nachgemessen</span></li>
+                            </ul>
+
                             <ul class="tag-list">
                                 <li>Python</li>
                                 <li>QGIS</li>
                                 <li>SQLite</li>
                                 <li>JavaScript</li>
+                                <li>MapLibre GL</li>
                                 <li data-i18n="tag.geodata">Geodaten</li>
                             </ul>
 
@@ -232,11 +241,12 @@
                             <div class="project-details" id="details-bors" hidden>
                                 <div class="details-grid">
                                     <figure>
-                                        <img src="img/bors-route.jpg" data-i18n-alt="bors.routeAlt"
-                                            alt="Beispielroute zur Felsenaubrücke: grosse Feuerwehr fährt einen Umweg von 6,8 km"
+                                        <img src="img/greenroute-s1-liebewil.jpg" data-i18n-alt="bors.routeAlt"
+                                            alt="GreenRoute-Web-App, Beispiel Unterführung Liebewil: Auto-Route türkis durch die Unterführung, Route der grossen Feuerwehr grün als Umweg, links die Fahrzeiten"
                                             width="800" height="500" loading="lazy">
-                                        <figcaption data-i18n="bors.routeCap">Beispiel Felsenaubrücke: Notarzt und Rettungswagen
-                                            fahren direkt, die grosse Feuerwehr braucht 6,8 km Umweg (Stand 29.10.2026).</figcaption>
+                                        <figcaption data-i18n="bors.routeCap">Beispiel Unterführung Liebewil (3,50 m): Der Wasserwerfer
+                                            ist 3,66 m hoch. GreenRoute schickt ihn von Anfang an auf den Umweg (grün) statt wie das
+                                            Auto (türkis) zur Unterführung.</figcaption>
                                     </figure>
                                     <figure>
                                         <img src="img/bors-netz.jpg" data-i18n-alt="bors.netAlt"
@@ -246,6 +256,75 @@
                                             grün validiert, gelb unvalidiert, rot gesperrt.</figcaption>
                                     </figure>
                                 </div>
+
+                                <!-- Vier Beispiele aus der Web-App (Stand V19, 12.11.2026), je eins pro Hindernisart.
+                                     Balken: gemeinsame Skala 0–25 min (--w = Minuten / 25). -->
+                                <section class="examples" aria-labelledby="bors-ex-title">
+                                    <h4 id="bors-ex-title" data-i18n="bors.exTitle">Vier Beispiele aus der Web-App</h4>
+                                    <p class="examples-intro" data-i18n="bors.exIntro">Fahrzeit in Minuten. Verglichen wird mit
+                                        einem Feuerwehrfahrzeug, das der Route des Autos folgt, am Hindernis wendet und dann
+                                        die beste Umfahrung nimmt.</p>
+                                    <ul class="bar-legend" aria-hidden="true">
+                                        <li class="bar-car" data-i18n="bors.exCar">Auto / Notarzt</li>
+                                        <li class="bar-gr" data-i18n="bors.exGr">Feuerwehr mit GreenRoute</li>
+                                        <li class="bar-naive" data-i18n="bors.exNaive">Feuerwehr fährt wie das Auto und wendet</li>
+                                    </ul>
+                                    <ol class="example-list">
+                                        <li class="example">
+                                            <p class="example-head">
+                                                <a href="https://jonasbader7.github.io/GreenRoute/#s1" data-i18n="bors.ex1">Höhe: Unterführung Liebewil, 3,50 m</a>
+                                                <span class="example-who" data-i18n="bors.exBig">grosse Feuerwehr</span>
+                                                <span class="example-save">−<span data-zahl="10">10</span> min</span>
+                                            </p>
+                                            <dl class="bars">
+                                                <div class="bar-car" style="--w: 25.6%"><dt data-i18n="bors.exCar">Auto / Notarzt</dt><dd><span data-zahl="6.4">6,4</span> min</dd></div>
+                                                <div class="bar-gr" style="--w: 55.2%"><dt data-i18n="bors.exGr">Feuerwehr mit GreenRoute</dt><dd><span data-zahl="13.8">13,8</span> min</dd></div>
+                                                <div class="bar-naive" style="--w: 96.4%"><dt data-i18n="bors.exNaive">Feuerwehr fährt wie das Auto und wendet</dt><dd><span data-zahl="24.1">24,1</span> min</dd></div>
+                                            </dl>
+                                        </li>
+                                        <li class="example">
+                                            <p class="example-head">
+                                                <a href="https://jonasbader7.github.io/GreenRoute/#s2" data-i18n="bors.ex2">Gewicht: Brücke Reichenbachstrasse, 15 t</a>
+                                                <span class="example-who" data-i18n="bors.exMid">mittlere Feuerwehr</span>
+                                                <span class="example-save">−<span data-zahl="3">3</span> min</span>
+                                            </p>
+                                            <dl class="bars">
+                                                <div class="bar-car" style="--w: 26.4%"><dt data-i18n="bors.exCar">Auto / Notarzt</dt><dd><span data-zahl="6.6">6,6</span> min</dd></div>
+                                                <div class="bar-gr" style="--w: 32.4%"><dt data-i18n="bors.exGr">Feuerwehr mit GreenRoute</dt><dd><span data-zahl="8.1">8,1</span> min</dd></div>
+                                                <div class="bar-naive" style="--w: 44%"><dt data-i18n="bors.exNaive">Feuerwehr fährt wie das Auto und wendet</dt><dd><span data-zahl="11.0">11,0</span> min</dd></div>
+                                            </dl>
+                                        </li>
+                                        <li class="example">
+                                            <p class="example-head">
+                                                <a href="https://jonasbader7.github.io/GreenRoute/#s3" data-i18n="bors.ex3">Breite: Mittelstrasse Kirchlindach, 2,9 m</a>
+                                                <span class="example-who" data-i18n="bors.exBig">grosse Feuerwehr</span>
+                                                <span class="example-save">−<span data-zahl="7">7</span> min</span>
+                                            </p>
+                                            <dl class="bars">
+                                                <div class="bar-car" style="--w: 31.2%"><dt data-i18n="bors.exCar">Auto / Notarzt</dt><dd><span data-zahl="7.8">7,8</span> min</dd></div>
+                                                <div class="bar-gr" style="--w: 35.6%"><dt data-i18n="bors.exGr">Feuerwehr mit GreenRoute</dt><dd><span data-zahl="8.9">8,9</span> min</dd></div>
+                                                <div class="bar-naive" style="--w: 62.4%"><dt data-i18n="bors.exNaive">Feuerwehr fährt wie das Auto und wendet</dt><dd><span data-zahl="15.6">15,6</span> min</dd></div>
+                                            </dl>
+                                        </li>
+                                        <li class="example">
+                                            <p class="example-head">
+                                                <a href="https://jonasbader7.github.io/GreenRoute/#s4" data-i18n="bors.ex4">Kurve: Abbiegen in die Aarestrasse, Zollikofen</a>
+                                                <span class="example-who" data-i18n="bors.exBig">grosse Feuerwehr</span>
+                                                <span class="example-save">−<span data-zahl="4">4</span> min</span>
+                                            </p>
+                                            <dl class="bars">
+                                                <div class="bar-car" style="--w: 13.6%"><dt data-i18n="bors.exCar">Auto / Notarzt</dt><dd><span data-zahl="3.4">3,4</span> min</dd></div>
+                                                <div class="bar-gr" style="--w: 18.8%"><dt data-i18n="bors.exGr">Feuerwehr mit GreenRoute</dt><dd><span data-zahl="4.7">4,7</span> min</dd></div>
+                                                <div class="bar-naive" style="--w: 33.2%"><dt data-i18n="bors.exNaive">Feuerwehr fährt wie das Auto und wendet</dt><dd><span data-zahl="8.3">8,3</span> min</dd></div>
+                                            </dl>
+                                        </li>
+                                    </ol>
+                                    <p class="examples-note" data-i18n="bors.exNote">Modellfahrzeiten ohne Verkehr, gerechnet mit dem
+                                        Router der Web-App (Version 19, November 2026). Das Wenden ist der günstigste Fall: eine
+                                        Minute, und die Crew kennt sofort die beste Umfahrung. Die Hindernisse stammen aus der
+                                        Hinderniskartei, der Breitenmessung und einem Kurvenmodell und sind nicht vor Ort geprüft.
+                                        Ein Klick auf ein Beispiel öffnet es in der Web-App.</p>
+                                </section>
 
                                 <!-- Projektaufbau in fünf Schritten: vom Problem bis zu den Grenzen -->
                                 <ol class="case-steps">
@@ -265,7 +344,9 @@
                                         <p data-i18n="bors.s3p">Ich messe die Breite aus der amtlichen Vermessung mit Querprofilen
                                             und ziehe pro Strassenrand eine Messtoleranz ab. Jede Strasse erhält pro Fahrzeug
                                             einen von drei Zuständen: validiert, unvalidiert oder gesperrt. Geroutet wird
-                                            zuerst nur über validierte Strassen.</p>
+                                            zuerst nur über validierte Strassen. Dazu kommen Höhen- und Gewichtsgrenzen, ein Modell
+                                            für enge Kurven und die Baustellen der Stadt Bern, die die Web-App alle zehn Minuten
+                                            neu abruft.</p>
                                         <p data-i18n="bors.s3p2"><strong>Eine Entscheidung dabei:</strong> lieber eine Strasse als
                                             «unvalidiert» markieren als falsche Sicherheit versprechen. Gibt es keinen validierten
                                             Weg, zeigt GreenRoute eine Ausweichroute, kennzeichnet sie und rechnet unsichere Abschnitte
@@ -275,8 +356,10 @@
                                         <h4 data-i18n="bors.s4h">Was geprüft ist und was nicht</h4>
                                         <p data-i18n="bors.s4p"><strong>Geprüft:</strong> Die Gewichtsgrenzen und die Regel «ohne
                                             Signal mindestens 4 m Höhe» hat das Tiefbauamt der Stadt Bern im November 2026 bestätigt.
-                                            Die Web-App ist eine Übertragung des QGIS-Routers; beim Abgleich der Version V9.2c waren
-                                            325 von 325 Testrouten identisch.</p>
+                                            19 Engstellen und Brücken, bei denen die Vermessungsdaten unklar waren, sind am Luftbild
+                                            nachgemessen. Die Web-App ist eine Übertragung des QGIS-Routers; beim grossen Abgleich
+                                            waren 325 von 325 Testrouten identisch, und der Prüflauf in QGIS bestand für Version 19
+                                            alle 29 Prüfungen.</p>
                                         <p data-i18n="bors.s4p2"><strong>Nicht geprüft:</strong> GreenRoute wurde nicht im Einsatz und nicht
                                             systematisch vor Ort getestet. Es ist ein Prototyp ohne Einsatzfreigabe.</p>
                                     </li>

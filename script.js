@@ -55,6 +55,23 @@ document.querySelectorAll("[data-i18n-aria]").forEach(function (el) {
     originaleDe.aria.set(el, el.getAttribute("aria-label"));
 });
 
+// Zahlen mit data-zahl im Format der Sprache schreiben (DE 20'867 und 6,4; EN 20,867 und 6.4).
+// Mit Dezimalpunkt im Attribut: eine Nachkommastelle, sonst ganze Zahl.
+// Dezimalzahlen auf Deutsch mit Komma wie im übrigen Text (de-CH schreibt 6.4), daher eigenes Format.
+const dezimalformat = { de: "de-DE", en: "en-GB", fr: "fr-CH" };
+
+function formatiereZahlen() {
+    document.querySelectorAll("[data-zahl]").forEach(function (el) {
+        const roh = el.dataset.zahl;
+        const stellen = roh.includes(".") ? 1 : 0;
+        const format = stellen ? dezimalformat[aktuelleSprache] : sprachformat[aktuelleSprache];
+        el.textContent = Number(roh).toLocaleString(format, {
+            minimumFractionDigits: stellen,
+            maximumFractionDigits: stellen
+        });
+    });
+}
+
 // Einen Text in der aktuellen Sprache holen; fehlt er, gilt der deutsche
 function t(schluessel) {
     return aktuelleTexte[schluessel] || texteDe[schluessel] || schluessel;
@@ -111,6 +128,7 @@ async function setzeSprache(sprache) {
     }
 
     // Texte, die JavaScript selbst setzt, ebenfalls neu schreiben
+    formatiereZahlen();
     aktualisiereToggleTexte();
     setzeMenu(nav.classList.contains("is-open"));
     zeigeRepos();
