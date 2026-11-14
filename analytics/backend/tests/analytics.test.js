@@ -73,5 +73,5 @@ test('dashboard login requires same-origin POST and signed session grants summar
 });
 test('bundled worker dashboard matches the shared HTML source',async()=>{
  const bundled=(await import('../src/dashboard-shell.js')).default;
- assert.equal(bundled,readFileSync(new URL('../../dashboard.html',import.meta.url),'utf8'));
+ assert.equal(bundled,readFileSync(new URL('../../dashboard.html',import.meta.url),'utf8').replace(/\r\n/g,'\n'));
 });
