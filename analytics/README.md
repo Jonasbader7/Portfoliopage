@@ -88,6 +88,8 @@ Status: **Aktiv seit 7. November 2026** (Pull Request #1, auf Portfolio und Gree
 
 Auswerten: `pwsh analytics/backend/dashboard-windows.ps1` (Zähler der letzten 30 Tage), mit `-Days 7` oder `-Security` (zeigt IP-Adressen, vertraulich). Das Skript liest Worker-Adresse und Token aus `%USERPROFILE%\.jonas-analytics` (Token mit Windows DPAPI verschlüsselt, nie committen). Die Anleitung unten beschreibt die Ersteinrichtung, die schon erledigt ist.
 
+**Eigene Besuche nicht zählen:** In jedem eigenen Browser (Laptop, Handy, Tablet) einmal `https://jonasbader7.github.io/Portfoliopage/?analytics=off` öffnen; ein Hinweis bestätigt es. Der Client speichert dann `jb-analytics-optout=1` im Local Storage von `jonasbader7.github.io` und sendet nichts mehr. Rückgängig mit `?analytics=on`. Der Merker gilt für den ganzen Host, wirkt aber nur in Clients, die ihn abfragen (GreenRoute- und Transparenz-Client brauchen dieselbe Prüfung). Bereits gezählte Besuche bleiben in der Statistik.
+
 ## Umfang
 
 - Portfolio, GreenRoute und Projekt Transparenz: weltweite Seitenaufrufe, aggregierte Link-Kategorien, GreenRoute-Ansichts-/Tab-Nutzung und ungefähre aktive Nutzungsdauer (bei Transparenz ausschliesslich grobe Seitentypen, keine Fondskennungen)

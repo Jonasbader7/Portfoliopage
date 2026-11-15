@@ -34,22 +34,80 @@ try{
       Write-Host "Privater Bericht (lokale Statistikdaten): $reportPath"
     }
   }
-  Write-Host 'WEBSITES'  -ForegroundColor Yellow
-  $data.totals | Format-Table site,event,hits,seconds -AutoSize | Out-Host
-  Write-Host 'LAENDER' -ForegroundColor Yellow
-  $data.countries | Select-Object -First $Top | Format-Table country,hits -AutoSize | Out-Host
+  # The API groups every list by website. For the console, rows that differ only by
+  # website are summed, otherwise the same country/device/source appears several times.
+  function Merge-Hits([object[]]$Rows,[string[]]$Keys){
+    @($Rows) | Where-Object { $_ } | Group-Object -Property $Keys | ForEach-Object {
+      $row=[ordered]@{}
+      foreach($k in $Keys){ $row[$k]=$_.Group[0].$k }
+      $row.hits=[int64]($_.Group | Measure-Object hits -Sum).Sum
+      [pscustomobject]$row
+    } | Sort-Object hits -Descending
+  }
+  function Get-Hits($Rows,[string]$SiteName,[string]$EventName,[string]$Field='hits'){
+    $sum=(@($Rows) | Where-Object { $_.site -eq $SiteName -and $_.event -eq $EventName } | Measure-Object $Field -Sum).Sum
+    if($sum){[int64]$sum}else{0}
+  }
+  # PowerShell 7 turns ISO timestamps from JSON into DateTime values; accept both forms.
+  function ConvertTo-Utc($Value){
+    if($Value -is [datetime]){ if($Value.Kind -eq 'Local'){$Value.ToUniversalTime()}else{[datetime]::SpecifyKind($Value,'Utc')} }
+    else{ [datetimeoffset]::Parse([string]$Value,[cultureinfo]::InvariantCulture).UtcDateTime }
+  }
+  $sinceUtc=ConvertTo-Utc $data.since
+  $untilUtc=ConvertTo-Utc $data.until
+  $siteNames=@('portfolio','greenroute','transparenz') | Where-Object { $Site -eq 'all' -or $_ -eq $Site }
+
+  Write-Host "Zeitraum: $($sinceUtc.ToLocalTime().ToString('yyyy-MM-dd HH:mm')) bis $($untilUtc.ToLocalTime().ToString('yyyy-MM-dd HH:mm')) (lokale Zeit, laufende Stunde nicht enthalten)"
+  Write-Host 'WEBSITES' -ForegroundColor Yellow
+  $siteNames | ForEach-Object {
+    $views=Get-Hits $data.totals $_ 'pageview'
+    $previous=Get-Hits $data.previous $_ 'pageview'
+    $engaged=Get-Hits $data.totals $_ 'engagement'
+    $seconds=Get-Hits $data.totals $_ 'engagement' 'seconds'
+    [pscustomobject]@{
+      Website=$_
+      Aufrufe=$views
+      Vorperiode=$previous
+      Linkklicks=Get-Hits $data.totals $_ 'link_click'
+      Funktionen=Get-Hits $data.totals $_ 'feature_click'
+      'Schnitt Sek.'=if($engaged){[int64][math]::Round($seconds/$engaged)}else{0}
+    }
+  } | Format-Table -AutoSize | Out-Host
+
+  Write-Host 'LAENDER (Seitenaufrufe)' -ForegroundColor Yellow
+  Merge-Hits $data.countries 'country' | Select-Object -First $Top | Format-Table country,hits -AutoSize | Out-Host
+  $regions=Merge-Hits $data.regions 'country','region','city'
   Write-Host 'SCHWEIZER KANTONE UND STAEDTE (ungefaehr)' -ForegroundColor Yellow
-  $data.regions | Where-Object { $_.country -eq 'CH' } | Select-Object -First $Top | Format-Table region,city,hits -AutoSize | Out-Host
+  $regions | Where-Object { $_.country -eq 'CH' } | Select-Object -First $Top | Format-Table region,city,hits -AutoSize | Out-Host
   Write-Host 'WELTWEITE REGIONEN (ausser CH)' -ForegroundColor Yellow
-  $data.regions | Where-Object { $_.country -ne 'CH' } | Select-Object -First $Top | Format-Table country,region,city,hits -AutoSize | Out-Host
+  $regions | Where-Object { $_.country -ne 'CH' } | Select-Object -First $Top | Format-Table country,region,city,hits -AutoSize | Out-Host
   Write-Host 'GERAETE UND BROWSER' -ForegroundColor Yellow
-  $data.devices | Select-Object -First $Top | Format-Table device,browser,hits -AutoSize | Out-Host
-  Write-Host 'KLICKS UND FUNKTIONEN (GREENROUTE / TRANSPARENZ)' -ForegroundColor Yellow
-  $data.clicks | Select-Object -First $Top | Format-Table site,event,detail,hits -AutoSize | Out-Host
+  Merge-Hits $data.devices 'device','browser' | Select-Object -First $Top | Format-Table device,browser,hits -AutoSize | Out-Host
+  Write-Host 'KLICKS UND FUNKTIONEN' -ForegroundColor Yellow
+  $data.clicks | Sort-Object hits -Descending | Select-Object -First $Top | Format-Table site,event,detail,hits -AutoSize | Out-Host
   Write-Host 'HERKUNFT' -ForegroundColor Yellow
-  $data.sources | Select-Object -First $Top | Format-Table source,hits -AutoSize | Out-Host
-  Write-Host 'TAGESVERLAUF' -ForegroundColor Yellow
-  $data.daily | Select-Object -First $Top | Format-Table day,site,event,hits -AutoSize | Out-Host
+  Merge-Hits $data.sources 'source' | ForEach-Object {
+    if(-not $_.source){$_.source='(direkt / unbekannt)'}; $_
+  } | Select-Object -First $Top | Format-Table source,hits -AutoSize | Out-Host
+
+  Write-Host 'TAGESVERLAUF (Seitenaufrufe, neueste zuerst)' -ForegroundColor Yellow
+  $until=$untilUtc.Date
+  $shownDays=[math]::Min($Days,60)
+  $dayRows=for($i=0;$i -lt $shownDays;$i++){
+    $day=$until.AddDays(-$i)
+    if($day -eq $until -and $untilUtc -eq $until){ $shownDays++; continue } # 'until' is exclusive
+    $key=$day.ToString('yyyy-MM-dd')
+    $row=[ordered]@{ Tag=$key }
+    $sum=0
+    foreach($s in $siteNames){
+      $n=(@($data.daily) | Where-Object { $_.day -eq $key -and $_.site -eq $s -and $_.event -eq 'pageview' } | Measure-Object hits -Sum).Sum
+      $n=if($n){[int64]$n}else{0}
+      $row[$s]=$n; $sum+=$n
+    }
+    if($siteNames.Count -gt 1){ $row.Total=$sum }
+    [pscustomobject]$row
+  }
+  $dayRows | Format-Table -AutoSize | Out-Host
   if($Security){
     Write-Warning 'VERTRAULICH: Vollstaendige IP-Adressen. Ausgabe nicht weitergeben.'
     $excluded=@($ExcludeIP)
@@ -62,7 +120,16 @@ try{
     foreach($address in $excluded){$query += "&excludeIP=$([Uri]::EscapeDataString($address))"}
     $logs=Invoke-RestMethod -Uri "$worker/admin/security?$query" -Headers $headers
     Write-Host "IP-Logs: letzte $Days Tage, maximal $SecurityLimit Eintraege; Aufbewahrung: $($logs.retentionDays) Tage."
-    $logs.entries | Format-Table ts,site,ip,country,region,city,reason -AutoSize | Out-Host
+    $logs.entries | Where-Object { $Site -eq 'all' -or (($_.site -replace '^bors$','greenroute') -eq $Site) } | ForEach-Object {
+      $time=ConvertTo-Utc $_.ts
+      [pscustomobject]@{
+        Zeit=$time.ToLocalTime().ToString('yyyy-MM-dd HH:mm:ss')
+        Website=$_.site -replace '^bors$','greenroute'   # historical storage key
+        IP=$_.ip; Land=$_.country; Region=$_.region; Stadt=$_.city
+      }
+    } | Format-Table -AutoSize | Out-Host
+    $ownNote=if($IncludeOwnIP){'inklusive eigener IP'}else{'eigene aktuelle IP ausgeblendet'}
+    Write-Host "($ownNote; die Statistik oben enthaelt eigene Besuche weiterhin, da sie anonym gezaehlt wird.)"
   }
   Write-Host 'Fertig.' -ForegroundColor Green
 }finally{Remove-Variable token,headers -ErrorAction SilentlyContinue}

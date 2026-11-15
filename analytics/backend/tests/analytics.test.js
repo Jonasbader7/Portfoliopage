@@ -29,13 +29,24 @@ test('collector accepts coarse features and maps the new name to historical stor
  const db=database();const body={site:'greenroute',event:'feature_click',detail:'view:scroll_50',source:'github',device:'desktop',browser:'Firefox'};
  const res=await worker.fetch(new Request('https://worker.example/collect',{method:'POST',headers:{Origin:'https://jonasbader7.github.io'},body:JSON.stringify(body)}),{DB:db});assert.equal(res.status,204);assert.equal(db.sql.prepare('SELECT site FROM analytics_hourly').get().site,'bors');assert.equal(db.sql.prepare('SELECT count(*) n FROM security_access').get().n,0);db.sql.close();
 });
-function client({site='portfolio',local=false,gpc=false,dnt=false,path='/Portfoliopage/',now=0}={}){
- const sent=[],handlers={};const context={URL,URLSearchParams,Set,JSON,Blob,performance:{now:()=>now},innerHeight:800,scrollY:0,location:{protocol:local?'http:':'https:',hostname:local?'localhost':'jonasbader7.github.io',href:'https://jonasbader7.github.io'+path,pathname:path,search:'?secret=private'},window:{JB_ANALYTICS_CONFIG:{endpoint:'https://worker.example/collect'},addEventListener:(k,fn)=>handlers[k]=fn},document:{currentScript:{dataset:{analyticsSite:site}},referrer:'https://github.com/Jonasbader7?private=ignored',visibilityState:'visible',readyState:'complete',documentElement:{scrollHeight:2000},addEventListener:(k,fn)=>handlers[k]=fn},navigator:{userAgent:'Firefox/100',globalPrivacyControl:gpc,doNotTrack:dnt?'1':'0'},fetch:(_url,v)=>{sent.push(JSON.parse(v.body));return Promise.resolve()}};
+function client({site='portfolio',local=false,gpc=false,dnt=false,path='/Portfoliopage/',now=0,search='?secret=private',storage,replaced=[]}={}){
+ const sent=[],handlers={};const context={history:{state:null,replaceState:(_s,_t,u)=>replaced.push(u)},URL,URLSearchParams,Set,JSON,Blob,performance:{now:()=>now},innerHeight:800,scrollY:0,location:{protocol:local?'http:':'https:',hostname:local?'localhost':'jonasbader7.github.io',href:'https://jonasbader7.github.io'+path+search,pathname:path,search},window:{localStorage:storage,JB_ANALYTICS_CONFIG:{endpoint:'https://worker.example/collect'},addEventListener:(k,fn)=>handlers[k]=fn},document:{currentScript:{dataset:{analyticsSite:site}},referrer:'https://github.com/Jonasbader7?private=ignored',visibilityState:'visible',readyState:'complete',documentElement:{scrollHeight:2000},addEventListener:(k,fn)=>handlers[k]=fn},navigator:{userAgent:'Firefox/100',globalPrivacyControl:gpc,doNotTrack:dnt?'1':'0'},fetch:(_url,v)=>{sent.push(JSON.parse(v.body));return Promise.resolve()}};
  vm.runInNewContext(readFileSync(new URL('../../../analytics-client.js',import.meta.url),'utf8'),context);return {sent,handlers,context,setNow:v=>now=v};
 }
 test('client respects local / GPC / DNT; does not leak query strings, paths or company IDs',()=>{
  assert.equal(client({local:true}).sent.length,0);assert.equal(client({gpc:true}).sent.length,0);assert.equal(client({dnt:true}).sent.length,0);
  const c=client({site:'transparenz',path:'/Projekt-Transparenz/fonds-PRIVATE123.html'});assert.equal(c.sent[1].detail,'view:page_analyse');assert.equal(c.sent[0].source,'github');assert(!JSON.stringify(c.sent).includes('PRIVATE123'));assert(!JSON.stringify(c.sent).includes('secret'));
+});
+function memoryStorage(initial={}){const data={...initial};return {data,getItem:k=>k in data?data[k]:null,setItem:(k,v)=>{data[k]=String(v)},removeItem:k=>{delete data[k]}};}
+test('opt-out switch stores only a marker, stops sending, cleans the URL and can be undone',()=>{
+ const storage=memoryStorage(),replaced=[];
+ assert.equal(client({search:'?analytics=off&utm_source=github',storage,replaced}).sent.length,0);
+ assert.deepEqual(storage.data,{'jb-analytics-optout':'1'});assert.equal(replaced[0],'/Portfoliopage/?utm_source=github');
+ assert.equal(client({search:'',storage}).sent.length,0);
+ assert.equal(client({site:'transparenz',search:'',storage}).sent.length,0);
+ assert(client({search:'?analytics=on',storage}).sent.length>0);assert.deepEqual(storage.data,{});
+ const blocked={getItem(){throw new Error('blocked')},setItem(){throw new Error('blocked')},removeItem(){}};
+ assert(client({search:'',storage:blocked}).sent.length>0);
 });
 test('foreground accounting handles performance zero and flushes once; scroll thresholds deduplicate',()=>{
  const c=client();c.setNow(5000);c.handlers.pagehide();c.handlers.pagehide();assert.equal(c.sent.filter(r=>r.event==='engagement').length,1);assert.equal(c.sent.at(-1).duration,5);
@@ -62,5 +73,5 @@ test('dashboard login requires same-origin POST and signed session grants summar
 });
 test('bundled worker dashboard matches the shared HTML source',async()=>{
  const bundled=(await import('../src/dashboard-shell.js')).default;
- assert.equal(bundled,readFileSync(new URL('../../dashboard.html',import.meta.url),'utf8'));
+ assert.equal(bundled,readFileSync(new URL('../../dashboard.html',import.meta.url),'utf8').replace(/\r\n/g,'\n'));
 });
