@@ -74,6 +74,23 @@
 
     "projects.title": "Projets",
     "projects.more": "Autres travaux",
+
+    "projects.wip": "En cours",
+    "vault.meta": "Titre provisoire · pas encore terminé",
+    "vault.claim": "Un projet sur la transparence. Encore sous scellés, justement.",
+    "vault.text": "Que contient vraiment un fonds « durable » ? Je relie chaque position du fonds à des preuves vérifiables, avec source, date et version des données, et je montre ouvertement où les données manquent. Pas de score global, pas d’enjolivement. Publication : <span class=\"redacted\">quand ce sera solide</span>.",
+    "vault.s1": "Importer et valider les positions du fonds",
+    "vault.s2": "Rattacher les positions aux entreprises (ISIN, LEI)",
+    "vault.s3": "Statut des preuves par critère, avec source et date",
+    "vault.s4": "Pilote avec de vrais fonds",
+    "vault.s5": "Publication",
+    "vault.code": "Avancement sur GitHub",
+    "vault.unlock": "Déchiffrer",
+    "vault.lock": "Refermer",
+    "vault.stampLocked": "Confidentiel",
+    "vault.stampOpen": "Aperçu autorisé",
+    "vault.heartbeat": "Dernier travail : {zeit}",
+
     "toggle.more": "En savoir plus",
     "toggle.less": "Afficher moins",
 

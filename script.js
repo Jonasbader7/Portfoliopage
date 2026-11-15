@@ -10,6 +10,7 @@
    8. Kopfzeile, Lesefortschritt und aktiver Menüpunkt
    9. Inhalte beim Scrollen einblenden
   10. Werdegang als Zeitachse
+  11. Projekt Transparenz: der Tresor
    ========================================================= */
 
 
@@ -29,7 +30,12 @@ const texteDe = {
     "err.email": "Bitte gib eine gültige E-Mail-Adresse ein.",
     "err.message": "Bitte schreib mindestens 10 Zeichen (aktuell {n}).",
     "repo.empty": "Noch keine öffentlichen Projekte.",
-    "repo.error": "Gerade nicht erreichbar."
+    "repo.error": "Gerade nicht erreichbar.",
+    "vault.unlock": "Entschlüsseln",
+    "vault.lock": "Wieder verschliessen",
+    "vault.stampLocked": "Unter Verschluss",
+    "vault.stampOpen": "Vorschau freigegeben",
+    "vault.heartbeat": "Zuletzt daran gearbeitet: {zeit}"
 };
 
 // Für die Datumsanzeige: welches Sprachformat gehört zu welcher Sprache
@@ -132,6 +138,7 @@ async function setzeSprache(sprache) {
     aktualisiereToggleTexte();
     setzeMenu(nav.classList.contains("is-open"));
     zeigeRepos();
+    aktualisiereTresor();
 }
 
 document.querySelectorAll(".lang-switch button").forEach(function (knopf) {
@@ -219,12 +226,13 @@ liveButton.addEventListener("click", function () {
 /* ---------- 5. Neuste GitHub-Repositories ---------- */
 let repos = null;       // geladene Liste, null = noch am Laden
 let repoFehler = false; // true, wenn die API nicht erreichbar war
+let transparenzStand = null; // letzter Push im Repo Projekt-Transparenz (für den Tresor, Teil 11)
 
 // Ohne Anmeldung erlaubt die GitHub-API nur 60 Abfragen pro Stunde und IP-Adresse.
 // Damit die Liste auch in einem gemeinsamen Netz (z. B. bei einer Präsentation) erscheint,
 // wird die Antwort eine Stunde im Browser zwischengespeichert.
-// «-v2»: neuer Name, damit ältere Zwischenspeicher (noch mit dem Profil-Repo) nicht mehr gelten.
-const REPO_CACHE_KEY = "github-repos-v2";
+// «-v3»: neuer Name, damit ältere Zwischenspeicher (ohne Transparenz-Stand) nicht mehr gelten.
+const REPO_CACHE_KEY = "github-repos-v3";
 const REPO_CACHE_MS = 60 * 60 * 1000;
 
 // Repositories, die nicht in der Liste erscheinen sollen: Hausaufgaben und das Profil-README
@@ -240,9 +248,9 @@ function leseRepoCache() {
     }
 }
 
-function schreibeRepoCache(liste) {
+function schreibeRepoCache(liste, transparenz) {
     try {
-        localStorage.setItem(REPO_CACHE_KEY, JSON.stringify({ zeit: Date.now(), liste: liste }));
+        localStorage.setItem(REPO_CACHE_KEY, JSON.stringify({ zeit: Date.now(), liste: liste, transparenz: transparenz }));
     } catch (fehler) {
         // nicht gespeichert, die Liste wird beim nächsten Besuch neu geladen
     }
@@ -254,7 +262,9 @@ async function ladeRepos() {
     // 1. Frischer Zwischenspeicher: gar keine Anfrage an GitHub
     if (cache && Date.now() - cache.zeit < REPO_CACHE_MS) {
         repos = cache.liste;
+        transparenzStand = cache.transparenz || null;
         zeigeRepos();
+        aktualisiereTresor();
         return;
     }
 
@@ -274,16 +284,20 @@ async function ladeRepos() {
             .map(function (repo) {
                 return { name: repo.name, html_url: repo.html_url, pushed_at: repo.pushed_at };
             });
-        schreibeRepoCache(repos);
+        const transparenz = alle.find(function (repo) { return repo.name === "Projekt-Transparenz"; });
+        transparenzStand = transparenz ? transparenz.pushed_at : null;
+        schreibeRepoCache(repos, transparenzStand);
     } catch (fehler) {
         // 3. GitHub nicht erreichbar (offline, API-Limit): lieber eine ältere Liste als keine
         if (cache) {
             repos = cache.liste;
+            transparenzStand = cache.transparenz || null;
         } else {
             repoFehler = true;
         }
     }
     zeigeRepos();
+    aktualisiereTresor();
 }
 
 // Liste in der aktuellen Sprache anzeigen (wird auch beim Sprachwechsel aufgerufen)
@@ -496,7 +510,7 @@ if (!wenigBewegung && "IntersectionObserver" in window) {
     }, { rootMargin: "0px 0px -8% 0px" });
 
     const kandidaten = document.querySelectorAll(
-        "main > section > h2, #profile p, .about-subtitle, .project-card, .section-label, .work-item, .timeline, .section-intro, .skill-card, .sidebar, .contact-form"
+        "main > section > h2, #profile p, .about-subtitle, .project-card, .section-label, .work-item, .vault, .timeline, .section-intro, .skill-card, .sidebar, .contact-form"
     );
     kandidaten.forEach(function (el) {
         // Was schon sichtbar ist, bleibt sichtbar (kein Aufblitzen beim Laden)
@@ -583,6 +597,177 @@ if (zeitachse) {
             }
         }, { threshold: 0.3 });
         zeichner.observe(zeitachse);
+    }
+}
+
+
+/* ---------- 11. Projekt Transparenz: der Tresor ---------- */
+// Ein Projekt über Transparenz, das noch nicht fertig ist: Der Text erscheint als Zeichensalat
+// und wird per Knopf «entschlüsselt». Das ist Inszenierung, keine echte Verschlüsselung: Der
+// Klartext steht im HTML (übersetzbar per data-i18n), Screenreader lesen ihn immer vor, und
+// ohne JavaScript ist alles offen. Die Zeichen liegen in einer zweiten Zeile mit derselben
+// Monospace-Schrift darüber, deshalb springt beim Umschalten nichts.
+const tresor = document.querySelector("#vault");
+const CHIFFRE_ZEICHEN = "ABCDEFGHJKLMNPQRSTUVWXYZ0123456789#%&*+=/<>";
+const tresorChiffre = document.createElement("p");
+let tresorOffen = false;
+let tresorZiel = [];      // Zeichen des Klartexts
+let tresorJetzt = [];     // aktuell angezeigte Zeichen
+let tresorZeit = [];      // ab welchem Anteil (0–1) ein Zeichen entschlüsselt ist
+let tresorSpans = [];     // [{ span, von, bis }], geschwärzte Stellen bekommen eigene spans
+let tresorAnimation = 0;
+let tresorAnimiert = false;
+let tresorSichtbar = false;
+
+function zufallsZeichen() {
+    return CHIFFRE_ZEICHEN[Math.floor(Math.random() * CHIFFRE_ZEICHEN.length)];
+}
+
+// Klartext in Abschnitte zerlegen (normaler Text und geschwärzte Stellen) und die Chiffre-Zeile aufbauen
+function baueChiffre() {
+    const klartext = tresor.querySelector(".vault-text:not(.vault-cipher)");
+    const teile = [];
+    klartext.childNodes.forEach(function (knoten) {
+        const geschwaerzt = knoten.nodeType === 1 && knoten.classList.contains("redacted");
+        teile.push({ text: knoten.textContent.replace(/\s+/g, " "), geschwaerzt: geschwaerzt });
+    });
+    if (teile.length) {
+        teile[0].text = teile[0].text.trimStart();
+        teile[teile.length - 1].text = teile[teile.length - 1].text.trimEnd();
+    }
+
+    tresorChiffre.replaceChildren();
+    tresorZiel = [];
+    tresorSpans = [];
+    teile.forEach(function (teil) {
+        const span = document.createElement("span");
+        if (teil.geschwaerzt) span.className = "redacted";
+        tresorChiffre.append(span);
+        tresorSpans.push({ span: span, von: tresorZiel.length, bis: tresorZiel.length + teil.text.length });
+        tresorZiel.push.apply(tresorZiel, Array.from(teil.text));
+    });
+
+    // Von links nach rechts entschlüsseln, mit etwas Zufall, damit es nicht wie eine Schreibmaschine wirkt
+    const n = tresorZiel.length;
+    tresorZeit = tresorZiel.map(function (zeichen, i) {
+        return 0.05 + 0.72 * (i / n) + 0.22 * Math.random();
+    });
+    tresorJetzt = tresorZiel.map(function (zeichen) {
+        return zeichen === " " ? " " : zufallsZeichen();
+    });
+}
+
+// anteil: 0 = alles verschlüsselt, 1 = alles Klartext. neuWuerfeln: wie viele Zeichen sich ändern
+function zeichneChiffre(anteil, neuWuerfeln) {
+    tresorZiel.forEach(function (zeichen, i) {
+        if (zeichen === " " || anteil >= tresorZeit[i]) {
+            tresorJetzt[i] = zeichen;
+        } else if (tresorJetzt[i] === zeichen || Math.random() < neuWuerfeln) {
+            tresorJetzt[i] = zufallsZeichen();
+        }
+    });
+    tresorSpans.forEach(function (teil) {
+        teil.span.textContent = tresorJetzt.slice(teil.von, teil.bis).join("");
+    });
+}
+
+function beschrifteTresor() {
+    tresor.querySelector(".vault-toggle-text").textContent = tresorOffen ? t("vault.lock") : t("vault.unlock");
+    tresor.querySelector(".vault-stamp").textContent = tresorOffen ? t("vault.stampOpen") : t("vault.stampLocked");
+}
+
+function setzeTresor(offen, animiert) {
+    const klartext = tresor.querySelector(".vault-text:not(.vault-cipher)");
+    const knopf = tresor.querySelector(".vault-toggle");
+    tresorOffen = offen;
+    tresor.classList.toggle("is-open", offen);
+    knopf.setAttribute("aria-expanded", offen);
+    document.getElementById(knopf.getAttribute("aria-controls")).hidden = !offen;
+    beschrifteTresor();
+
+    // Während der Animation die Chiffre zeigen, danach je nach Zustand Klartext oder Chiffre
+    cancelAnimationFrame(tresorAnimation);
+    klartext.classList.add("visually-hidden");
+    tresorChiffre.hidden = false;
+    const dauer = animiert && !wenigBewegung ? (offen ? 1300 : 450) : 0;
+    const start = performance.now();
+    tresorAnimiert = true;
+
+    function schritt(jetzt) {
+        const p = dauer ? Math.min(1, (jetzt - start) / dauer) : 1;
+        zeichneChiffre(offen ? p : 1 - p, 0.6);
+        if (p < 1) {
+            tresorAnimation = requestAnimationFrame(schritt);
+            return;
+        }
+        tresorAnimiert = false;
+        if (offen) {
+            klartext.classList.remove("visually-hidden");
+            tresorChiffre.hidden = true;
+        }
+    }
+    schritt(start);
+}
+
+// Zeitangabe wie «vor 3 Stunden» in der aktuellen Sprache
+function relativeZeit(iso) {
+    const sekunden = (new Date(iso) - Date.now()) / 1000;
+    const stufen = [["hour", 3600], ["day", 86400], ["week", 604800], ["month", 2629800], ["year", 31557600]];
+    let einheit = "minute";
+    let wert = sekunden / 60;
+    stufen.forEach(function (stufe) {
+        if (Math.abs(sekunden) >= stufe[1]) {
+            einheit = stufe[0];
+            wert = sekunden / stufe[1];
+        }
+    });
+    return new Intl.RelativeTimeFormat(sprachformat[aktuelleSprache], { numeric: "auto" })
+        .format(Math.round(wert), einheit);
+}
+
+// Bei Sprachwechsel und sobald GitHub geantwortet hat: Texte, Chiffre und «Zuletzt daran gearbeitet»
+function aktualisiereTresor() {
+    if (!tresor) return;
+    beschrifteTresor();
+    if (!tresorAnimiert) {
+        baueChiffre();
+        zeichneChiffre(tresorOffen ? 1 : 0, 1);
+    }
+
+    const puls = tresor.querySelector(".vault-heartbeat");
+    if (transparenzStand) {
+        puls.textContent = t("vault.heartbeat").replace("{zeit}", relativeZeit(transparenzStand));
+        puls.hidden = false;
+        // Pulsierender Punkt nur, wenn in den letzten zwei Wochen wirklich daran gearbeitet wurde
+        tresor.classList.toggle("is-active", Date.now() - new Date(transparenzStand) < 14 * 86400000);
+    }
+}
+
+if (tresor) {
+    tresorChiffre.className = "vault-text vault-cipher";
+    tresorChiffre.setAttribute("aria-hidden", "true");
+    tresor.querySelector(".vault-text").after(tresorChiffre);
+
+    const knopf = tresor.querySelector(".vault-toggle");
+    knopf.hidden = false;
+    knopf.addEventListener("click", function () {
+        setzeTresor(!tresorOffen, true);
+    });
+
+    baueChiffre();
+    setzeTresor(false, false);
+    tresor.classList.add("is-ready");
+
+    // Solange verschlossen und sichtbar, flimmern einzelne Zeichen leicht
+    if (!wenigBewegung && "IntersectionObserver" in window) {
+        new IntersectionObserver(function (eintraege) {
+            tresorSichtbar = eintraege[0].isIntersecting;
+        }).observe(tresor);
+        setInterval(function () {
+            if (tresorSichtbar && !tresorOffen && !tresorAnimiert && !document.hidden) {
+                zeichneChiffre(0, 0.07);
+            }
+        }, 120);
     }
 }
 

@@ -8,6 +8,23 @@
         content="Portfolio von Jonas Bader, Student Digital Business & AI an der BFH in Bern: Projekte zu Datenanalyse, Geodaten und Web-Apps.">
 
     <title>Jonas Bader | Portfolio</title>
+    <link rel="canonical" href="https://jonasbader7.github.io/Portfoliopage/">
+
+    <!-- Strukturierte Daten: Suchmaschinen erkennen, dass die Seite eine Person beschreibt -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Jonas Bader",
+        "url": "https://jonasbader7.github.io/Portfoliopage/",
+        "image": "https://jonasbader7.github.io/Portfoliopage/img/jonas-bader.jpg",
+        "jobTitle": "Student Digital Business & AI",
+        "affiliation": { "@type": "CollegeOrUniversity", "name": "Berner Fachhochschule BFH" },
+        "address": { "@type": "PostalAddress", "addressLocality": "Bern", "addressCountry": "CH" },
+        "knowsLanguage": ["de", "en", "fr"],
+        "sameAs": ["https://github.com/Jonasbader7"]
+    }
+    </script>
 
     <!-- Vorschau beim Teilen des Links (LinkedIn, WhatsApp, Teams): Titel, Text und Bild -->
     <meta property="og:type" content="website">
@@ -499,6 +516,59 @@
                     </li>
 
                 </ul>
+
+                <!-- In Arbeit: Projekt Transparenz als «Tresor». Ohne JavaScript steht alles offen da.
+                     Mit JavaScript erscheint der Text verschlüsselt und wird per Knopf entschlüsselt;
+                     «Zuletzt daran gearbeitet» kommt aus der GitHub-API (script.js, Teil 11). -->
+                <h3 class="section-label" data-i18n="projects.wip">In Arbeit</h3>
+                <article class="vault" id="vault" aria-labelledby="vault-title">
+                    <div class="vault-head">
+                        <p class="vault-meta">
+                            <span class="vault-pulse" aria-hidden="true"></span>
+                            <span data-i18n="vault.meta">Arbeitstitel · noch nicht fertig</span>
+                        </p>
+                        <p class="vault-stamp" aria-hidden="true">Unter Verschluss</p>
+                    </div>
+
+                    <h4 class="vault-title" id="vault-title">Projekt Transparenz</h4>
+                    <p class="vault-claim" data-i18n="vault.claim">Ein Projekt über Transparenz. Ausgerechnet
+                        noch unter Verschluss.</p>
+
+                    <p class="vault-text" data-i18n="vault.text">Was steckt wirklich in einem «nachhaltigen» Fonds?
+                        Ich verbinde jede Fondsposition mit überprüfbaren Belegen, mit Quelle, Datum und Datenstand,
+                        und zeige offen, wo Daten fehlen. Kein Gesamtscore, keine Schönfärberei. Veröffentlichung:
+                        <span class="redacted">sobald es belastbar ist</span>.</p>
+
+                    <div class="vault-more" id="vault-more">
+                        <ol class="vault-steps">
+                            <li class="is-done" data-i18n="vault.s1">Fondspositionen einlesen und prüfen</li>
+                            <li class="is-done" data-i18n="vault.s2">Positionen den Unternehmen zuordnen (ISIN, LEI)</li>
+                            <li class="is-done" data-i18n="vault.s3">Belegstatus pro Kriterium, mit Quelle und Datum</li>
+                            <li class="is-now" data-i18n="vault.s4">Pilot mit echten Fonds</li>
+                            <li data-i18n="vault.s5">Veröffentlichung</li>
+                        </ol>
+                        <ul class="tag-list">
+                            <li>Python</li>
+                            <li>pandas</li>
+                            <li>SQLite</li>
+                            <li>Streamlit</li>
+                        </ul>
+                    </div>
+
+                    <div class="card-actions vault-actions">
+                        <button type="button" class="vault-toggle" aria-expanded="true" aria-controls="vault-more"
+                            data-analytics-event="demo:transparenz_unlock" hidden>
+                            <svg class="vault-lock" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                <path class="vault-shackle" d="M8 11V7.5a4 4 0 0 1 8 0V11" />
+                                <rect class="vault-lock-body" x="4.5" y="10.5" width="15" height="11" rx="2.5" />
+                                <path class="vault-keyhole" d="M12 15v2.5" />
+                            </svg>
+                            <span class="vault-toggle-text">Entschlüsseln</span>
+                        </button>
+                        <a href="https://github.com/Jonasbader7/Projekt-Transparenz" data-i18n="vault.code">Fortschritt auf GitHub</a>
+                        <p class="vault-heartbeat" hidden></p>
+                    </div>
+                </article>
 
                 <!-- Kleinere Arbeiten kompakt als Liste, damit die drei grossen Projekte mehr Gewicht haben -->
                 <h3 class="section-label" data-i18n="projects.more">Weitere Arbeiten</h3>
