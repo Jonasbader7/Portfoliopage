@@ -1622,6 +1622,324 @@ code {
 }
 
 
+/* ---------- In Arbeit: Projekt Transparenz als Tresor ----------
+   Gestrichelter Rand = Baustelle. Der Text steht in Monospace, damit Chiffre und Klartext
+   Zeichen für Zeichen gleich breit sind und beim Entschlüsseln nichts springt (script.js, Teil 11). */
+.vault {
+    position: relative;
+    overflow: hidden;
+    margin-top: 0.75rem;
+    padding: 1.5rem;
+    border: 1px dashed var(--color-line-strong);
+    border-radius: var(--radius);
+    background:
+        radial-gradient(120% 90% at 100% 0%, var(--color-accent-soft), transparent 55%),
+        var(--color-card);
+}
+
+/* Feines Raster im Hintergrund, nach unten ausgeblendet */
+.vault::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(var(--color-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--color-line) 1px, transparent 1px);
+    background-size: 22px 22px;
+    opacity: 0.45;
+    -webkit-mask-image: linear-gradient(to bottom, #000, transparent 65%);
+    mask-image: linear-gradient(to bottom, #000, transparent 65%);
+    pointer-events: none;
+}
+
+/* Über dem Raster liegen; .visually-hidden (Klartext, solange verschlossen) bleibt absolut */
+.vault > :not(.visually-hidden) {
+    position: relative;
+}
+
+.vault-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.vault-meta {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.55rem;
+    margin: 0 0 0.6rem;
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+/* Punkt: grau, und pulsierend, wenn in den letzten zwei Wochen gearbeitet wurde (.is-active) */
+.vault-pulse {
+    flex: none;
+    width: 0.5rem;
+    height: 0.5rem;
+    margin-top: 0.35em; /* auf der Höhe der ersten Zeile, auch wenn der Text umbricht */
+    border-radius: 50%;
+    background: var(--color-muted);
+}
+
+.vault.is-active .vault-pulse {
+    background: var(--color-accent);
+    animation: puls 2.2s var(--ease) infinite;
+}
+
+@keyframes puls {
+    0% {
+        box-shadow: 0 0 0 0 var(--color-accent);
+    }
+
+    70%,
+    100% {
+        box-shadow: 0 0 0 0.6rem transparent;
+    }
+}
+
+/* Stempel wie auf einer Akte; ohne JavaScript ausgeblendet, weil dann ohnehin alles offen ist */
+.vault-stamp {
+    flex: none;
+    margin: 0;
+    padding: 0.3rem 0.6rem;
+    border: 2px solid currentColor;
+    border-radius: 6px;
+    color: var(--color-error);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    opacity: 0.85;
+    transform: rotate(-6deg);
+}
+
+.vault:not(.is-ready) .vault-stamp {
+    display: none;
+}
+
+.vault.is-open .vault-stamp {
+    color: var(--color-accent);
+    animation: stempeln 0.5s var(--ease-spring);
+}
+
+@keyframes stempeln {
+    from {
+        opacity: 0;
+        transform: rotate(-6deg) scale(1.8);
+    }
+
+    to {
+        opacity: 0.85;
+        transform: rotate(-6deg) scale(1);
+    }
+}
+
+.vault-title {
+    margin: 0 0 0.35rem;
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 650;
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+}
+
+.vault-claim {
+    margin: 0 0 1.1rem;
+    color: var(--color-muted);
+}
+
+.vault-text {
+    margin: 0 0 1.25rem;
+    padding: 1rem 1.1rem;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-s);
+    background: var(--color-card-2);
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.86rem;
+    line-height: 1.75;
+}
+
+.vault-cipher {
+    color: var(--color-accent);
+    user-select: none;
+}
+
+/* Geschwärzte Stelle: Balken in Tintenfarbe. Mit der Maus darf man kurz darunter schauen. */
+.redacted {
+    border-radius: 3px;
+    background: var(--color-text);
+    color: transparent;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    transition: color 0.3s var(--ease);
+}
+
+.vault-cipher .redacted {
+    color: transparent;
+}
+
+@media (hover: hover) {
+    .vault-text:not(.vault-cipher) .redacted:hover {
+        color: var(--color-bg);
+    }
+}
+
+/* Meilensteine: gefüllt = erledigt, halb = läuft, Ring = offen */
+.vault-steps {
+    display: grid;
+    gap: 0.5rem;
+    margin: 0 0 1.25rem;
+    padding: 0;
+    list-style: none;
+    font-size: 0.95rem;
+}
+
+.vault-steps li {
+    display: flex;
+    align-items: baseline;
+    gap: 0.7rem;
+    margin: 0;
+    color: var(--color-muted);
+}
+
+.vault-steps li::before {
+    content: "";
+    flex: none;
+    width: 0.8rem;
+    height: 0.8rem;
+    border: 1.5px solid var(--color-line-strong);
+    border-radius: 50%;
+    transform: translateY(0.1rem);
+}
+
+.vault-steps .is-done {
+    color: var(--color-text-soft);
+}
+
+.vault-steps .is-done::before {
+    border-color: var(--color-accent);
+    background: var(--color-accent);
+}
+
+.vault-steps .is-now {
+    color: var(--color-text);
+    font-weight: 600;
+}
+
+.vault-steps .is-now::before {
+    border-color: var(--color-accent);
+    background: conic-gradient(var(--color-accent) 0 50%, transparent 0);
+}
+
+/* Nach dem Entschlüsseln erscheinen die Meilensteine nacheinander */
+.vault.is-open .vault-steps li {
+    animation: einblenden 0.45s var(--ease) both;
+}
+
+.vault.is-open .vault-steps li:nth-child(2) { animation-delay: 0.08s; }
+.vault.is-open .vault-steps li:nth-child(3) { animation-delay: 0.16s; }
+.vault.is-open .vault-steps li:nth-child(4) { animation-delay: 0.24s; }
+.vault.is-open .vault-steps li:nth-child(5) { animation-delay: 0.32s; }
+
+.vault-more .tag-list {
+    margin-bottom: 0.25rem;
+}
+
+/* Knopf mit Schloss: Bügel springt beim Öffnen auf */
+.vault-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.7rem 1.15rem;
+    border: 1px solid var(--color-text);
+    border-radius: 999px;
+    background: var(--color-text);
+    color: var(--color-bg);
+    font: inherit;
+    font-size: 0.92rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+        transform 0.2s var(--ease),
+        background-color 0.3s var(--ease),
+        color 0.3s var(--ease);
+}
+
+.vault-toggle:active {
+    transform: scale(0.96);
+}
+
+.vault.is-open .vault-toggle {
+    background: transparent;
+    color: var(--color-text);
+}
+
+.vault-lock {
+    width: 1.2em;
+    height: 1.2em;
+    overflow: visible;
+}
+
+.vault-shackle,
+.vault-keyhole {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+}
+
+.vault-lock-body {
+    fill: currentColor;
+}
+
+.vault-keyhole {
+    stroke: var(--color-text);
+}
+
+.vault.is-open .vault-keyhole {
+    stroke: var(--color-card);
+}
+
+.vault-shackle {
+    transform-box: fill-box;
+    transform-origin: 0% 100%;
+    transition: transform 0.5s var(--ease-spring);
+}
+
+.vault.is-open .vault-shackle {
+    transform: translateY(-2.5px) rotate(-30deg);
+}
+
+@media (hover: hover) {
+    .vault:not(.is-open) .vault-toggle:hover .vault-lock {
+        animation: wackeln 0.5s var(--ease);
+    }
+}
+
+@keyframes wackeln {
+    25% { transform: rotate(-12deg); }
+    50% { transform: rotate(9deg); }
+    75% { transform: rotate(-5deg); }
+}
+
+.vault-heartbeat {
+    flex-basis: 100%;
+    margin: 0.25rem 0 0;
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+}
+
+
 /* ---------- Kontaktformular ---------- */
 #contact > p {
     max-width: 40rem;
@@ -1805,8 +2123,13 @@ code {
         grid-column: 1 / -1;
     }
 
-    .project-card {
+    .project-card,
+    .vault {
         padding: 1.75rem;
+    }
+
+    .vault-text {
+        font-size: 0.9rem;
     }
 
     .project-image {

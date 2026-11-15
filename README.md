@@ -10,7 +10,7 @@ Persönliche Portfolio-Seite, entstanden im Modul Web Engineering (EWEB) an der 
 |-------|--------|
 | `index.html` | Struktur und Inhalt: Header, Hero, Seitenleiste (`aside`), Über mich mit Werdegang, Projekte und weitere Arbeiten, Kompetenzen, Kontakt, Footer |
 | `styles.css` | Gestaltung: Design-Tokens als CSS-Variablen (hell und dunkel), Flexbox, Grid mit `grid-template-areas`, Media Queries (Mobile First) |
-| `script.js` | Verhalten: Sprachwechsel, Menü, Projektdetails aufklappen, GreenRoute-Live-Vorschau, GitHub-API, Formular, Lesefortschritt, aktiver Menüpunkt, Einblenden beim Scrollen |
+| `script.js` | Verhalten: Sprachwechsel, Menü, Projektdetails aufklappen, GreenRoute-Live-Vorschau, GitHub-API, Formular, Lesefortschritt, aktiver Menüpunkt, Einblenden beim Scrollen, «Tresor» für Projekt Transparenz (in Arbeit) |
 | `lang/en.json`, `lang/fr.json` | Übersetzungen ins Englische und Französische (Deutsch steht direkt im HTML) |
 | `fonts/` | Schriften Inter, Inter Tight und JetBrains Mono als variable WOFF2-Dateien (Lizenz in `fonts/LIZENZ.md`) |
 | `img/` | Bilder (Porträt, Projekt-Screenshots, Favicon) |

@@ -74,6 +74,23 @@
 
     "projects.title": "Projects",
     "projects.more": "Further work",
+
+    "projects.wip": "Work in progress",
+    "vault.meta": "Working title · not finished yet",
+    "vault.claim": "A project about transparency. Of all things, still under lock and key.",
+    "vault.text": "What is really inside a “sustainable” fund? I link every fund holding to verifiable evidence, with source, date and data version, and openly show where data is missing. No overall score, no sugar-coating. Release: <span class=\"redacted\">once it holds up</span>.",
+    "vault.s1": "Import and validate fund holdings",
+    "vault.s2": "Match holdings to companies (ISIN, LEI)",
+    "vault.s3": "Evidence status per criterion, with source and date",
+    "vault.s4": "Pilot with real funds",
+    "vault.s5": "Release",
+    "vault.code": "Progress on GitHub",
+    "vault.unlock": "Decrypt",
+    "vault.lock": "Lock again",
+    "vault.stampLocked": "Classified",
+    "vault.stampOpen": "Preview released",
+    "vault.heartbeat": "Last worked on: {zeit}",
+
     "toggle.more": "Learn more",
     "toggle.less": "Show less",
 
