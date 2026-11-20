@@ -13,7 +13,7 @@ Persönliche Portfolio-Seite, entstanden im Modul Web Engineering (EWEB) an der 
 | `script.js` | Verhalten: Sprachwechsel, Menü, Projektdetails aufklappen, GreenRoute-Live-Vorschau, GitHub-API, Formular, Lesefortschritt, aktiver Menüpunkt, Einblenden beim Scrollen, «Tresor» für Projekt Transparenz (in Arbeit) |
 | `lang/en.json`, `lang/fr.json` | Übersetzungen ins Englische und Französische (Deutsch steht direkt im HTML) |
 | `fonts/` | Schriften Inter, Inter Tight und JetBrains Mono als variable WOFF2-Dateien (Lizenz in `fonts/LIZENZ.md`) |
-| `img/` | Bilder (Porträt, Projekt-Screenshots, Favicon) |
+| `img/` | Bilder als WebP (Porträt, Projekt-Screenshots), Favicon; die JPG-Originale von Porträt und GreenRoute bleiben für die Link-Vorschau |
 
 ## Gestaltung
 
@@ -31,6 +31,7 @@ Persönliche Portfolio-Seite, entstanden im Modul Web Engineering (EWEB) an der 
 - **GreenRoute-Vorschau erst auf Klick.** Die eingebettete GreenRoute-App ist gross und wird deshalb erst geladen, wenn jemand sie öffnen will.
 - **Daten per `fetch()` mit Zwischenspeicher.** Die Seitenleiste lädt die neusten öffentlichen Repositories über die GitHub-API und speichert die Antwort eine Stunde im `localStorage`. So reicht das Limit der API (60 Abfragen pro Stunde und IP-Adresse) auch, wenn viele Personen im selben Netz die Seite öffnen. Ist GitHub nicht erreichbar, erscheint die zuletzt gespeicherte Liste. Lade-, Leer- und Fehlerzustand werden angezeigt.
 - **Reihenfolge im HTML.** Der Hauptinhalt steht vor der Seitenleiste, damit Tastatur und Screenreader ihn zuerst erreichen; auf dem Desktop setzt `grid-template-areas` die Leiste nach links.
+- **Bilder als WebP.** Gleiche Bildqualität, rund ein Viertel weniger Daten als JPG/PNG (Screenshots verlustfrei). Das Porträt gibt es in zwei Grössen: `srcset` und `sizes` lassen Handy und Tablet nur die kleine Datei laden (6 statt 41 KB), und `fetchpriority="high"` holt es als grösstes Element im Sichtfeld zuerst. Bilder weiter unten laden erst beim Scrollen (`loading="lazy"`).
 - **Link-Vorschau.** Open-Graph-Tags liefern Titel, Text und Bild, wenn der Link auf LinkedIn, WhatsApp oder Teams geteilt wird.
 - **Drei Sprachen.** Elemente mit `data-i18n` erhalten beim Sprachwechsel den Text aus `lang/*.json`, die per `fetch()` geladen wird. Die gewählte Sprache wird im Browser gespeichert.
 - **Kontaktformular über Web3Forms.** Eine statische Seite kann keine E-Mails verschicken. Das Formular sendet die Eingaben deshalb per `fetch()` an Web3Forms, das sie per E-Mail weiterleitet. Der Zugangsschlüssel darf öffentlich sein, die Mailadresse steht nicht im Code.

@@ -93,8 +93,11 @@
 
     <!-- ===== Einstieg ===== -->
     <section id="top" class="hero">
-        <img class="hero-foto" src="img/jonas-bader.jpg" alt="Porträt von Jonas Bader" data-i18n-alt="hero.alt"
-            width="720" height="720">
+        <!-- WebP in zwei Grössen: Handy und Tablet brauchen nur das kleine Bild (sizes wie im CSS) -->
+        <img class="hero-foto" src="img/jonas-bader.webp" alt="Porträt von Jonas Bader" data-i18n-alt="hero.alt"
+            srcset="img/jonas-bader-360.webp 360w, img/jonas-bader.webp 720w"
+            sizes="(min-width: 64em) clamp(16rem, 25vw, 21rem), 6.5rem"
+            width="720" height="720" fetchpriority="high">
 
         <h1>Jonas Bader</h1>
 
@@ -220,9 +223,9 @@
                     <li class="project-card project-card-featured">
                         <article>
                             <figure class="project-image">
-                                <img src="img/bors-app.jpg" data-i18n-alt="bors.alt"
+                                <img src="img/bors-app.webp" data-i18n-alt="bors.alt"
                                     alt="GreenRoute-Web-App: Karte von Bern, Strassen grün, gelb oder rot eingefärbt je nach Befahrbarkeit"
-                                    width="800" height="500" loading="lazy">
+                                    width="800" height="500" loading="lazy" decoding="async">
                             </figure>
 
                             <p class="project-meta" data-i18n="bors.meta">Hauptprojekt · Teamprojekt BFH, 6 Personen</p>
@@ -258,17 +261,17 @@
                             <div class="project-details" id="details-bors" hidden>
                                 <div class="details-grid">
                                     <figure>
-                                        <img src="img/greenroute-s1-liebewil.jpg" data-i18n-alt="bors.routeAlt"
+                                        <img src="img/greenroute-s1-liebewil.webp" data-i18n-alt="bors.routeAlt"
                                             alt="GreenRoute-Web-App, Beispiel Unterführung Liebewil: Auto-Route türkis durch die Unterführung, Route der grossen Feuerwehr grün als Umweg, links die Fahrzeiten"
-                                            width="800" height="500" loading="lazy">
+                                            width="800" height="500" loading="lazy" decoding="async">
                                         <figcaption data-i18n="bors.routeCap">Beispiel Unterführung Liebewil (3,50 m): Der Wasserwerfer
                                             ist 3,66 m hoch. GreenRoute schickt ihn von Anfang an auf den Umweg (grün) statt wie das
                                             Auto (türkis) zur Unterführung.</figcaption>
                                     </figure>
                                     <figure>
-                                        <img src="img/bors-netz.jpg" data-i18n-alt="bors.netAlt"
+                                        <img src="img/bors-netz.webp" data-i18n-alt="bors.netAlt"
                                             alt="Gesamtes GreenRoute-Strassennetz, eingefärbt nach Zustand für das grosse Feuerwehrfahrzeug"
-                                            width="1200" height="750" loading="lazy">
+                                            width="1200" height="750" loading="lazy" decoding="async">
                                         <figcaption data-i18n="bors.netCap">Das ganze Netz für die grosse Feuerwehr:
                                             grün validiert, gelb unvalidiert, rot gesperrt.</figcaption>
                                     </figure>
@@ -407,9 +410,9 @@
                     <li class="project-card">
                         <article>
                             <figure class="project-image">
-                                <img src="img/splitmate-schulden-anonym.png" data-i18n-alt="sm.alt"
+                                <img src="img/splitmate-schulden-anonym.webp" data-i18n-alt="sm.alt"
                                     alt="SplitMate-Schuldenübersicht: Total 20 CHF, zwei Personen zahlen je 10 CHF an eine dritte"
-                                    width="728" height="425" loading="lazy">
+                                    width="728" height="425" loading="lazy" decoding="async">
                             </figure>
 
                             <p class="project-meta" data-i18n="sm.meta">Teamprojekt · Software Engineering</p>
@@ -430,9 +433,9 @@
 
                             <div class="project-details" id="details-splitmate" hidden>
                                 <figure>
-                                    <img src="img/splitmate-app.jpg" data-i18n-alt="sm.startAlt"
+                                    <img src="img/splitmate-app.webp" data-i18n-alt="sm.startAlt"
                                         alt="SplitMate-Startseite mit Formularen zum Erstellen und Beitreten einer Gruppe"
-                                        width="760" height="730" loading="lazy">
+                                        width="760" height="730" loading="lazy" decoding="async">
                                     <figcaption data-i18n="sm.startCap">Startseite: Gruppe erstellen oder mit Code beitreten.</figcaption>
                                 </figure>
                                 <h4 data-i18n="sm.archH">Architektur</h4>
@@ -472,9 +475,9 @@
                     <li class="project-card">
                         <article>
                             <figure class="project-image">
-                                <img src="img/r-analyse-interaktion.png" data-i18n-alt="r.alt"
+                                <img src="img/r-analyse-interaktion.webp" data-i18n-alt="r.alt"
                                     alt="Streudiagramm: Lebenserwartung sinkt mit steigendem Raucheranteil, in einkommensstarken Regionen steiler"
-                                    width="1400" height="900" loading="lazy">
+                                    width="1400" height="900" loading="lazy" decoding="async">
                             </figure>
 
                             <p class="project-meta" data-i18n="r.meta">Gruppenprojekt · Datenmanagement &amp; Datenanalyse</p>
