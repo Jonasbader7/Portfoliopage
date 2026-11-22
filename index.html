@@ -105,8 +105,7 @@
 
         <p class="hero-intro" data-i18n="hero.intro">
             Ich studiere Digital Business &amp; AI an der BFH, davor war ich mehrere Jahre in der Bank und
-            habe Physik studiert. Ich baue aus echten Daten Werkzeuge, die man benutzen kann – hier zeige
-            ich, was sie tun und wie sie funktionieren.
+            habe Physik studiert. Hier zeige ich ein paar Projekte aus dem Studium.
         </p>
 
         <div class="hero-actions">
@@ -128,8 +127,8 @@
                 <h2 data-i18n="about.title">Über mich</h2>
 
                 <p class="lead" data-i18n="about.lead">
-                    Ich liebe Daten, Mathematik und komplexe Probleme, vor allem dann,
-                    wenn die Lösung Menschen und der Natur etwas Gutes tut.
+                    Ich arbeite gern mit Daten und Mathematik, am liebsten an Problemen,
+                    bei denen am Ende etwas Nützliches herauskommt.
                 </p>
                 <!-- Werdegang: vom Onlinespiel über Bank und Physik zum heutigen Studium -->
                 <h3 class="about-subtitle" data-i18n="about.pathTitle">Wie ich hier gelandet bin</h3>
@@ -152,8 +151,7 @@
                     einen Nutzen hat.
                 </p>
                 <p data-i18n="about.p3">
-                    Ausgleich finde ich im Ausdauersport: Ich trainiere für Triathlon bis zur
-                    Ironman-Distanz, am liebsten draussen in der Natur.
+                    Als Ausgleich mache ich Ausdauersport, vor allem Triathlon, am liebsten draussen.
                 </p>
 
                 <!-- Werdegang als Zeitachse: Balken auf einer gemeinsamen Jahresachse zeigen, was sich
@@ -228,25 +226,15 @@
                                     width="800" height="500" loading="lazy" decoding="async">
                             </figure>
 
-                            <p class="project-meta" data-i18n="bors.meta">Hauptprojekt · Teamprojekt BFH, 6 Personen</p>
+                            <p class="project-meta" data-i18n="bors.meta">Teamprojekt BFH, 6 Personen</p>
                             <h3>GreenRoute</h3>
                             <p data-i18n="bors.text">
                                 Einsatzrouting für Blaulichtfahrzeuge: Welche Strasse ist für welches Fahrzeug physisch
                                 passierbar? GreenRoute prüft für Notarzt, Rettungswagen und zwei Feuerwehrfahrzeuge, ob Breite,
                                 Höhe und Gewicht reichen, und berechnet darauf die Route, in Bern und zehn Nachbargemeinden.
                             </p>
-                            <p class="project-role" data-i18n="bors.role"><strong>Mein Teil:</strong> Product Owner und die
-                                gesamte technische Umsetzung, von der Datenaufbereitung und Breitenmessung über den Router
-                                bis zur Web-App. Fachfragen klärt das Team mit Schutz und Rettung Bern, dem Tiefbauamt der
-                                Stadt Bern und dem ASTRA.</p>
-
-                            <!-- Umfang auf einen Blick; Zahlen formatiert script.js je Sprache (data-zahl) -->
-                            <ul class="fact-list">
-                                <li><strong data-zahl="4">4</strong> <span data-i18n="bors.f1">Fahrzeugklassen, je eigene Route</span></li>
-                                <li><strong data-zahl="20867">20 867</strong> <span data-i18n="bors.f2">Strassenabschnitte, für jedes Fahrzeug bewertet</span></li>
-                                <li><strong data-zahl="19">19</strong> <span data-i18n="bors.f3">veröffentlichte Versionen der Web-App</span></li>
-                                <li><strong data-zahl="19">19</strong> <span data-i18n="bors.f4">Engstellen und Brücken am Luftbild nachgemessen</span></li>
-                            </ul>
+                            <p class="project-role" data-i18n="bors.role"><strong>Mein Teil:</strong> die Daten, der Router
+                                und die Web-App.</p>
 
                             <ul class="tag-list">
                                 <li>Python</li>
@@ -340,10 +328,9 @@
                                         </li>
                                     </ol>
                                     <p class="examples-note" data-i18n="bors.exNote">Modellfahrzeiten ohne Verkehr, gerechnet mit dem
-                                        Router der Web-App (Version 19, November 2026). Das Wenden ist der günstigste Fall: eine
-                                        Minute, und die Crew kennt sofort die beste Umfahrung. Die Hindernisse stammen aus der
-                                        Hinderniskartei, der Breitenmessung und einem Kurvenmodell und sind nicht vor Ort geprüft.
-                                        Ein Klick auf ein Beispiel öffnet es in der Web-App.</p>
+                                        Router der Web-App. Das Wenden ist der günstigste Fall: eine Minute, und die Crew kennt
+                                        sofort die beste Umfahrung. Die Hindernisse sind nicht vor Ort geprüft. Ein Klick auf ein
+                                        Beispiel öffnet es in der Web-App.</p>
                                 </section>
 
                                 <!-- Projektaufbau in fünf Schritten: vom Problem bis zu den Grenzen -->
@@ -364,9 +351,8 @@
                                         <p data-i18n="bors.s3p">Ich messe die Breite aus der amtlichen Vermessung mit Querprofilen
                                             und ziehe pro Strassenrand eine Messtoleranz ab. Jede Strasse erhält pro Fahrzeug
                                             einen von drei Zuständen: validiert, unvalidiert oder gesperrt. Geroutet wird
-                                            zuerst nur über validierte Strassen. Dazu kommen Höhen- und Gewichtsgrenzen, ein Modell
-                                            für enge Kurven und die Baustellen der Stadt Bern, die die Web-App alle zehn Minuten
-                                            neu abruft.</p>
+                                            zuerst nur über validierte Strassen. Dazu kommen Höhen- und Gewichtsgrenzen, enge Kurven
+                                            und die Baustellen der Stadt Bern.</p>
                                         <p data-i18n="bors.s3p2"><strong>Eine Entscheidung dabei:</strong> lieber eine Strasse als
                                             «unvalidiert» markieren als falsche Sicherheit versprechen. Gibt es keinen validierten
                                             Weg, zeigt GreenRoute eine Ausweichroute, kennzeichnet sie und rechnet unsichere Abschnitte
@@ -375,11 +361,8 @@
                                     <li>
                                         <h4 data-i18n="bors.s4h">Was geprüft ist und was nicht</h4>
                                         <p data-i18n="bors.s4p"><strong>Geprüft:</strong> Die Gewichtsgrenzen und die Regel «ohne
-                                            Signal mindestens 4 m Höhe» hat das Tiefbauamt der Stadt Bern im November 2026 bestätigt.
-                                            19 Engstellen und Brücken, bei denen die Vermessungsdaten unklar waren, sind am Luftbild
-                                            nachgemessen. Die Web-App ist eine Übertragung des QGIS-Routers; beim grossen Abgleich
-                                            waren 325 von 325 Testrouten identisch, und der Prüflauf in QGIS bestand für Version 19
-                                            alle 29 Prüfungen.</p>
+                                            Signal mindestens 4 m Höhe» hat das Tiefbauamt der Stadt Bern bestätigt. Wo die
+                                            Vermessungsdaten unklar waren, habe ich am Luftbild nachgemessen.</p>
                                         <p data-i18n="bors.s4p2"><strong>Nicht geprüft:</strong> GreenRoute wurde nicht im Einsatz und nicht
                                             systematisch vor Ort getestet. Es ist ein Prototyp ohne Einsatzfreigabe.</p>
                                     </li>
@@ -487,7 +470,7 @@
                                 Lebenserwartung zusammen (Frauen im untersten Einkommensquartil, ab 40 Jahren)?
                                 Reproduzierbar in R.
                             </p>
-                            <p class="project-role" data-i18n="r.role"><strong>Mein Teil:</strong> der gesamte Analyseteil.</p>
+                            <p class="project-role" data-i18n="r.role"><strong>Mein Teil:</strong> die Analyse.</p>
 
                             <ul class="tag-list">
                                 <li>R</li>
@@ -581,9 +564,9 @@
                         <div>
                             <h4>Die Befreiung von Freddy <span class="award" data-i18n="freddy.award">Jurypreis</span></h4>
                             <p data-i18n="freddy.text">Videoprojekt im Team (5 Personen) an der BFH Entrepreneurship
-                                Week. Die Jury zeichnete es für Originalität und produktiven Einsatz von Technologie aus.</p>
-                            <p class="project-role" data-i18n="freddy.role"><strong>Mein Teil:</strong> der ganze
-                                Videoschnitt und die Nachbearbeitung in LumaFusion, teilweise auch die Aufnahmen.</p>
+                                Week.</p>
+                            <p class="project-role" data-i18n="freddy.role"><strong>Mein Teil:</strong> Videoschnitt und
+                                ein Teil der Aufnahmen.</p>
                             <a class="work-link" href="https://github.com/Jonasbader7/freddy-entrepreneurship-2024"
                                 data-i18n="link.details">Details auf GitHub</a>
                         </div>
@@ -626,8 +609,8 @@
                             <h4>TrainCast</h4>
                             <p data-i18n="tc.text">Servicekonzept, das Trainings automatisch in freie Kalenderlücken und
                                 trockenes Wetter plant.</p>
-                            <p class="project-role" data-i18n="tc.role"><strong>Mein Teil:</strong> das ganze Konzept
-                                als Einzelarbeit: User Journey, Personas und Value Proposition.</p>
+                            <p class="project-role" data-i18n="tc.role"><strong>Einzelarbeit:</strong> User Journey,
+                                Personas und Value Proposition.</p>
                             <a class="work-link"
                                 href="https://github.com/Jonasbader7/bfh-digital-business-projects/tree/main/traincast"
                                 data-i18n="link.details">Details auf GitHub</a>
@@ -695,7 +678,7 @@
                         <p data-i18n="skills.methText">Projekte im Team strukturieren, Anforderungen klären und
                             Ergebnisse präsentieren.</p>
                         <ul class="tag-list">
-                            <li data-i18n="skills.po">Scrum, Product Owner</li>
+                            <li data-i18n="skills.po">Scrum</li>
                             <li>Requirements Engineering</li>
                             <li>Service Design</li>
                             <li data-i18n="skills.strategy">Digitalstrategie</li>
@@ -778,6 +761,13 @@
 
     </div>
 
+
+    <!-- Erscheint nach etwas Scrollen unten rechts (script.js, Teil 8) -->
+    <a href="#top" class="to-top" aria-label="Nach oben" data-i18n-aria="toTop">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M12 19V5M5.5 11.5 12 5l6.5 6.5" />
+        </svg>
+    </a>
 
     <footer class="site-footer">
         <p><a href="analytics/datenschutz.html" data-i18n="footer.privacy">Datenschutz &amp; Analytics</a></p>

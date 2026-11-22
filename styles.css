@@ -1376,36 +1376,6 @@ code {
     gap: var(--space);
 }
 
-/* GreenRoute: Umfang in vier Zahlen (Handy zweispaltig, ab Tablet vierspaltig) */
-.fact-list {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.75rem;
-    margin: 1rem 0 1.1rem;
-    padding: 0;
-    list-style: none;
-}
-
-.fact-list li {
-    padding: 0.7rem 0.8rem;
-    border: 1px solid var(--color-line);
-    border-radius: 10px;
-    background: var(--color-card-2);
-    color: var(--color-muted);
-    font-size: 0.8rem;
-    line-height: 1.35;
-}
-
-.fact-list strong {
-    display: block;
-    margin-bottom: 0.15rem;
-    color: var(--color-accent);
-    font-family: var(--font-display);
-    font-size: 1.45rem;
-    font-variant-numeric: tabular-nums;
-    line-height: 1.1;
-}
-
 /* GreenRoute: vier Beispiele als Balken auf gemeinsamer Skala 0–25 min */
 .examples {
     margin-top: 1.75rem;
@@ -1619,6 +1589,147 @@ code {
     border: 1px solid var(--color-line);
     border-radius: var(--radius-s);
     background: var(--color-card-2);
+}
+
+
+/* ---------- Bilder vergrössern (script.js, Teil 12) ----------
+   script.js legt jedes Projektbild in einen Knopf (.zoom). Eine kleine Lupe in der Ecke zeigt,
+   dass man es antippen kann: mit Maus beim Überfahren, auf Touch-Geräten immer. */
+.zoom {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    cursor: zoom-in;
+}
+
+/* Kreis (::before) und Lupen-Symbol (::after, per Maske eingefärbt, passt zu hell und dunkel) */
+.zoom::before,
+.zoom::after {
+    content: "";
+    position: absolute;
+    right: 0.65rem;
+    bottom: 0.65rem;
+    width: 2.25rem;
+    height: 2.25rem;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 0.25s var(--ease), transform 0.35s var(--ease-spring);
+    pointer-events: none;
+}
+
+.zoom::before {
+    border: 1px solid var(--color-line);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--color-card) 90%, transparent);
+    box-shadow: var(--shadow-hover);
+}
+
+.zoom::after {
+    background: var(--color-text);
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='10.5' cy='10.5' r='6'/%3E%3Cpath d='M15 15l5 5M10.5 8v5M8 10.5h5'/%3E%3C/svg%3E") center / 1.05rem no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='10.5' cy='10.5' r='6'/%3E%3Cpath d='M15 15l5 5M10.5 8v5M8 10.5h5'/%3E%3C/svg%3E") center / 1.05rem no-repeat;
+}
+
+.zoom:hover::before,
+.zoom:hover::after,
+.zoom:focus-visible::before,
+.zoom:focus-visible::after {
+    opacity: 1;
+    transform: none;
+}
+
+@media (hover: none) {
+    .zoom::before,
+    .zoom::after {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* Der Dialog füllt den Bildschirm; ein Tippen irgendwo schliesst ihn (script.js) */
+.lightbox[open] {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 4rem clamp(0.5rem, 3vw, 3rem) clamp(1rem, 3vw, 2.5rem);
+    border: 0;
+    background: transparent;
+    color: #eceae4;
+    cursor: zoom-out;
+}
+
+.lightbox::backdrop {
+    background: rgba(10, 12, 14, 0.9);
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+}
+
+.lightbox figure {
+    display: grid;
+    justify-items: center;
+    gap: 0.85rem;
+    max-width: min(100%, 1400px);
+    margin: 0;
+    animation: zoom-ein 0.3s var(--ease);
+}
+
+.lightbox img {
+    width: auto;
+    max-width: 100%;
+    max-height: calc(100dvh - 10rem);
+    border-radius: var(--radius-s);
+    box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.6);
+}
+
+.lightbox figcaption {
+    max-width: 46rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    text-align: center;
+}
+
+.lightbox-close {
+    position: fixed;
+    top: 0.75rem;
+    right: 0.75rem;
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    font: inherit;
+    font-size: 1.6rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.lightbox-close:hover {
+    background: rgba(255, 255, 255, 0.18);
+}
+
+/* Seite darunter scrollt nicht mit, solange das Bild offen ist */
+html:has(.lightbox[open]) {
+    overflow: hidden;
+}
+
+@keyframes zoom-ein {
+    from {
+        opacity: 0;
+        transform: scale(0.96);
+    }
 }
 
 
@@ -2067,6 +2178,74 @@ code {
 }
 
 
+/* ---------- Knopf «Nach oben» (script.js, Teil 8) ----------
+   Zuerst unsichtbar und nicht fokussierbar (visibility), erscheint nach etwas Scrollen. */
+.to-top {
+    position: fixed;
+    right: max(var(--gutter), env(safe-area-inset-right));
+    bottom: max(1.25rem, env(safe-area-inset-bottom));
+    z-index: 40;
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 1px solid var(--color-line-strong);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--color-card) 85%, transparent);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    color: var(--color-text);
+    box-shadow: var(--shadow-hover);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(0.75rem);
+    transition:
+        opacity 0.3s var(--ease),
+        transform 0.35s var(--ease-spring),
+        visibility 0s 0.3s,
+        border-color 0.2s,
+        color 0.2s;
+}
+
+.to-top.is-shown {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition:
+        opacity 0.3s var(--ease),
+        transform 0.35s var(--ease-spring),
+        visibility 0s,
+        border-color 0.2s,
+        color 0.2s;
+}
+
+.to-top:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+}
+
+.to-top:active {
+    transform: scale(0.92);
+}
+
+.to-top svg {
+    width: 1.15rem;
+    height: 1.15rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: transform 0.3s var(--ease-spring);
+}
+
+@media (hover: hover) {
+    .to-top:hover svg {
+        transform: translateY(-2px);
+    }
+}
+
+
 /* ---------- Einblenden beim Scrollen ---------- */
 /* script.js gibt Elementen unterhalb des Bildschirms die Klasse .reveal
    und ergänzt .is-visible, sobald sie ins Bild kommen. Ohne JavaScript
@@ -2105,6 +2284,39 @@ code {
 }
 
 
+/* Touch-Geräte: Finger sind breiter als ein Mauszeiger. Kleine Knöpfe und Textlinks
+   bekommen mehr Tippfläche (Richtwert rund 44 px), ohne dass sie grösser aussehen. */
+@media (pointer: coarse) {
+    .lang-switch button {
+        min-width: 2.5rem;
+        min-height: 2.25rem;
+    }
+
+    .nav-toggle {
+        width: 2.75rem;
+        height: 2.75rem;
+    }
+
+    .card-actions {
+        padding-top: 0.5rem;
+    }
+
+    .card-actions a,
+    .work-link {
+        padding-block: 0.65rem;
+    }
+
+    .work-link {
+        margin-top: 0.1rem;
+    }
+
+    .plain-list a {
+        display: inline-block;
+        padding-block: 0.35rem;
+    }
+}
+
+
 /* ---------- Tablet ab 768px ---------- */
 @media (min-width: 48em) {
     .hero-foto {
@@ -2138,10 +2350,6 @@ code {
 
     .details-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .fact-list {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
     }
 
     /* Zeitachse: Text links in einer festen Spalte, Balken rechts */
@@ -2304,18 +2512,5 @@ code {
     .project-card-featured .project-details,
     .project-card-featured .card-actions {
         grid-column: 1 / -1;
-    }
-
-    /* Zahlen links unter dem Bild statt in der schmalen Textspalte (füllt den Leerraum unter dem Bild) */
-    .project-card-featured .project-image {
-        grid-row: 1 / span 3;
-    }
-
-    .project-card-featured .fact-list {
-        grid-column: 1;
-        grid-row: 4 / span 3;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        align-self: start;
-        margin: 1rem 0 0;
     }
 }

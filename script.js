@@ -11,6 +11,7 @@
    9. Inhalte beim Scrollen einblenden
   10. Werdegang als Zeitachse
   11. Projekt Transparenz: der Tresor
+  12. Bilder vergrössern
    ========================================================= */
 
 
@@ -35,7 +36,9 @@ const texteDe = {
     "vault.lock": "Wieder verschliessen",
     "vault.stampLocked": "Unter Verschluss",
     "vault.stampOpen": "Vorschau freigegeben",
-    "vault.heartbeat": "Zuletzt daran gearbeitet: {zeit}"
+    "vault.heartbeat": "Zuletzt daran gearbeitet: {zeit}",
+    "zoom.open": "Bild vergrössern",
+    "zoom.close": "Schliessen"
 };
 
 // Für die Datumsanzeige: welches Sprachformat gehört zu welcher Sprache
@@ -139,6 +142,7 @@ async function setzeSprache(sprache) {
     setzeMenu(nav.classList.contains("is-open"));
     zeigeRepos();
     aktualisiereTresor();
+    aktualisiereZoomTexte();
 }
 
 document.querySelectorAll(".lang-switch button").forEach(function (knopf) {
@@ -183,6 +187,20 @@ nav.querySelectorAll("a").forEach(function (link) {
     });
 });
 
+// Wie man es von Menüs kennt: Escape oder ein Tippen neben das Menü schliesst es
+document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape" && nav.classList.contains("is-open")) {
+        setzeMenu(false);
+        navButton.focus(); // Tastatur-Nutzer landen wieder beim Menüknopf
+    }
+});
+
+document.addEventListener("click", function (event) {
+    if (nav.classList.contains("is-open") && !event.target.closest(".site-header")) {
+        setzeMenu(false);
+    }
+});
+
 
 /* ---------- 3. Projektdetails auf-/zuklappen ---------- */
 const detailKnoepfe = document.querySelectorAll(".details-toggle");
@@ -200,10 +218,17 @@ detailKnoepfe.forEach(function (knopf) {
         // aria-controls enthält die id des Detailbereichs, der zu diesem Knopf gehört
         const details = document.getElementById(knopf.getAttribute("aria-controls"));
         const offen = knopf.getAttribute("aria-expanded") === "true";
+        const vorher = knopf.getBoundingClientRect().top;
 
         details.hidden = offen;
         knopf.setAttribute("aria-expanded", !offen);
         aktualisiereToggleTexte();
+
+        // Beim Zuklappen schrumpft die Seite über dem Knopf (bei GreenRoute um mehrere Bildschirme).
+        // Damit man nicht irgendwo im nächsten Abschnitt landet, bleibt der Knopf an derselben Stelle.
+        if (offen) {
+            window.scrollBy({ top: knopf.getBoundingClientRect().top - vorher, behavior: "instant" });
+        }
     });
 });
 
@@ -445,6 +470,7 @@ document.querySelector("#year").textContent = new Date().getFullYear();
 /* ---------- 8. Kopfzeile, Lesefortschritt und aktiver Menüpunkt ---------- */
 const kopfzeile = document.querySelector(".site-header");
 const fortschritt = document.querySelector(".scroll-progress");
+const nachOben = document.querySelector(".to-top");
 let scrollGeplant = false;
 
 // Beim Scrollen höchstens einmal pro Bild rechnen (requestAnimationFrame)
@@ -453,6 +479,8 @@ function aktualisiereScroll() {
     const anteil = maxScroll > 0 ? window.scrollY / maxScroll : 0;
     fortschritt.style.setProperty("--progress", anteil.toFixed(4));
     kopfzeile.classList.toggle("is-scrolled", window.scrollY > 8);
+    // «Nach oben» erst zeigen, wenn man gut eineinhalb Bildschirme weit gescrollt hat
+    nachOben.classList.toggle("is-shown", window.scrollY > window.innerHeight * 1.5);
     scrollGeplant = false;
 }
 
@@ -769,6 +797,55 @@ if (tresor) {
             }
         }, 120);
     }
+}
+
+
+/* ---------- 12. Bilder vergrössern ---------- */
+// Screenshots von Karten sind auf dem Handy klein. Ein Tippen öffnet sie gross in einem <dialog>:
+// showModal() hält den Fokus im Dialog, Escape schliesst ihn, danach springt der Fokus zurück.
+// Ein Tippen irgendwo (Bild, Hintergrund, ×) schliesst ihn wieder.
+const lightbox = document.createElement("dialog");
+lightbox.className = "lightbox";
+lightbox.innerHTML =
+    '<figure><img alt=""><figcaption></figcaption></figure>' +
+    '<button type="button" class="lightbox-close"><span aria-hidden="true">×</span></button>';
+const lightboxBild = lightbox.querySelector("img");
+const lightboxText = lightbox.querySelector("figcaption");
+const lightboxZu = lightbox.querySelector(".lightbox-close");
+
+function aktualisiereZoomTexte() {
+    document.querySelectorAll(".zoom-hint").forEach(function (el) {
+        el.textContent = t("zoom.open");
+    });
+    lightboxZu.setAttribute("aria-label", t("zoom.close"));
+}
+
+if (typeof lightbox.showModal === "function") {
+    document.body.append(lightbox);
+    lightbox.addEventListener("click", function () {
+        lightbox.close();
+    });
+
+    document.querySelectorAll(".project-image img, .project-details figure img").forEach(function (bild) {
+        // Bild in einen Knopf legen, damit es auch per Tastatur erreichbar ist
+        const knopf = document.createElement("button");
+        knopf.type = "button";
+        knopf.className = "zoom";
+        knopf.setAttribute("aria-haspopup", "dialog");
+        const hinweis = document.createElement("span");
+        hinweis.className = "zoom-hint visually-hidden";
+        bild.replaceWith(knopf);
+        knopf.append(bild, hinweis);
+
+        knopf.addEventListener("click", function () {
+            const legende = bild.closest("figure").querySelector("figcaption");
+            lightboxBild.src = bild.currentSrc || bild.src;
+            lightboxBild.alt = bild.alt;
+            lightboxText.textContent = legende ? legende.textContent.replace(/\s+/g, " ").trim() : "";
+            lightboxText.hidden = !legende;
+            lightbox.showModal();
+        });
+    });
 }
 
 
